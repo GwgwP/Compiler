@@ -15,9 +15,6 @@ Helpers
 	all = [0..127]; 
 	eol = lf | cr | cr lf ;
 	not_eol = [all - [cr + lf]]; 
-States
-	{normal}number = digit+;
-	{normal->comment, comment} comment = '/*';
 
 Tokens
 	tab = 9 | '       '; 
