@@ -1,0 +1,165 @@
+<html>
+<head>
+  <title>BNF for MiniJava</title>
+</head>
+<body>
+	<center>
+		<h1>BNF for MiniJava</h1>
+		<h2>NON-TERMINALS</h2>
+	</center>
+<br>
+<table>
+    <tr>
+	    <td align="right" valign="top"><a name="Goal">Goal</a></td>
+	    <td align="center" valign="top">::=</td>
+	    <td><a href="#MainClass">MainClass</a> ( <a href="#ClassDeclaration">ClassDeclaration</a> )* &lt;EOF&gt;</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"><a name="MainClass">MainClass</a></td>
+	    <td align="center" valign="top">::=</td>
+	    <td>"class" <a href="#Identifier">Identifier</a> "{" "public" "static" "void" "main" "(" "String" "[" "]" <a href="#Identifier">Identifier</a> ")" "{" <a href="#Statement">Statement</a> "}" "}"</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"><a name="ClassDeclaration">ClassDeclaration</a></td>
+	    <td align="center" valign="top">::=</td>
+	    <td>"class" <a href="#Identifier">Identifier</a> ( "extends" <a href="#Identifier">Identifier</a> )? "{" ( <a href="#VarDeclaration">VarDeclaration</a> )* ( <a href="#MethodDeclaration">MethodDeclaration</a> )* "}"</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"><a name="VarDeclaration">VarDeclaration</a></td>
+	    <td align="center" valign="top">::=</td>
+	    <td><a href="#Type">Type</a> <a href="#Identifier">Identifier</a> ";"</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"><a name="MethodDeclaration">MethodDeclaration</a></td>
+	    <td align="center" valign="top">::=</td>
+	    <td>"public" <a href="#Type">Type</a> <a href="#Identifier">Identifier</a> "(" ( <a href="#Type">Type</a> <a href="#Identifier">Identifier</a> ( "," <a href="#Type">Type</a> <a href="#Identifier">Identifier</a> )* )? ")" "{" ( <a href="#VarDeclaration">VarDeclaration</a> )* ( <a href="#Statement">Statement</a> )* "return" <a href="#Expression">Expression</a> ";" "}"</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"><a name="Type">Type</a></td>
+	    <td align="center" valign="top">::=</td>
+	    <td>"int" "[" "]"</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td>"boolean"</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td>"int"</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td><a href="#Identifier">Identifier</a></td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"><a name="Statement">Statement</a></td>
+	    <td align="center" valign="top">::=</td>
+	    <td>"{" ( <a href="#Statement">Statement</a> )* "}"</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td>"if" "(" <a href="#Expression">Expression</a> ")" <a href="#Statement">Statement</a> "else" <a href="#Statement">Statement</a></td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td>"while" "(" <a href="#Expression">Expression</a> ")" <a href="#Statement">Statement</a></td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td><b>"for" "(" <a href="#Identifier">Identifier</a> "=" <a href="#Expression">Expression</a> ";" <a href="#Expression">Expression</a> ";" <a href="#Identifier">Identifier</a> "=" <a href="#Expression">Expression</a> ")" <a href="#Statement">Statement</a></b></td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td>"System.out.println" "(" <a href="#Expression">Expression</a> ")" ";"</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td><a href="#Identifier">Identifier</a> "=" <a href="#Expression">Expression</a> ";"</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td><a href="#Identifier">Identifier</a> "[" <a href="#Expression">Expression</a> "]" "=" <a href="#Expression">Expression</a> ";"</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"><a name="Expression">Expression</a></td>
+	    <td align="center" valign="top">::=</td>
+	    <td><a href="#Expression">Expression</a> ( "&amp;&amp;" | "&lt;" | "+" | "-" | "*" ) <a href="#Expression">Expression</a></td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td><a href="#Expression">Expression</a> "[" <a href="#Expression">Expression</a> "]"</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td><a href="#Expression">Expression</a> "." "length" </td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td><a href="#Expression">Expression</a> "." <a href="#Identifier">Identifier</a> "(" ( <a href="#Expression">Expression</a> ( "," <a href="#Expression">Expression</a> )* )? ")" </td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td>&lt;INTEGER_LITERAL&gt;</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td>"true"</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td>"false"</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td><a href="#Identifier">Identifier</a></td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td>"this"</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td>"new" "int" "[" <a href="#Expression">Expression</a> "]" </td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td>"new" <a href="#Identifier">Identifier</a> "(" ")"</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td>"!" <a href="#Expression">Expression</a> </td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"></td>
+	    <td align="center" valign="top"> | </td>
+	    <td>"(" <a href="#Expression">Expression</a> ")"</td>
+    </tr>
+    <tr>
+	    <td align="right" valign="top"><a name="Identifier">Identifier</a></td>
+	    <td align="center" valign="top">::=</td>
+	    <td>&lt;IDENTIFIER&gt;</td>
+    </tr>
+</table>
+<br><br>
+</body>
+</html>
