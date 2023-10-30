@@ -1,0 +1,10 @@
+goal = ({func}function | {stat}statement)*;
+	
+	commands ={stat} statement|
+				 {expr}expression;
+
+
+wsp = (sp|cr|ff|lf|ht);
+	white_space = wsp*;
+
+value = id '.' function_call |  number | string_double_quotes | string_single_quotes | none ; 
