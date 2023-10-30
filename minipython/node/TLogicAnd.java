@@ -4,7 +4,6 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class TLogicAnd extends Token
 {
     public TLogicAnd()
@@ -19,20 +18,17 @@ public final class TLogicAnd extends Token
         setPos(pos);
     }
 
-    @Override
     public Object clone()
     {
       return new TLogicAnd(getLine(), getPos());
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTLogicAnd(this);
     }
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
+    public void setText(String text)
     {
         throw new RuntimeException("Cannot change TLogicAnd text.");
     }

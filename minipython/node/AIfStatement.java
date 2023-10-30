@@ -5,10 +5,9 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class AIfStatement extends PStatement
 {
-    private final LinkedList<TTab> _tab_ = new LinkedList<TTab>();
+    private final LinkedList _tab_ = new TypedLinkedList(new Tab_Cast());
     private TIf _if_;
     private PComparison _comparison_;
     private TSemi _semi_;
@@ -16,18 +15,19 @@ public final class AIfStatement extends PStatement
 
     public AIfStatement()
     {
-        // Constructor
     }
 
     public AIfStatement(
-        @SuppressWarnings("hiding") List<?> _tab_,
-        @SuppressWarnings("hiding") TIf _if_,
-        @SuppressWarnings("hiding") PComparison _comparison_,
-        @SuppressWarnings("hiding") TSemi _semi_,
-        @SuppressWarnings("hiding") PStatement _statement_)
+        List _tab_,
+        TIf _if_,
+        PComparison _comparison_,
+        TSemi _semi_,
+        PStatement _statement_)
     {
-        // Constructor
-        setTab(_tab_);
+        {
+            this._tab_.clear();
+            this._tab_.addAll(_tab_);
+        }
 
         setIf(_if_);
 
@@ -38,60 +38,42 @@ public final class AIfStatement extends PStatement
         setStatement(_statement_);
 
     }
-
-    @Override
     public Object clone()
     {
         return new AIfStatement(
-            cloneList(this._tab_),
-            cloneNode(this._if_),
-            cloneNode(this._comparison_),
-            cloneNode(this._semi_),
-            cloneNode(this._statement_));
+            cloneList(_tab_),
+            (TIf) cloneNode(_if_),
+            (PComparison) cloneNode(_comparison_),
+            (TSemi) cloneNode(_semi_),
+            (PStatement) cloneNode(_statement_));
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAIfStatement(this);
     }
 
-    public LinkedList<TTab> getTab()
+    public LinkedList getTab()
     {
-        return this._tab_;
+        return _tab_;
     }
 
-    public void setTab(List<?> list)
+    public void setTab(List list)
     {
-        for(TTab e : this._tab_)
-        {
-            e.parent(null);
-        }
-        this._tab_.clear();
-
-        for(Object obj_e : list)
-        {
-            TTab e = (TTab) obj_e;
-            if(e.parent() != null)
-            {
-                e.parent().removeChild(e);
-            }
-
-            e.parent(this);
-            this._tab_.add(e);
-        }
+        _tab_.clear();
+        _tab_.addAll(list);
     }
 
     public TIf getIf()
     {
-        return this._if_;
+        return _if_;
     }
 
     public void setIf(TIf node)
     {
-        if(this._if_ != null)
+        if(_if_ != null)
         {
-            this._if_.parent(null);
+            _if_.parent(null);
         }
 
         if(node != null)
@@ -104,19 +86,19 @@ public final class AIfStatement extends PStatement
             node.parent(this);
         }
 
-        this._if_ = node;
+        _if_ = node;
     }
 
     public PComparison getComparison()
     {
-        return this._comparison_;
+        return _comparison_;
     }
 
     public void setComparison(PComparison node)
     {
-        if(this._comparison_ != null)
+        if(_comparison_ != null)
         {
-            this._comparison_.parent(null);
+            _comparison_.parent(null);
         }
 
         if(node != null)
@@ -129,19 +111,19 @@ public final class AIfStatement extends PStatement
             node.parent(this);
         }
 
-        this._comparison_ = node;
+        _comparison_ = node;
     }
 
     public TSemi getSemi()
     {
-        return this._semi_;
+        return _semi_;
     }
 
     public void setSemi(TSemi node)
     {
-        if(this._semi_ != null)
+        if(_semi_ != null)
         {
-            this._semi_.parent(null);
+            _semi_.parent(null);
         }
 
         if(node != null)
@@ -154,19 +136,19 @@ public final class AIfStatement extends PStatement
             node.parent(this);
         }
 
-        this._semi_ = node;
+        _semi_ = node;
     }
 
     public PStatement getStatement()
     {
-        return this._statement_;
+        return _statement_;
     }
 
     public void setStatement(PStatement node)
     {
-        if(this._statement_ != null)
+        if(_statement_ != null)
         {
-            this._statement_.parent(null);
+            _statement_.parent(null);
         }
 
         if(node != null)
@@ -179,68 +161,61 @@ public final class AIfStatement extends PStatement
             node.parent(this);
         }
 
-        this._statement_ = node;
+        _statement_ = node;
     }
 
-    @Override
     public String toString()
     {
         return ""
-            + toString(this._tab_)
-            + toString(this._if_)
-            + toString(this._comparison_)
-            + toString(this._semi_)
-            + toString(this._statement_);
+            + toString(_tab_)
+            + toString(_if_)
+            + toString(_comparison_)
+            + toString(_semi_)
+            + toString(_statement_);
     }
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
+    void removeChild(Node child)
     {
-        // Remove child
-        if(this._tab_.remove(child))
+        if(_tab_.remove(child))
         {
             return;
         }
 
-        if(this._if_ == child)
+        if(_if_ == child)
         {
-            this._if_ = null;
+            _if_ = null;
             return;
         }
 
-        if(this._comparison_ == child)
+        if(_comparison_ == child)
         {
-            this._comparison_ = null;
+            _comparison_ = null;
             return;
         }
 
-        if(this._semi_ == child)
+        if(_semi_ == child)
         {
-            this._semi_ = null;
+            _semi_ = null;
             return;
         }
 
-        if(this._statement_ == child)
+        if(_statement_ == child)
         {
-            this._statement_ = null;
+            _statement_ = null;
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    void replaceChild(Node oldChild, Node newChild)
     {
-        // Replace child
-        for(ListIterator<TTab> i = this._tab_.listIterator(); i.hasNext();)
+        for(ListIterator i = _tab_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
                 if(newChild != null)
                 {
-                    i.set((TTab) newChild);
-                    newChild.parent(this);
+                    i.set(newChild);
                     oldChild.parent(null);
                     return;
                 }
@@ -251,30 +226,51 @@ public final class AIfStatement extends PStatement
             }
         }
 
-        if(this._if_ == oldChild)
+        if(_if_ == oldChild)
         {
             setIf((TIf) newChild);
             return;
         }
 
-        if(this._comparison_ == oldChild)
+        if(_comparison_ == oldChild)
         {
             setComparison((PComparison) newChild);
             return;
         }
 
-        if(this._semi_ == oldChild)
+        if(_semi_ == oldChild)
         {
             setSemi((TSemi) newChild);
             return;
         }
 
-        if(this._statement_ == oldChild)
+        if(_statement_ == oldChild)
         {
             setStatement((PStatement) newChild);
             return;
         }
 
-        throw new RuntimeException("Not a child.");
+    }
+
+    private class Tab_Cast implements Cast
+    {
+        public Object cast(Object o)
+        {
+            TTab node = (TTab) o;
+
+            if((node.parent() != null) &&
+                (node.parent() != AIfStatement.this))
+            {
+                node.parent().removeChild(node);
+            }
+
+            if((node.parent() == null) ||
+                (node.parent() != AIfStatement.this))
+            {
+                node.parent(AIfStatement.this);
+            }
+
+            return node;
+        }
     }
 }

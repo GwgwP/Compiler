@@ -17,17 +17,14 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    public void defaultIn(@SuppressWarnings("unused") Node node)
+    public void defaultIn(Node node)
     {
-        // Do nothing
     }
 
-    public void defaultOut(@SuppressWarnings("unused") Node node)
+    public void defaultOut(Node node)
     {
-        // Do nothing
     }
 
-    @Override
     public void caseStart(Start node)
     {
         inStart(node);
@@ -46,15 +43,14 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAProgramme(AProgramme node)
     {
         inAProgramme(node);
         {
-            List<PCommands> copy = new ArrayList<PCommands>(node.getCommands());
-            for(PCommands e : copy)
+            Object temp[] = node.getCommands().toArray();
+            for(int i = 0; i < temp.length; i++)
             {
-                e.apply(this);
+                ((PCommands) temp[i]).apply(this);
             }
         }
         outAProgramme(node);
@@ -70,7 +66,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAStatCommands(AStatCommands node)
     {
         inAStatCommands(node);
@@ -91,7 +86,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAExprCommands(AExprCommands node)
     {
         inAExprCommands(node);
@@ -112,15 +106,14 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAIfStatement(AIfStatement node)
     {
         inAIfStatement(node);
         {
-            List<TTab> copy = new ArrayList<TTab>(node.getTab());
-            for(TTab e : copy)
+            Object temp[] = node.getTab().toArray();
+            for(int i = 0; i < temp.length; i++)
             {
-                e.apply(this);
+                ((TTab) temp[i]).apply(this);
             }
         }
         if(node.getIf() != null)
@@ -152,15 +145,14 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAAssignStatement(AAssignStatement node)
     {
         inAAssignStatement(node);
         {
-            List<TTab> copy = new ArrayList<TTab>(node.getTab());
-            for(TTab e : copy)
+            Object temp[] = node.getTab().toArray();
+            for(int i = 0; i < temp.length; i++)
             {
-                e.apply(this);
+                ((TTab) temp[i]).apply(this);
             }
         }
         if(node.getId() != null)
@@ -188,15 +180,14 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAPrintStatement(APrintStatement node)
     {
         inAPrintStatement(node);
         {
-            List<TTab> copy = new ArrayList<TTab>(node.getTab());
-            for(TTab e : copy)
+            Object temp[] = node.getTab().toArray();
+            for(int i = 0; i < temp.length; i++)
             {
-                e.apply(this);
+                ((TTab) temp[i]).apply(this);
             }
         }
         if(node.getPrint() != null)
@@ -220,7 +211,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseATrueComparison(ATrueComparison node)
     {
         inATrueComparison(node);
@@ -241,7 +231,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAFalseComparison(AFalseComparison node)
     {
         inAFalseComparison(node);
@@ -262,7 +251,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseALesscComparison(ALesscComparison node)
     {
         inALesscComparison(node);
@@ -291,7 +279,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAGreatcComparison(AGreatcComparison node)
     {
         inAGreatcComparison(node);
@@ -320,7 +307,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAMultiplicationExpression(AMultiplicationExpression node)
     {
         inAMultiplicationExpression(node);
@@ -341,7 +327,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAAdditionExpression(AAdditionExpression node)
     {
         inAAdditionExpression(node);
@@ -370,7 +355,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseASubtractionExpression(ASubtractionExpression node)
     {
         inASubtractionExpression(node);
@@ -399,7 +383,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAPowMultiplication(APowMultiplication node)
     {
         inAPowMultiplication(node);
@@ -420,7 +403,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAMultiplicationMultiplication(AMultiplicationMultiplication node)
     {
         inAMultiplicationMultiplication(node);
@@ -449,7 +431,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseASomethingPower(ASomethingPower node)
     {
         inASomethingPower(node);
@@ -470,7 +451,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAPowerPower(APowerPower node)
     {
         inAPowerPower(node);
@@ -499,7 +479,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAIdentifierSomething(AIdentifierSomething node)
     {
         inAIdentifierSomething(node);
@@ -520,7 +499,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseANumbSomething(ANumbSomething node)
     {
         inANumbSomething(node);
@@ -541,7 +519,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAParSomething(AParSomething node)
     {
         inAParSomething(node);

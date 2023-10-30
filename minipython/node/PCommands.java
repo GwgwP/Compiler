@@ -4,5 +4,4 @@ package minipython.node;
 
 public abstract class PCommands extends Node
 {
-    // Empty body
 }

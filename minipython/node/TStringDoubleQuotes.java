@@ -4,7 +4,6 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class TStringDoubleQuotes extends Token
 {
     public TStringDoubleQuotes(String text)
@@ -19,13 +18,11 @@ public final class TStringDoubleQuotes extends Token
         setPos(pos);
     }
 
-    @Override
     public Object clone()
     {
       return new TStringDoubleQuotes(getText(), getLine(), getPos());
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTStringDoubleQuotes(this);

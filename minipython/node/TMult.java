@@ -4,7 +4,6 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class TMult extends Token
 {
     public TMult()
@@ -19,20 +18,17 @@ public final class TMult extends Token
         setPos(pos);
     }
 
-    @Override
     public Object clone()
     {
       return new TMult(getLine(), getPos());
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTMult(this);
     }
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
+    public void setText(String text)
     {
         throw new RuntimeException("Cannot change TMult text.");
     }

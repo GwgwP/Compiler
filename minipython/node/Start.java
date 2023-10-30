@@ -4,7 +4,6 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class Start extends Node
 {
     private PProgramme _pProgramme_;
@@ -12,26 +11,23 @@ public final class Start extends Node
 
     public Start()
     {
-        // Empty body
     }
 
     public Start(
-        @SuppressWarnings("hiding") PProgramme _pProgramme_,
-        @SuppressWarnings("hiding") EOF _eof_)
+        PProgramme _pProgramme_,
+        EOF _eof_)
     {
         setPProgramme(_pProgramme_);
         setEOF(_eof_);
     }
 
-    @Override
     public Object clone()
     {
         return new Start(
-            cloneNode(this._pProgramme_),
-            cloneNode(this._eof_));
+            (PProgramme) cloneNode(_pProgramme_),
+            (EOF) cloneNode(_eof_));
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseStart(this);
@@ -39,14 +35,14 @@ public final class Start extends Node
 
     public PProgramme getPProgramme()
     {
-        return this._pProgramme_;
+        return _pProgramme_;
     }
 
     public void setPProgramme(PProgramme node)
     {
-        if(this._pProgramme_ != null)
+        if(_pProgramme_ != null)
         {
-            this._pProgramme_.parent(null);
+            _pProgramme_.parent(null);
         }
 
         if(node != null)
@@ -59,19 +55,19 @@ public final class Start extends Node
             node.parent(this);
         }
 
-        this._pProgramme_ = node;
+        _pProgramme_ = node;
     }
 
     public EOF getEOF()
     {
-        return this._eof_;
+        return _eof_;
     }
 
     public void setEOF(EOF node)
     {
-        if(this._eof_ != null)
+        if(_eof_ != null)
         {
-            this._eof_.parent(null);
+            _eof_.parent(null);
         }
 
         if(node != null)
@@ -84,50 +80,43 @@ public final class Start extends Node
             node.parent(this);
         }
 
-        this._eof_ = node;
+        _eof_ = node;
     }
 
-    @Override
     void removeChild(Node child)
     {
-        if(this._pProgramme_ == child)
+        if(_pProgramme_ == child)
         {
-            this._pProgramme_ = null;
+            _pProgramme_ = null;
             return;
         }
 
-        if(this._eof_ == child)
+        if(_eof_ == child)
         {
-            this._eof_ = null;
+            _eof_ = null;
             return;
         }
-
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(this._pProgramme_ == oldChild)
+        if(_pProgramme_ == oldChild)
         {
             setPProgramme((PProgramme) newChild);
             return;
         }
 
-        if(this._eof_ == oldChild)
+        if(_eof_ == oldChild)
         {
             setEOF((EOF) newChild);
             return;
         }
-
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
     public String toString()
     {
         return "" +
-            toString(this._pProgramme_) +
-            toString(this._eof_);
+            toString(_pProgramme_) +
+            toString(_eof_);
     }
 }

@@ -4,7 +4,6 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class TDot extends Token
 {
     public TDot()
@@ -19,20 +18,17 @@ public final class TDot extends Token
         setPos(pos);
     }
 
-    @Override
     public Object clone()
     {
       return new TDot(getLine(), getPos());
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTDot(this);
     }
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
+    public void setText(String text)
     {
         throw new RuntimeException("Cannot change TDot text.");
     }

@@ -4,5 +4,4 @@ package minipython.node;
 
 public interface Switch
 {
-        // Empty body
 }

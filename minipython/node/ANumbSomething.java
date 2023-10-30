@@ -2,34 +2,29 @@
 
 package minipython.node;
 
+import java.util.*;
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class ANumbSomething extends PSomething
 {
     private TNumber _number_;
 
     public ANumbSomething()
     {
-        // Constructor
     }
 
     public ANumbSomething(
-        @SuppressWarnings("hiding") TNumber _number_)
+        TNumber _number_)
     {
-        // Constructor
         setNumber(_number_);
 
     }
-
-    @Override
     public Object clone()
     {
         return new ANumbSomething(
-            cloneNode(this._number_));
+            (TNumber) cloneNode(_number_));
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseANumbSomething(this);
@@ -37,14 +32,14 @@ public final class ANumbSomething extends PSomething
 
     public TNumber getNumber()
     {
-        return this._number_;
+        return _number_;
     }
 
     public void setNumber(TNumber node)
     {
-        if(this._number_ != null)
+        if(_number_ != null)
         {
-            this._number_.parent(null);
+            _number_.parent(null);
         }
 
         if(node != null)
@@ -57,39 +52,32 @@ public final class ANumbSomething extends PSomething
             node.parent(this);
         }
 
-        this._number_ = node;
+        _number_ = node;
     }
 
-    @Override
     public String toString()
     {
         return ""
-            + toString(this._number_);
+            + toString(_number_);
     }
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
+    void removeChild(Node child)
     {
-        // Remove child
-        if(this._number_ == child)
+        if(_number_ == child)
         {
-            this._number_ = null;
+            _number_ = null;
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    void replaceChild(Node oldChild, Node newChild)
     {
-        // Replace child
-        if(this._number_ == oldChild)
+        if(_number_ == oldChild)
         {
             setNumber((TNumber) newChild);
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 }

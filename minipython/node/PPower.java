@@ -4,5 +4,4 @@ package minipython.node;
 
 public abstract class PPower extends Node
 {
-    // Empty body
 }

@@ -2,34 +2,29 @@
 
 package minipython.node;
 
+import java.util.*;
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class AStatCommands extends PCommands
 {
     private PStatement _statement_;
 
     public AStatCommands()
     {
-        // Constructor
     }
 
     public AStatCommands(
-        @SuppressWarnings("hiding") PStatement _statement_)
+        PStatement _statement_)
     {
-        // Constructor
         setStatement(_statement_);
 
     }
-
-    @Override
     public Object clone()
     {
         return new AStatCommands(
-            cloneNode(this._statement_));
+            (PStatement) cloneNode(_statement_));
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAStatCommands(this);
@@ -37,14 +32,14 @@ public final class AStatCommands extends PCommands
 
     public PStatement getStatement()
     {
-        return this._statement_;
+        return _statement_;
     }
 
     public void setStatement(PStatement node)
     {
-        if(this._statement_ != null)
+        if(_statement_ != null)
         {
-            this._statement_.parent(null);
+            _statement_.parent(null);
         }
 
         if(node != null)
@@ -57,39 +52,32 @@ public final class AStatCommands extends PCommands
             node.parent(this);
         }
 
-        this._statement_ = node;
+        _statement_ = node;
     }
 
-    @Override
     public String toString()
     {
         return ""
-            + toString(this._statement_);
+            + toString(_statement_);
     }
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
+    void removeChild(Node child)
     {
-        // Remove child
-        if(this._statement_ == child)
+        if(_statement_ == child)
         {
-            this._statement_ = null;
+            _statement_ = null;
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    void replaceChild(Node oldChild, Node newChild)
     {
-        // Replace child
-        if(this._statement_ == oldChild)
+        if(_statement_ == oldChild)
         {
             setStatement((PStatement) newChild);
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 }

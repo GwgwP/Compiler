@@ -2,9 +2,9 @@
 
 package minipython.node;
 
+import java.util.*;
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class AAdditionExpression extends PExpression
 {
     private PExpression _expression_;
@@ -13,15 +13,13 @@ public final class AAdditionExpression extends PExpression
 
     public AAdditionExpression()
     {
-        // Constructor
     }
 
     public AAdditionExpression(
-        @SuppressWarnings("hiding") PExpression _expression_,
-        @SuppressWarnings("hiding") TPlus _plus_,
-        @SuppressWarnings("hiding") PMultiplication _multiplication_)
+        PExpression _expression_,
+        TPlus _plus_,
+        PMultiplication _multiplication_)
     {
-        // Constructor
         setExpression(_expression_);
 
         setPlus(_plus_);
@@ -29,17 +27,14 @@ public final class AAdditionExpression extends PExpression
         setMultiplication(_multiplication_);
 
     }
-
-    @Override
     public Object clone()
     {
         return new AAdditionExpression(
-            cloneNode(this._expression_),
-            cloneNode(this._plus_),
-            cloneNode(this._multiplication_));
+            (PExpression) cloneNode(_expression_),
+            (TPlus) cloneNode(_plus_),
+            (PMultiplication) cloneNode(_multiplication_));
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAAdditionExpression(this);
@@ -47,14 +42,14 @@ public final class AAdditionExpression extends PExpression
 
     public PExpression getExpression()
     {
-        return this._expression_;
+        return _expression_;
     }
 
     public void setExpression(PExpression node)
     {
-        if(this._expression_ != null)
+        if(_expression_ != null)
         {
-            this._expression_.parent(null);
+            _expression_.parent(null);
         }
 
         if(node != null)
@@ -67,19 +62,19 @@ public final class AAdditionExpression extends PExpression
             node.parent(this);
         }
 
-        this._expression_ = node;
+        _expression_ = node;
     }
 
     public TPlus getPlus()
     {
-        return this._plus_;
+        return _plus_;
     }
 
     public void setPlus(TPlus node)
     {
-        if(this._plus_ != null)
+        if(_plus_ != null)
         {
-            this._plus_.parent(null);
+            _plus_.parent(null);
         }
 
         if(node != null)
@@ -92,19 +87,19 @@ public final class AAdditionExpression extends PExpression
             node.parent(this);
         }
 
-        this._plus_ = node;
+        _plus_ = node;
     }
 
     public PMultiplication getMultiplication()
     {
-        return this._multiplication_;
+        return _multiplication_;
     }
 
     public void setMultiplication(PMultiplication node)
     {
-        if(this._multiplication_ != null)
+        if(_multiplication_ != null)
         {
-            this._multiplication_.parent(null);
+            _multiplication_.parent(null);
         }
 
         if(node != null)
@@ -117,65 +112,58 @@ public final class AAdditionExpression extends PExpression
             node.parent(this);
         }
 
-        this._multiplication_ = node;
+        _multiplication_ = node;
     }
 
-    @Override
     public String toString()
     {
         return ""
-            + toString(this._expression_)
-            + toString(this._plus_)
-            + toString(this._multiplication_);
+            + toString(_expression_)
+            + toString(_plus_)
+            + toString(_multiplication_);
     }
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
+    void removeChild(Node child)
     {
-        // Remove child
-        if(this._expression_ == child)
+        if(_expression_ == child)
         {
-            this._expression_ = null;
+            _expression_ = null;
             return;
         }
 
-        if(this._plus_ == child)
+        if(_plus_ == child)
         {
-            this._plus_ = null;
+            _plus_ = null;
             return;
         }
 
-        if(this._multiplication_ == child)
+        if(_multiplication_ == child)
         {
-            this._multiplication_ = null;
+            _multiplication_ = null;
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    void replaceChild(Node oldChild, Node newChild)
     {
-        // Replace child
-        if(this._expression_ == oldChild)
+        if(_expression_ == oldChild)
         {
             setExpression((PExpression) newChild);
             return;
         }
 
-        if(this._plus_ == oldChild)
+        if(_plus_ == oldChild)
         {
             setPlus((TPlus) newChild);
             return;
         }
 
-        if(this._multiplication_ == oldChild)
+        if(_multiplication_ == oldChild)
         {
             setMultiplication((PMultiplication) newChild);
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 }

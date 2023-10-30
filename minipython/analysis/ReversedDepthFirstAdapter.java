@@ -2,7 +2,6 @@
 
 package minipython.analysis;
 
-import java.util.*;
 import minipython.node.*;
 
 public class ReversedDepthFirstAdapter extends AnalysisAdapter
@@ -17,17 +16,14 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    public void defaultIn(@SuppressWarnings("unused") Node node)
+    public void defaultIn(Node node)
     {
-        // Do nothing
     }
 
-    public void defaultOut(@SuppressWarnings("unused") Node node)
+    public void defaultOut(Node node)
     {
-        // Do nothing
     }
 
-    @Override
     public void caseStart(Start node)
     {
         inStart(node);
@@ -46,16 +42,14 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAProgramme(AProgramme node)
     {
         inAProgramme(node);
         {
-            List<PCommands> copy = new ArrayList<PCommands>(node.getCommands());
-            Collections.reverse(copy);
-            for(PCommands e : copy)
+            Object temp[] = node.getCommands().toArray();
+            for(int i = temp.length - 1; i >= 0; i--)
             {
-                e.apply(this);
+                ((PCommands) temp[i]).apply(this);
             }
         }
         outAProgramme(node);
@@ -71,7 +65,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAStatCommands(AStatCommands node)
     {
         inAStatCommands(node);
@@ -92,7 +85,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAExprCommands(AExprCommands node)
     {
         inAExprCommands(node);
@@ -113,7 +105,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAIfStatement(AIfStatement node)
     {
         inAIfStatement(node);
@@ -134,11 +125,10 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
             node.getIf().apply(this);
         }
         {
-            List<TTab> copy = new ArrayList<TTab>(node.getTab());
-            Collections.reverse(copy);
-            for(TTab e : copy)
+            Object temp[] = node.getTab().toArray();
+            for(int i = temp.length - 1; i >= 0; i--)
             {
-                e.apply(this);
+                ((TTab) temp[i]).apply(this);
             }
         }
         outAIfStatement(node);
@@ -154,7 +144,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAAssignStatement(AAssignStatement node)
     {
         inAAssignStatement(node);
@@ -171,11 +160,10 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
             node.getId().apply(this);
         }
         {
-            List<TTab> copy = new ArrayList<TTab>(node.getTab());
-            Collections.reverse(copy);
-            for(TTab e : copy)
+            Object temp[] = node.getTab().toArray();
+            for(int i = temp.length - 1; i >= 0; i--)
             {
-                e.apply(this);
+                ((TTab) temp[i]).apply(this);
             }
         }
         outAAssignStatement(node);
@@ -191,7 +179,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAPrintStatement(APrintStatement node)
     {
         inAPrintStatement(node);
@@ -204,11 +191,10 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
             node.getPrint().apply(this);
         }
         {
-            List<TTab> copy = new ArrayList<TTab>(node.getTab());
-            Collections.reverse(copy);
-            for(TTab e : copy)
+            Object temp[] = node.getTab().toArray();
+            for(int i = temp.length - 1; i >= 0; i--)
             {
-                e.apply(this);
+                ((TTab) temp[i]).apply(this);
             }
         }
         outAPrintStatement(node);
@@ -224,7 +210,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseATrueComparison(ATrueComparison node)
     {
         inATrueComparison(node);
@@ -245,7 +230,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAFalseComparison(AFalseComparison node)
     {
         inAFalseComparison(node);
@@ -266,7 +250,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseALesscComparison(ALesscComparison node)
     {
         inALesscComparison(node);
@@ -295,7 +278,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAGreatcComparison(AGreatcComparison node)
     {
         inAGreatcComparison(node);
@@ -324,7 +306,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAMultiplicationExpression(AMultiplicationExpression node)
     {
         inAMultiplicationExpression(node);
@@ -345,7 +326,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAAdditionExpression(AAdditionExpression node)
     {
         inAAdditionExpression(node);
@@ -374,7 +354,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseASubtractionExpression(ASubtractionExpression node)
     {
         inASubtractionExpression(node);
@@ -403,7 +382,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAPowMultiplication(APowMultiplication node)
     {
         inAPowMultiplication(node);
@@ -424,7 +402,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAMultiplicationMultiplication(AMultiplicationMultiplication node)
     {
         inAMultiplicationMultiplication(node);
@@ -453,7 +430,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseASomethingPower(ASomethingPower node)
     {
         inASomethingPower(node);
@@ -474,7 +450,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAPowerPower(APowerPower node)
     {
         inAPowerPower(node);
@@ -503,7 +478,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAIdentifierSomething(AIdentifierSomething node)
     {
         inAIdentifierSomething(node);
@@ -524,7 +498,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseANumbSomething(ANumbSomething node)
     {
         inANumbSomething(node);
@@ -545,7 +518,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultOut(node);
     }
 
-    @Override
     public void caseAParSomething(AParSomething node)
     {
         inAParSomething(node);

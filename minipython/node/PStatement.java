@@ -4,5 +4,4 @@ package minipython.node;
 
 public abstract class PStatement extends Node
 {
-    // Empty body
 }

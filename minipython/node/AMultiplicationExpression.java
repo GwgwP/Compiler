@@ -2,34 +2,29 @@
 
 package minipython.node;
 
+import java.util.*;
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class AMultiplicationExpression extends PExpression
 {
     private PMultiplication _multiplication_;
 
     public AMultiplicationExpression()
     {
-        // Constructor
     }
 
     public AMultiplicationExpression(
-        @SuppressWarnings("hiding") PMultiplication _multiplication_)
+        PMultiplication _multiplication_)
     {
-        // Constructor
         setMultiplication(_multiplication_);
 
     }
-
-    @Override
     public Object clone()
     {
         return new AMultiplicationExpression(
-            cloneNode(this._multiplication_));
+            (PMultiplication) cloneNode(_multiplication_));
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAMultiplicationExpression(this);
@@ -37,14 +32,14 @@ public final class AMultiplicationExpression extends PExpression
 
     public PMultiplication getMultiplication()
     {
-        return this._multiplication_;
+        return _multiplication_;
     }
 
     public void setMultiplication(PMultiplication node)
     {
-        if(this._multiplication_ != null)
+        if(_multiplication_ != null)
         {
-            this._multiplication_.parent(null);
+            _multiplication_.parent(null);
         }
 
         if(node != null)
@@ -57,39 +52,32 @@ public final class AMultiplicationExpression extends PExpression
             node.parent(this);
         }
 
-        this._multiplication_ = node;
+        _multiplication_ = node;
     }
 
-    @Override
     public String toString()
     {
         return ""
-            + toString(this._multiplication_);
+            + toString(_multiplication_);
     }
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
+    void removeChild(Node child)
     {
-        // Remove child
-        if(this._multiplication_ == child)
+        if(_multiplication_ == child)
         {
-            this._multiplication_ = null;
+            _multiplication_ = null;
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    void replaceChild(Node oldChild, Node newChild)
     {
-        // Replace child
-        if(this._multiplication_ == oldChild)
+        if(_multiplication_ == oldChild)
         {
             setMultiplication((PMultiplication) newChild);
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 }

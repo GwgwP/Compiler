@@ -4,5 +4,4 @@ package minipython.node;
 
 public abstract class PComparison extends Node
 {
-    // Empty body
 }

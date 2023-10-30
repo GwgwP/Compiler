@@ -4,5 +4,4 @@ package minipython.node;
 
 public abstract class PProgramme extends Node
 {
-    // Empty body
 }

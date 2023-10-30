@@ -4,7 +4,6 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class TLineComment extends Token
 {
     public TLineComment(String text)
@@ -19,13 +18,11 @@ public final class TLineComment extends Token
         setPos(pos);
     }
 
-    @Override
     public Object clone()
     {
       return new TLineComment(getText(), getLine(), getPos());
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTLineComment(this);

@@ -4,12 +4,11 @@ package minipython.parser;
 
 import minipython.node.*;
 
-@SuppressWarnings("serial")
 public class ParserException extends Exception
 {
-    private Token token;
+    Token token;
 
-    public ParserException(@SuppressWarnings("hiding") Token token, String  message)
+    public ParserException(Token token, String  message)
     {
         super(message);
         this.token = token;
@@ -17,6 +16,6 @@ public class ParserException extends Exception
 
     public Token getToken()
     {
-        return this.token;
+        return token;
     }
 }

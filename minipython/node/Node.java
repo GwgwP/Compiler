@@ -3,21 +3,20 @@
 package minipython.node;
 
 import java.util.*;
+import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public abstract class Node implements Switchable, Cloneable
 {
     private Node parent;
 
-    @Override
     public abstract Object clone();
 
     public Node parent()
     {
-        return this.parent;
+        return parent;
     }
 
-    void parent(@SuppressWarnings("hiding") Node parent)
+    void parent(Node parent)
     {
         this.parent = parent;
     }
@@ -27,7 +26,10 @@ public abstract class Node implements Switchable, Cloneable
 
     public void replaceBy(Node node)
     {
-        this.parent.replaceChild(this, node);
+        if(parent != null)
+        {
+            parent.replaceChild(this, node);
+        }
     }
 
     protected String toString(Node node)
@@ -40,11 +42,11 @@ public abstract class Node implements Switchable, Cloneable
         return "";
     }
 
-    protected String toString(List<?> list)
+    protected String toString(List list)
     {
         StringBuffer s = new StringBuffer();
 
-        for(Iterator<?> i = list.iterator(); i.hasNext();)
+        for(Iterator i = list.iterator(); i.hasNext();)
         {
             s.append(i.next());
         }
@@ -52,25 +54,23 @@ public abstract class Node implements Switchable, Cloneable
         return s.toString();
     }
 
-    @SuppressWarnings("unchecked")
-    protected <T extends Node> T cloneNode(T node)
+    protected Node cloneNode(Node node)
     {
         if(node != null)
         {
-            return (T) node.clone();
+            return (Node) node.clone();
         }
 
         return null;
     }
 
-    @SuppressWarnings("unchecked")
-    protected <T extends Node> List<T> cloneList(List<T> list)
+    protected List cloneList(List list)
     {
-        List<T> clone = new LinkedList<T>();
+        List clone = new LinkedList();
 
-        for(T n : list)
+        for(Iterator i = list.iterator(); i.hasNext();)
         {
-            clone.add((T) n.clone());
+            clone.add(((Node) i.next()).clone());
         }
 
         return clone;

@@ -2,9 +2,9 @@
 
 package minipython.node;
 
+import java.util.*;
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class ALesscComparison extends PComparison
 {
     private PExpression _lpar_;
@@ -13,15 +13,13 @@ public final class ALesscComparison extends PComparison
 
     public ALesscComparison()
     {
-        // Constructor
     }
 
     public ALesscComparison(
-        @SuppressWarnings("hiding") PExpression _lpar_,
-        @SuppressWarnings("hiding") TLess _less_,
-        @SuppressWarnings("hiding") PExpression _rpar_)
+        PExpression _lpar_,
+        TLess _less_,
+        PExpression _rpar_)
     {
-        // Constructor
         setLpar(_lpar_);
 
         setLess(_less_);
@@ -29,17 +27,14 @@ public final class ALesscComparison extends PComparison
         setRpar(_rpar_);
 
     }
-
-    @Override
     public Object clone()
     {
         return new ALesscComparison(
-            cloneNode(this._lpar_),
-            cloneNode(this._less_),
-            cloneNode(this._rpar_));
+            (PExpression) cloneNode(_lpar_),
+            (TLess) cloneNode(_less_),
+            (PExpression) cloneNode(_rpar_));
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseALesscComparison(this);
@@ -47,14 +42,14 @@ public final class ALesscComparison extends PComparison
 
     public PExpression getLpar()
     {
-        return this._lpar_;
+        return _lpar_;
     }
 
     public void setLpar(PExpression node)
     {
-        if(this._lpar_ != null)
+        if(_lpar_ != null)
         {
-            this._lpar_.parent(null);
+            _lpar_.parent(null);
         }
 
         if(node != null)
@@ -67,19 +62,19 @@ public final class ALesscComparison extends PComparison
             node.parent(this);
         }
 
-        this._lpar_ = node;
+        _lpar_ = node;
     }
 
     public TLess getLess()
     {
-        return this._less_;
+        return _less_;
     }
 
     public void setLess(TLess node)
     {
-        if(this._less_ != null)
+        if(_less_ != null)
         {
-            this._less_.parent(null);
+            _less_.parent(null);
         }
 
         if(node != null)
@@ -92,19 +87,19 @@ public final class ALesscComparison extends PComparison
             node.parent(this);
         }
 
-        this._less_ = node;
+        _less_ = node;
     }
 
     public PExpression getRpar()
     {
-        return this._rpar_;
+        return _rpar_;
     }
 
     public void setRpar(PExpression node)
     {
-        if(this._rpar_ != null)
+        if(_rpar_ != null)
         {
-            this._rpar_.parent(null);
+            _rpar_.parent(null);
         }
 
         if(node != null)
@@ -117,65 +112,58 @@ public final class ALesscComparison extends PComparison
             node.parent(this);
         }
 
-        this._rpar_ = node;
+        _rpar_ = node;
     }
 
-    @Override
     public String toString()
     {
         return ""
-            + toString(this._lpar_)
-            + toString(this._less_)
-            + toString(this._rpar_);
+            + toString(_lpar_)
+            + toString(_less_)
+            + toString(_rpar_);
     }
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
+    void removeChild(Node child)
     {
-        // Remove child
-        if(this._lpar_ == child)
+        if(_lpar_ == child)
         {
-            this._lpar_ = null;
+            _lpar_ = null;
             return;
         }
 
-        if(this._less_ == child)
+        if(_less_ == child)
         {
-            this._less_ = null;
+            _less_ = null;
             return;
         }
 
-        if(this._rpar_ == child)
+        if(_rpar_ == child)
         {
-            this._rpar_ = null;
+            _rpar_ = null;
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    void replaceChild(Node oldChild, Node newChild)
     {
-        // Replace child
-        if(this._lpar_ == oldChild)
+        if(_lpar_ == oldChild)
         {
             setLpar((PExpression) newChild);
             return;
         }
 
-        if(this._less_ == oldChild)
+        if(_less_ == oldChild)
         {
             setLess((TLess) newChild);
             return;
         }
 
-        if(this._rpar_ == oldChild)
+        if(_rpar_ == oldChild)
         {
             setRpar((PExpression) newChild);
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 }

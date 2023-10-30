@@ -5,83 +5,65 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class APrintStatement extends PStatement
 {
-    private final LinkedList<TTab> _tab_ = new LinkedList<TTab>();
+    private final LinkedList _tab_ = new TypedLinkedList(new Tab_Cast());
     private TPrint _print_;
     private PExpression _expression_;
 
     public APrintStatement()
     {
-        // Constructor
     }
 
     public APrintStatement(
-        @SuppressWarnings("hiding") List<?> _tab_,
-        @SuppressWarnings("hiding") TPrint _print_,
-        @SuppressWarnings("hiding") PExpression _expression_)
+        List _tab_,
+        TPrint _print_,
+        PExpression _expression_)
     {
-        // Constructor
-        setTab(_tab_);
+        {
+            this._tab_.clear();
+            this._tab_.addAll(_tab_);
+        }
 
         setPrint(_print_);
 
         setExpression(_expression_);
 
     }
-
-    @Override
     public Object clone()
     {
         return new APrintStatement(
-            cloneList(this._tab_),
-            cloneNode(this._print_),
-            cloneNode(this._expression_));
+            cloneList(_tab_),
+            (TPrint) cloneNode(_print_),
+            (PExpression) cloneNode(_expression_));
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAPrintStatement(this);
     }
 
-    public LinkedList<TTab> getTab()
+    public LinkedList getTab()
     {
-        return this._tab_;
+        return _tab_;
     }
 
-    public void setTab(List<?> list)
+    public void setTab(List list)
     {
-        for(TTab e : this._tab_)
-        {
-            e.parent(null);
-        }
-        this._tab_.clear();
-
-        for(Object obj_e : list)
-        {
-            TTab e = (TTab) obj_e;
-            if(e.parent() != null)
-            {
-                e.parent().removeChild(e);
-            }
-
-            e.parent(this);
-            this._tab_.add(e);
-        }
+        _tab_.clear();
+        _tab_.addAll(list);
     }
 
     public TPrint getPrint()
     {
-        return this._print_;
+        return _print_;
     }
 
     public void setPrint(TPrint node)
     {
-        if(this._print_ != null)
+        if(_print_ != null)
         {
-            this._print_.parent(null);
+            _print_.parent(null);
         }
 
         if(node != null)
@@ -94,19 +76,19 @@ public final class APrintStatement extends PStatement
             node.parent(this);
         }
 
-        this._print_ = node;
+        _print_ = node;
     }
 
     public PExpression getExpression()
     {
-        return this._expression_;
+        return _expression_;
     }
 
     public void setExpression(PExpression node)
     {
-        if(this._expression_ != null)
+        if(_expression_ != null)
         {
-            this._expression_.parent(null);
+            _expression_.parent(null);
         }
 
         if(node != null)
@@ -119,54 +101,47 @@ public final class APrintStatement extends PStatement
             node.parent(this);
         }
 
-        this._expression_ = node;
+        _expression_ = node;
     }
 
-    @Override
     public String toString()
     {
         return ""
-            + toString(this._tab_)
-            + toString(this._print_)
-            + toString(this._expression_);
+            + toString(_tab_)
+            + toString(_print_)
+            + toString(_expression_);
     }
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
+    void removeChild(Node child)
     {
-        // Remove child
-        if(this._tab_.remove(child))
+        if(_tab_.remove(child))
         {
             return;
         }
 
-        if(this._print_ == child)
+        if(_print_ == child)
         {
-            this._print_ = null;
+            _print_ = null;
             return;
         }
 
-        if(this._expression_ == child)
+        if(_expression_ == child)
         {
-            this._expression_ = null;
+            _expression_ = null;
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    void replaceChild(Node oldChild, Node newChild)
     {
-        // Replace child
-        for(ListIterator<TTab> i = this._tab_.listIterator(); i.hasNext();)
+        for(ListIterator i = _tab_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
                 if(newChild != null)
                 {
-                    i.set((TTab) newChild);
-                    newChild.parent(this);
+                    i.set(newChild);
                     oldChild.parent(null);
                     return;
                 }
@@ -177,18 +152,39 @@ public final class APrintStatement extends PStatement
             }
         }
 
-        if(this._print_ == oldChild)
+        if(_print_ == oldChild)
         {
             setPrint((TPrint) newChild);
             return;
         }
 
-        if(this._expression_ == oldChild)
+        if(_expression_ == oldChild)
         {
             setExpression((PExpression) newChild);
             return;
         }
 
-        throw new RuntimeException("Not a child.");
+    }
+
+    private class Tab_Cast implements Cast
+    {
+        public Object cast(Object o)
+        {
+            TTab node = (TTab) o;
+
+            if((node.parent() != null) &&
+                (node.parent() != APrintStatement.this))
+            {
+                node.parent().removeChild(node);
+            }
+
+            if((node.parent() == null) ||
+                (node.parent() != APrintStatement.this))
+            {
+                node.parent(APrintStatement.this);
+            }
+
+            return node;
+        }
     }
 }

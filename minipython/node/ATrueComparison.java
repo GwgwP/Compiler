@@ -2,34 +2,29 @@
 
 package minipython.node;
 
+import java.util.*;
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class ATrueComparison extends PComparison
 {
     private TTrue _true_;
 
     public ATrueComparison()
     {
-        // Constructor
     }
 
     public ATrueComparison(
-        @SuppressWarnings("hiding") TTrue _true_)
+        TTrue _true_)
     {
-        // Constructor
         setTrue(_true_);
 
     }
-
-    @Override
     public Object clone()
     {
         return new ATrueComparison(
-            cloneNode(this._true_));
+            (TTrue) cloneNode(_true_));
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseATrueComparison(this);
@@ -37,14 +32,14 @@ public final class ATrueComparison extends PComparison
 
     public TTrue getTrue()
     {
-        return this._true_;
+        return _true_;
     }
 
     public void setTrue(TTrue node)
     {
-        if(this._true_ != null)
+        if(_true_ != null)
         {
-            this._true_.parent(null);
+            _true_.parent(null);
         }
 
         if(node != null)
@@ -57,39 +52,32 @@ public final class ATrueComparison extends PComparison
             node.parent(this);
         }
 
-        this._true_ = node;
+        _true_ = node;
     }
 
-    @Override
     public String toString()
     {
         return ""
-            + toString(this._true_);
+            + toString(_true_);
     }
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
+    void removeChild(Node child)
     {
-        // Remove child
-        if(this._true_ == child)
+        if(_true_ == child)
         {
-            this._true_ = null;
+            _true_ = null;
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    void replaceChild(Node oldChild, Node newChild)
     {
-        // Replace child
-        if(this._true_ == oldChild)
+        if(_true_ == oldChild)
         {
             setTrue((TTrue) newChild);
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 }

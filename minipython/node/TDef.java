@@ -4,7 +4,6 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class TDef extends Token
 {
     public TDef()
@@ -19,20 +18,17 @@ public final class TDef extends Token
         setPos(pos);
     }
 
-    @Override
     public Object clone()
     {
       return new TDef(getLine(), getPos());
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTDef(this);
     }
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
+    public void setText(String text)
     {
         throw new RuntimeException("Cannot change TDef text.");
     }

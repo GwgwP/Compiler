@@ -7,9 +7,9 @@ import minipython.node.*;
 public interface Analysis extends Switch
 {
     Object getIn(Node node);
-    void setIn(Node node, Object o);
+    void setIn(Node node, Object in);
     Object getOut(Node node);
-    void setOut(Node node, Object o);
+    void setOut(Node node, Object out);
 
     void caseStart(Start node);
     void caseAProgramme(AProgramme node);
@@ -52,10 +52,10 @@ public interface Analysis extends Switch
     void caseTNot(TNot node);
     void caseTLogicAnd(TLogicAnd node);
     void caseTLogicOr(TLogicOr node);
-    void caseTLPar(TLPar node);
-    void caseTRPar(TRPar node);
     void caseTLBr(TLBr node);
     void caseTRBr(TRBr node);
+    void caseTLPar(TLPar node);
+    void caseTRPar(TRPar node);
     void caseTComma(TComma node);
     void caseTIn(TIn node);
     void caseTIf(TIf node);
@@ -75,6 +75,7 @@ public interface Analysis extends Switch
     void caseTTrue(TTrue node);
     void caseTSemi(TSemi node);
     void caseTFalse(TFalse node);
+    void caseTElse(TElse node);
     void caseTNone(TNone node);
     void caseTQuote(TQuote node);
     void caseTBlank(TBlank node);
@@ -87,5 +88,4 @@ public interface Analysis extends Switch
     void caseTStringSingleQuotes(TStringSingleQuotes node);
     void caseTEverythingElse(TEverythingElse node);
     void caseEOF(EOF node);
-    void caseInvalidToken(InvalidToken node);
 }

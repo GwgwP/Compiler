@@ -4,7 +4,6 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class TIn extends Token
 {
     public TIn()
@@ -19,20 +18,17 @@ public final class TIn extends Token
         setPos(pos);
     }
 
-    @Override
     public Object clone()
     {
       return new TIn(getLine(), getPos());
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTIn(this);
     }
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
+    public void setText(String text)
     {
         throw new RuntimeException("Cannot change TIn text.");
     }

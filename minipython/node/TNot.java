@@ -4,7 +4,6 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class TNot extends Token
 {
     public TNot()
@@ -19,20 +18,17 @@ public final class TNot extends Token
         setPos(pos);
     }
 
-    @Override
     public Object clone()
     {
       return new TNot(getLine(), getPos());
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTNot(this);
     }
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
+    public void setText(String text)
     {
         throw new RuntimeException("Cannot change TNot text.");
     }

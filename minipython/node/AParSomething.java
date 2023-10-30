@@ -2,9 +2,9 @@
 
 package minipython.node;
 
+import java.util.*;
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class AParSomething extends PSomething
 {
     private TLPar _lPar_;
@@ -13,15 +13,13 @@ public final class AParSomething extends PSomething
 
     public AParSomething()
     {
-        // Constructor
     }
 
     public AParSomething(
-        @SuppressWarnings("hiding") TLPar _lPar_,
-        @SuppressWarnings("hiding") PExpression _expression_,
-        @SuppressWarnings("hiding") TRPar _rPar_)
+        TLPar _lPar_,
+        PExpression _expression_,
+        TRPar _rPar_)
     {
-        // Constructor
         setLPar(_lPar_);
 
         setExpression(_expression_);
@@ -29,17 +27,14 @@ public final class AParSomething extends PSomething
         setRPar(_rPar_);
 
     }
-
-    @Override
     public Object clone()
     {
         return new AParSomething(
-            cloneNode(this._lPar_),
-            cloneNode(this._expression_),
-            cloneNode(this._rPar_));
+            (TLPar) cloneNode(_lPar_),
+            (PExpression) cloneNode(_expression_),
+            (TRPar) cloneNode(_rPar_));
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAParSomething(this);
@@ -47,14 +42,14 @@ public final class AParSomething extends PSomething
 
     public TLPar getLPar()
     {
-        return this._lPar_;
+        return _lPar_;
     }
 
     public void setLPar(TLPar node)
     {
-        if(this._lPar_ != null)
+        if(_lPar_ != null)
         {
-            this._lPar_.parent(null);
+            _lPar_.parent(null);
         }
 
         if(node != null)
@@ -67,19 +62,19 @@ public final class AParSomething extends PSomething
             node.parent(this);
         }
 
-        this._lPar_ = node;
+        _lPar_ = node;
     }
 
     public PExpression getExpression()
     {
-        return this._expression_;
+        return _expression_;
     }
 
     public void setExpression(PExpression node)
     {
-        if(this._expression_ != null)
+        if(_expression_ != null)
         {
-            this._expression_.parent(null);
+            _expression_.parent(null);
         }
 
         if(node != null)
@@ -92,19 +87,19 @@ public final class AParSomething extends PSomething
             node.parent(this);
         }
 
-        this._expression_ = node;
+        _expression_ = node;
     }
 
     public TRPar getRPar()
     {
-        return this._rPar_;
+        return _rPar_;
     }
 
     public void setRPar(TRPar node)
     {
-        if(this._rPar_ != null)
+        if(_rPar_ != null)
         {
-            this._rPar_.parent(null);
+            _rPar_.parent(null);
         }
 
         if(node != null)
@@ -117,65 +112,58 @@ public final class AParSomething extends PSomething
             node.parent(this);
         }
 
-        this._rPar_ = node;
+        _rPar_ = node;
     }
 
-    @Override
     public String toString()
     {
         return ""
-            + toString(this._lPar_)
-            + toString(this._expression_)
-            + toString(this._rPar_);
+            + toString(_lPar_)
+            + toString(_expression_)
+            + toString(_rPar_);
     }
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
+    void removeChild(Node child)
     {
-        // Remove child
-        if(this._lPar_ == child)
+        if(_lPar_ == child)
         {
-            this._lPar_ = null;
+            _lPar_ = null;
             return;
         }
 
-        if(this._expression_ == child)
+        if(_expression_ == child)
         {
-            this._expression_ = null;
+            _expression_ = null;
             return;
         }
 
-        if(this._rPar_ == child)
+        if(_rPar_ == child)
         {
-            this._rPar_ = null;
+            _rPar_ = null;
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    void replaceChild(Node oldChild, Node newChild)
     {
-        // Replace child
-        if(this._lPar_ == oldChild)
+        if(_lPar_ == oldChild)
         {
             setLPar((TLPar) newChild);
             return;
         }
 
-        if(this._expression_ == oldChild)
+        if(_expression_ == oldChild)
         {
             setExpression((PExpression) newChild);
             return;
         }
 
-        if(this._rPar_ == oldChild)
+        if(_rPar_ == oldChild)
         {
             setRPar((TRPar) newChild);
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 }

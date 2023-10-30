@@ -2,9 +2,9 @@
 
 package minipython.node;
 
+import java.util.*;
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class AMultiplicationMultiplication extends PMultiplication
 {
     private PMultiplication _multiplication_;
@@ -13,15 +13,13 @@ public final class AMultiplicationMultiplication extends PMultiplication
 
     public AMultiplicationMultiplication()
     {
-        // Constructor
     }
 
     public AMultiplicationMultiplication(
-        @SuppressWarnings("hiding") PMultiplication _multiplication_,
-        @SuppressWarnings("hiding") TMult _mult_,
-        @SuppressWarnings("hiding") PPower _power_)
+        PMultiplication _multiplication_,
+        TMult _mult_,
+        PPower _power_)
     {
-        // Constructor
         setMultiplication(_multiplication_);
 
         setMult(_mult_);
@@ -29,17 +27,14 @@ public final class AMultiplicationMultiplication extends PMultiplication
         setPower(_power_);
 
     }
-
-    @Override
     public Object clone()
     {
         return new AMultiplicationMultiplication(
-            cloneNode(this._multiplication_),
-            cloneNode(this._mult_),
-            cloneNode(this._power_));
+            (PMultiplication) cloneNode(_multiplication_),
+            (TMult) cloneNode(_mult_),
+            (PPower) cloneNode(_power_));
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAMultiplicationMultiplication(this);
@@ -47,14 +42,14 @@ public final class AMultiplicationMultiplication extends PMultiplication
 
     public PMultiplication getMultiplication()
     {
-        return this._multiplication_;
+        return _multiplication_;
     }
 
     public void setMultiplication(PMultiplication node)
     {
-        if(this._multiplication_ != null)
+        if(_multiplication_ != null)
         {
-            this._multiplication_.parent(null);
+            _multiplication_.parent(null);
         }
 
         if(node != null)
@@ -67,19 +62,19 @@ public final class AMultiplicationMultiplication extends PMultiplication
             node.parent(this);
         }
 
-        this._multiplication_ = node;
+        _multiplication_ = node;
     }
 
     public TMult getMult()
     {
-        return this._mult_;
+        return _mult_;
     }
 
     public void setMult(TMult node)
     {
-        if(this._mult_ != null)
+        if(_mult_ != null)
         {
-            this._mult_.parent(null);
+            _mult_.parent(null);
         }
 
         if(node != null)
@@ -92,19 +87,19 @@ public final class AMultiplicationMultiplication extends PMultiplication
             node.parent(this);
         }
 
-        this._mult_ = node;
+        _mult_ = node;
     }
 
     public PPower getPower()
     {
-        return this._power_;
+        return _power_;
     }
 
     public void setPower(PPower node)
     {
-        if(this._power_ != null)
+        if(_power_ != null)
         {
-            this._power_.parent(null);
+            _power_.parent(null);
         }
 
         if(node != null)
@@ -117,65 +112,58 @@ public final class AMultiplicationMultiplication extends PMultiplication
             node.parent(this);
         }
 
-        this._power_ = node;
+        _power_ = node;
     }
 
-    @Override
     public String toString()
     {
         return ""
-            + toString(this._multiplication_)
-            + toString(this._mult_)
-            + toString(this._power_);
+            + toString(_multiplication_)
+            + toString(_mult_)
+            + toString(_power_);
     }
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
+    void removeChild(Node child)
     {
-        // Remove child
-        if(this._multiplication_ == child)
+        if(_multiplication_ == child)
         {
-            this._multiplication_ = null;
+            _multiplication_ = null;
             return;
         }
 
-        if(this._mult_ == child)
+        if(_mult_ == child)
         {
-            this._mult_ = null;
+            _mult_ = null;
             return;
         }
 
-        if(this._power_ == child)
+        if(_power_ == child)
         {
-            this._power_ = null;
+            _power_ = null;
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    void replaceChild(Node oldChild, Node newChild)
     {
-        // Replace child
-        if(this._multiplication_ == oldChild)
+        if(_multiplication_ == oldChild)
         {
             setMultiplication((PMultiplication) newChild);
             return;
         }
 
-        if(this._mult_ == oldChild)
+        if(_mult_ == oldChild)
         {
             setMult((TMult) newChild);
             return;
         }
 
-        if(this._power_ == oldChild)
+        if(_power_ == oldChild)
         {
             setPower((PPower) newChild);
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 }

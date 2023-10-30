@@ -2,34 +2,29 @@
 
 package minipython.node;
 
+import java.util.*;
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class APowMultiplication extends PMultiplication
 {
     private PPower _power_;
 
     public APowMultiplication()
     {
-        // Constructor
     }
 
     public APowMultiplication(
-        @SuppressWarnings("hiding") PPower _power_)
+        PPower _power_)
     {
-        // Constructor
         setPower(_power_);
 
     }
-
-    @Override
     public Object clone()
     {
         return new APowMultiplication(
-            cloneNode(this._power_));
+            (PPower) cloneNode(_power_));
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAPowMultiplication(this);
@@ -37,14 +32,14 @@ public final class APowMultiplication extends PMultiplication
 
     public PPower getPower()
     {
-        return this._power_;
+        return _power_;
     }
 
     public void setPower(PPower node)
     {
-        if(this._power_ != null)
+        if(_power_ != null)
         {
-            this._power_.parent(null);
+            _power_.parent(null);
         }
 
         if(node != null)
@@ -57,39 +52,32 @@ public final class APowMultiplication extends PMultiplication
             node.parent(this);
         }
 
-        this._power_ = node;
+        _power_ = node;
     }
 
-    @Override
     public String toString()
     {
         return ""
-            + toString(this._power_);
+            + toString(_power_);
     }
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
+    void removeChild(Node child)
     {
-        // Remove child
-        if(this._power_ == child)
+        if(_power_ == child)
         {
-            this._power_ = null;
+            _power_ = null;
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    void replaceChild(Node oldChild, Node newChild)
     {
-        // Replace child
-        if(this._power_ == oldChild)
+        if(_power_ == oldChild)
         {
             setPower((PPower) newChild);
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 }

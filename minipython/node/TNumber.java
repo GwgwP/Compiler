@@ -4,7 +4,6 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class TNumber extends Token
 {
     public TNumber(String text)
@@ -19,13 +18,11 @@ public final class TNumber extends Token
         setPos(pos);
     }
 
-    @Override
     public Object clone()
     {
       return new TNumber(getText(), getLine(), getPos());
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTNumber(this);

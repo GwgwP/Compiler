@@ -5,27 +5,27 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class AAssignStatement extends PStatement
 {
-    private final LinkedList<TTab> _tab_ = new LinkedList<TTab>();
+    private final LinkedList _tab_ = new TypedLinkedList(new Tab_Cast());
     private TId _id_;
     private TEq _eq_;
     private PExpression _expression_;
 
     public AAssignStatement()
     {
-        // Constructor
     }
 
     public AAssignStatement(
-        @SuppressWarnings("hiding") List<?> _tab_,
-        @SuppressWarnings("hiding") TId _id_,
-        @SuppressWarnings("hiding") TEq _eq_,
-        @SuppressWarnings("hiding") PExpression _expression_)
+        List _tab_,
+        TId _id_,
+        TEq _eq_,
+        PExpression _expression_)
     {
-        // Constructor
-        setTab(_tab_);
+        {
+            this._tab_.clear();
+            this._tab_.addAll(_tab_);
+        }
 
         setId(_id_);
 
@@ -34,59 +34,41 @@ public final class AAssignStatement extends PStatement
         setExpression(_expression_);
 
     }
-
-    @Override
     public Object clone()
     {
         return new AAssignStatement(
-            cloneList(this._tab_),
-            cloneNode(this._id_),
-            cloneNode(this._eq_),
-            cloneNode(this._expression_));
+            cloneList(_tab_),
+            (TId) cloneNode(_id_),
+            (TEq) cloneNode(_eq_),
+            (PExpression) cloneNode(_expression_));
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAAssignStatement(this);
     }
 
-    public LinkedList<TTab> getTab()
+    public LinkedList getTab()
     {
-        return this._tab_;
+        return _tab_;
     }
 
-    public void setTab(List<?> list)
+    public void setTab(List list)
     {
-        for(TTab e : this._tab_)
-        {
-            e.parent(null);
-        }
-        this._tab_.clear();
-
-        for(Object obj_e : list)
-        {
-            TTab e = (TTab) obj_e;
-            if(e.parent() != null)
-            {
-                e.parent().removeChild(e);
-            }
-
-            e.parent(this);
-            this._tab_.add(e);
-        }
+        _tab_.clear();
+        _tab_.addAll(list);
     }
 
     public TId getId()
     {
-        return this._id_;
+        return _id_;
     }
 
     public void setId(TId node)
     {
-        if(this._id_ != null)
+        if(_id_ != null)
         {
-            this._id_.parent(null);
+            _id_.parent(null);
         }
 
         if(node != null)
@@ -99,19 +81,19 @@ public final class AAssignStatement extends PStatement
             node.parent(this);
         }
 
-        this._id_ = node;
+        _id_ = node;
     }
 
     public TEq getEq()
     {
-        return this._eq_;
+        return _eq_;
     }
 
     public void setEq(TEq node)
     {
-        if(this._eq_ != null)
+        if(_eq_ != null)
         {
-            this._eq_.parent(null);
+            _eq_.parent(null);
         }
 
         if(node != null)
@@ -124,19 +106,19 @@ public final class AAssignStatement extends PStatement
             node.parent(this);
         }
 
-        this._eq_ = node;
+        _eq_ = node;
     }
 
     public PExpression getExpression()
     {
-        return this._expression_;
+        return _expression_;
     }
 
     public void setExpression(PExpression node)
     {
-        if(this._expression_ != null)
+        if(_expression_ != null)
         {
-            this._expression_.parent(null);
+            _expression_.parent(null);
         }
 
         if(node != null)
@@ -149,61 +131,54 @@ public final class AAssignStatement extends PStatement
             node.parent(this);
         }
 
-        this._expression_ = node;
+        _expression_ = node;
     }
 
-    @Override
     public String toString()
     {
         return ""
-            + toString(this._tab_)
-            + toString(this._id_)
-            + toString(this._eq_)
-            + toString(this._expression_);
+            + toString(_tab_)
+            + toString(_id_)
+            + toString(_eq_)
+            + toString(_expression_);
     }
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
+    void removeChild(Node child)
     {
-        // Remove child
-        if(this._tab_.remove(child))
+        if(_tab_.remove(child))
         {
             return;
         }
 
-        if(this._id_ == child)
+        if(_id_ == child)
         {
-            this._id_ = null;
+            _id_ = null;
             return;
         }
 
-        if(this._eq_ == child)
+        if(_eq_ == child)
         {
-            this._eq_ = null;
+            _eq_ = null;
             return;
         }
 
-        if(this._expression_ == child)
+        if(_expression_ == child)
         {
-            this._expression_ = null;
+            _expression_ = null;
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    void replaceChild(Node oldChild, Node newChild)
     {
-        // Replace child
-        for(ListIterator<TTab> i = this._tab_.listIterator(); i.hasNext();)
+        for(ListIterator i = _tab_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
                 if(newChild != null)
                 {
-                    i.set((TTab) newChild);
-                    newChild.parent(this);
+                    i.set(newChild);
                     oldChild.parent(null);
                     return;
                 }
@@ -214,24 +189,45 @@ public final class AAssignStatement extends PStatement
             }
         }
 
-        if(this._id_ == oldChild)
+        if(_id_ == oldChild)
         {
             setId((TId) newChild);
             return;
         }
 
-        if(this._eq_ == oldChild)
+        if(_eq_ == oldChild)
         {
             setEq((TEq) newChild);
             return;
         }
 
-        if(this._expression_ == oldChild)
+        if(_expression_ == oldChild)
         {
             setExpression((PExpression) newChild);
             return;
         }
 
-        throw new RuntimeException("Not a child.");
+    }
+
+    private class Tab_Cast implements Cast
+    {
+        public Object cast(Object o)
+        {
+            TTab node = (TTab) o;
+
+            if((node.parent() != null) &&
+                (node.parent() != AAssignStatement.this))
+            {
+                node.parent().removeChild(node);
+            }
+
+            if((node.parent() == null) ||
+                (node.parent() != AAssignStatement.this))
+            {
+                node.parent(AAssignStatement.this);
+            }
+
+            return node;
+        }
     }
 }

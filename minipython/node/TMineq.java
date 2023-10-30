@@ -4,7 +4,6 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class TMineq extends Token
 {
     public TMineq()
@@ -19,20 +18,17 @@ public final class TMineq extends Token
         setPos(pos);
     }
 
-    @Override
     public Object clone()
     {
       return new TMineq(getLine(), getPos());
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTMineq(this);
     }
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
+    public void setText(String text)
     {
         throw new RuntimeException("Cannot change TMineq text.");
     }

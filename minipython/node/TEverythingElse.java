@@ -4,7 +4,6 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class TEverythingElse extends Token
 {
     public TEverythingElse(String text)
@@ -19,13 +18,11 @@ public final class TEverythingElse extends Token
         setPos(pos);
     }
 
-    @Override
     public Object clone()
     {
       return new TEverythingElse(getText(), getLine(), getPos());
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTEverythingElse(this);

@@ -4,7 +4,6 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class TStringSingleQuotes extends Token
 {
     public TStringSingleQuotes(String text)
@@ -19,13 +18,11 @@ public final class TStringSingleQuotes extends Token
         setPos(pos);
     }
 
-    @Override
     public Object clone()
     {
       return new TStringSingleQuotes(getText(), getLine(), getPos());
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTStringSingleQuotes(this);

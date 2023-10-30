@@ -2,7 +2,6 @@
 
 package minipython.node;
 
-@SuppressWarnings("nls")
 public abstract class Token extends Node
 {
     private String text;
@@ -11,49 +10,44 @@ public abstract class Token extends Node
 
     public String getText()
     {
-        return this.text;
+        return text;
     }
 
-    public void setText(@SuppressWarnings("hiding") String text)
+    public void setText(String text)
     {
         this.text = text;
     }
 
     public int getLine()
     {
-        return this.line;
+        return line;
     }
 
-    public void setLine(@SuppressWarnings("hiding") int line)
+    public void setLine(int line)
     {
         this.line = line;
     }
 
     public int getPos()
     {
-        return this.pos;
+        return pos;
     }
 
-    public void setPos(@SuppressWarnings("hiding") int pos)
+    public void setPos(int pos)
     {
         this.pos = pos;
     }
 
-    @Override
     public String toString()
     {
-        return this.text + " ";
+        return text + " ";
     }
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
+    void removeChild(Node child)
     {
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    void replaceChild(Node oldChild, Node newChild)
     {
-        throw new RuntimeException("Not a child.");
     }
 }

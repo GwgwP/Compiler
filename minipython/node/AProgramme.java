@@ -5,94 +5,69 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class AProgramme extends PProgramme
 {
-    private final LinkedList<PCommands> _commands_ = new LinkedList<PCommands>();
+    private final LinkedList _commands_ = new TypedLinkedList(new Commands_Cast());
 
     public AProgramme()
     {
-        // Constructor
     }
 
     public AProgramme(
-        @SuppressWarnings("hiding") List<?> _commands_)
+        List _commands_)
     {
-        // Constructor
-        setCommands(_commands_);
+        {
+            this._commands_.clear();
+            this._commands_.addAll(_commands_);
+        }
 
     }
-
-    @Override
     public Object clone()
     {
         return new AProgramme(
-            cloneList(this._commands_));
+            cloneList(_commands_));
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAProgramme(this);
     }
 
-    public LinkedList<PCommands> getCommands()
+    public LinkedList getCommands()
     {
-        return this._commands_;
+        return _commands_;
     }
 
-    public void setCommands(List<?> list)
+    public void setCommands(List list)
     {
-        for(PCommands e : this._commands_)
-        {
-            e.parent(null);
-        }
-        this._commands_.clear();
-
-        for(Object obj_e : list)
-        {
-            PCommands e = (PCommands) obj_e;
-            if(e.parent() != null)
-            {
-                e.parent().removeChild(e);
-            }
-
-            e.parent(this);
-            this._commands_.add(e);
-        }
+        _commands_.clear();
+        _commands_.addAll(list);
     }
 
-    @Override
     public String toString()
     {
         return ""
-            + toString(this._commands_);
+            + toString(_commands_);
     }
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
+    void removeChild(Node child)
     {
-        // Remove child
-        if(this._commands_.remove(child))
+        if(_commands_.remove(child))
         {
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    void replaceChild(Node oldChild, Node newChild)
     {
-        // Replace child
-        for(ListIterator<PCommands> i = this._commands_.listIterator(); i.hasNext();)
+        for(ListIterator i = _commands_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
                 if(newChild != null)
                 {
-                    i.set((PCommands) newChild);
-                    newChild.parent(this);
+                    i.set(newChild);
                     oldChild.parent(null);
                     return;
                 }
@@ -103,6 +78,27 @@ public final class AProgramme extends PProgramme
             }
         }
 
-        throw new RuntimeException("Not a child.");
+    }
+
+    private class Commands_Cast implements Cast
+    {
+        public Object cast(Object o)
+        {
+            PCommands node = (PCommands) o;
+
+            if((node.parent() != null) &&
+                (node.parent() != AProgramme.this))
+            {
+                node.parent().removeChild(node);
+            }
+
+            if((node.parent() == null) ||
+                (node.parent() != AProgramme.this))
+            {
+                node.parent(AProgramme.this);
+            }
+
+            return node;
+        }
     }
 }

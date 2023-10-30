@@ -4,7 +4,6 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class TId extends Token
 {
     public TId(String text)
@@ -19,13 +18,11 @@ public final class TId extends Token
         setPos(pos);
     }
 
-    @Override
     public Object clone()
     {
       return new TId(getText(), getLine(), getPos());
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTId(this);

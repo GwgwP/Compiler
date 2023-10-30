@@ -4,7 +4,6 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class TWhile extends Token
 {
     public TWhile()
@@ -19,20 +18,17 @@ public final class TWhile extends Token
         setPos(pos);
     }
 
-    @Override
     public Object clone()
     {
       return new TWhile(getLine(), getPos());
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTWhile(this);
     }
 
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
+    public void setText(String text)
     {
         throw new RuntimeException("Cannot change TWhile text.");
     }

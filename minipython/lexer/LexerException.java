@@ -2,21 +2,10 @@
 
 package minipython.lexer;
 
-import minipython.node.*;
-
-@SuppressWarnings("serial")
 public class LexerException extends Exception
 {
-    private InvalidToken invalidToken;
-    
-    public LexerException(@SuppressWarnings("hiding") InvalidToken invalidToken, String message)
+    public LexerException(String message)
     {
         super(message);
-        this.invalidToken = invalidToken;
-    }
-
-    public InvalidToken getToken()
-    {
-        return this.invalidToken;
     }
 }

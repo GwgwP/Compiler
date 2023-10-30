@@ -2,34 +2,29 @@
 
 package minipython.node;
 
+import java.util.*;
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class AFalseComparison extends PComparison
 {
     private TFalse _false_;
 
     public AFalseComparison()
     {
-        // Constructor
     }
 
     public AFalseComparison(
-        @SuppressWarnings("hiding") TFalse _false_)
+        TFalse _false_)
     {
-        // Constructor
         setFalse(_false_);
 
     }
-
-    @Override
     public Object clone()
     {
         return new AFalseComparison(
-            cloneNode(this._false_));
+            (TFalse) cloneNode(_false_));
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAFalseComparison(this);
@@ -37,14 +32,14 @@ public final class AFalseComparison extends PComparison
 
     public TFalse getFalse()
     {
-        return this._false_;
+        return _false_;
     }
 
     public void setFalse(TFalse node)
     {
-        if(this._false_ != null)
+        if(_false_ != null)
         {
-            this._false_.parent(null);
+            _false_.parent(null);
         }
 
         if(node != null)
@@ -57,39 +52,32 @@ public final class AFalseComparison extends PComparison
             node.parent(this);
         }
 
-        this._false_ = node;
+        _false_ = node;
     }
 
-    @Override
     public String toString()
     {
         return ""
-            + toString(this._false_);
+            + toString(_false_);
     }
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
+    void removeChild(Node child)
     {
-        // Remove child
-        if(this._false_ == child)
+        if(_false_ == child)
         {
-            this._false_ = null;
+            _false_ = null;
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    void replaceChild(Node oldChild, Node newChild)
     {
-        // Replace child
-        if(this._false_ == oldChild)
+        if(_false_ == oldChild)
         {
             setFalse((TFalse) newChild);
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 }

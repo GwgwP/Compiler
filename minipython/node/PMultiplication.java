@@ -4,5 +4,4 @@ package minipython.node;
 
 public abstract class PMultiplication extends Node
 {
-    // Empty body
 }

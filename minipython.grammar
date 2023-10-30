@@ -1,7 +1,3 @@
-/*
-* Test Comments
-*/
-
 Package minipython;
 
 Helpers
@@ -18,34 +14,63 @@ Helpers
 
 Tokens
 	tab = 9;
+	plusplus = '++';
+	equalequal = '==';
+	minusminus = '--'; 
+	mineq = '-=';
+	pluseq = '+=';
+	diveq = '/=';
+	multeq = '*=';
 	plus = '+';
 	minus = '-';
 	pow = '**';
 	mult = '*';
+	mod = '%';
 	div = '/';
 	eq = '=';
+	def = 'def';
+	not = 'not';
+	logic_and = 'and';
+	logic_or = 'or';
+	l_br = '[';
+	r_br = ']';
 	l_par = '(';
 	r_par = ')';
 	comma=',';
+	in = 'in';
 	if = 'if';
+	while = 'while';
+	for = 'for';
+	len = 'len';
+	min = 'min';
+	max = 'max';
 	print = 'print';
+	return = 'return';
+	assert = 'assert';
+	noteq = '!=';
+	lesseq = '<=';
+	greateq = '>=';
 	less = '<';
 	great = '>';
 	true = 'true';
 	semi = ':';
 	false = 'false';
 	else = 'else';
+	none = 'None';
 	quote = '"';
 	blank = (' ' | lf | cr);
+	white_space = (sp|ff|ht)*;
 	line_comment = '#' not_eol* eol; 
 	number = digit+;
+	dot = '.';
 	id = letter (letter | digit)*;
-	
-
+	string_double_quotes = '"'not_eol* '"';
+	string_single_quotes = '''not_eol* ''';
+	everything_else = all;
 
 Ignored Tokens
 	blank, line_comment;
-
+	
 Productions
 	programme = commands*;
 	
@@ -64,7 +89,7 @@ Productions
 	expression = {multiplication} multiplication |
 					{addition} expression plus multiplication|
 					{subtraction} expression minus multiplication;
-	
+					
 	multiplication = {pow} power | 
 						  {multiplication} multiplication mult power;
 

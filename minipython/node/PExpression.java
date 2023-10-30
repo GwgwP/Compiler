@@ -4,5 +4,4 @@ package minipython.node;
 
 public abstract class PExpression extends Node
 {
-    // Empty body
 }

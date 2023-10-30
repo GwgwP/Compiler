@@ -4,7 +4,6 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class TTab extends Token
 {
     public TTab(String text)
@@ -19,13 +18,11 @@ public final class TTab extends Token
         setPos(pos);
     }
 
-    @Override
     public Object clone()
     {
       return new TTab(getText(), getLine(), getPos());
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTTab(this);

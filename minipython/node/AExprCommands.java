@@ -2,34 +2,29 @@
 
 package minipython.node;
 
+import java.util.*;
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class AExprCommands extends PCommands
 {
     private PExpression _expression_;
 
     public AExprCommands()
     {
-        // Constructor
     }
 
     public AExprCommands(
-        @SuppressWarnings("hiding") PExpression _expression_)
+        PExpression _expression_)
     {
-        // Constructor
         setExpression(_expression_);
 
     }
-
-    @Override
     public Object clone()
     {
         return new AExprCommands(
-            cloneNode(this._expression_));
+            (PExpression) cloneNode(_expression_));
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAExprCommands(this);
@@ -37,14 +32,14 @@ public final class AExprCommands extends PCommands
 
     public PExpression getExpression()
     {
-        return this._expression_;
+        return _expression_;
     }
 
     public void setExpression(PExpression node)
     {
-        if(this._expression_ != null)
+        if(_expression_ != null)
         {
-            this._expression_.parent(null);
+            _expression_.parent(null);
         }
 
         if(node != null)
@@ -57,39 +52,32 @@ public final class AExprCommands extends PCommands
             node.parent(this);
         }
 
-        this._expression_ = node;
+        _expression_ = node;
     }
 
-    @Override
     public String toString()
     {
         return ""
-            + toString(this._expression_);
+            + toString(_expression_);
     }
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
+    void removeChild(Node child)
     {
-        // Remove child
-        if(this._expression_ == child)
+        if(_expression_ == child)
         {
-            this._expression_ = null;
+            _expression_ = null;
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    void replaceChild(Node oldChild, Node newChild)
     {
-        // Replace child
-        if(this._expression_ == oldChild)
+        if(_expression_ == oldChild)
         {
             setExpression((PExpression) newChild);
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 }

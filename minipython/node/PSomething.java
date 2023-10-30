@@ -4,5 +4,4 @@ package minipython.node;
 
 public abstract class PSomething extends Node
 {
-    // Empty body
 }

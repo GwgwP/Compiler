@@ -2,9 +2,9 @@
 
 package minipython.node;
 
+import java.util.*;
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class APowerPower extends PPower
 {
     private PPower _power_;
@@ -13,15 +13,13 @@ public final class APowerPower extends PPower
 
     public APowerPower()
     {
-        // Constructor
     }
 
     public APowerPower(
-        @SuppressWarnings("hiding") PPower _power_,
-        @SuppressWarnings("hiding") TPow _pow_,
-        @SuppressWarnings("hiding") PSomething _something_)
+        PPower _power_,
+        TPow _pow_,
+        PSomething _something_)
     {
-        // Constructor
         setPower(_power_);
 
         setPow(_pow_);
@@ -29,17 +27,14 @@ public final class APowerPower extends PPower
         setSomething(_something_);
 
     }
-
-    @Override
     public Object clone()
     {
         return new APowerPower(
-            cloneNode(this._power_),
-            cloneNode(this._pow_),
-            cloneNode(this._something_));
+            (PPower) cloneNode(_power_),
+            (TPow) cloneNode(_pow_),
+            (PSomething) cloneNode(_something_));
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAPowerPower(this);
@@ -47,14 +42,14 @@ public final class APowerPower extends PPower
 
     public PPower getPower()
     {
-        return this._power_;
+        return _power_;
     }
 
     public void setPower(PPower node)
     {
-        if(this._power_ != null)
+        if(_power_ != null)
         {
-            this._power_.parent(null);
+            _power_.parent(null);
         }
 
         if(node != null)
@@ -67,19 +62,19 @@ public final class APowerPower extends PPower
             node.parent(this);
         }
 
-        this._power_ = node;
+        _power_ = node;
     }
 
     public TPow getPow()
     {
-        return this._pow_;
+        return _pow_;
     }
 
     public void setPow(TPow node)
     {
-        if(this._pow_ != null)
+        if(_pow_ != null)
         {
-            this._pow_.parent(null);
+            _pow_.parent(null);
         }
 
         if(node != null)
@@ -92,19 +87,19 @@ public final class APowerPower extends PPower
             node.parent(this);
         }
 
-        this._pow_ = node;
+        _pow_ = node;
     }
 
     public PSomething getSomething()
     {
-        return this._something_;
+        return _something_;
     }
 
     public void setSomething(PSomething node)
     {
-        if(this._something_ != null)
+        if(_something_ != null)
         {
-            this._something_.parent(null);
+            _something_.parent(null);
         }
 
         if(node != null)
@@ -117,65 +112,58 @@ public final class APowerPower extends PPower
             node.parent(this);
         }
 
-        this._something_ = node;
+        _something_ = node;
     }
 
-    @Override
     public String toString()
     {
         return ""
-            + toString(this._power_)
-            + toString(this._pow_)
-            + toString(this._something_);
+            + toString(_power_)
+            + toString(_pow_)
+            + toString(_something_);
     }
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
+    void removeChild(Node child)
     {
-        // Remove child
-        if(this._power_ == child)
+        if(_power_ == child)
         {
-            this._power_ = null;
+            _power_ = null;
             return;
         }
 
-        if(this._pow_ == child)
+        if(_pow_ == child)
         {
-            this._pow_ = null;
+            _pow_ = null;
             return;
         }
 
-        if(this._something_ == child)
+        if(_something_ == child)
         {
-            this._something_ = null;
+            _something_ = null;
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    void replaceChild(Node oldChild, Node newChild)
     {
-        // Replace child
-        if(this._power_ == oldChild)
+        if(_power_ == oldChild)
         {
             setPower((PPower) newChild);
             return;
         }
 
-        if(this._pow_ == oldChild)
+        if(_pow_ == oldChild)
         {
             setPow((TPow) newChild);
             return;
         }
 
-        if(this._something_ == oldChild)
+        if(_something_ == oldChild)
         {
             setSomething((PSomething) newChild);
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 }

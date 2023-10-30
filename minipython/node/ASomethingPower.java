@@ -2,34 +2,29 @@
 
 package minipython.node;
 
+import java.util.*;
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class ASomethingPower extends PPower
 {
     private PSomething _something_;
 
     public ASomethingPower()
     {
-        // Constructor
     }
 
     public ASomethingPower(
-        @SuppressWarnings("hiding") PSomething _something_)
+        PSomething _something_)
     {
-        // Constructor
         setSomething(_something_);
 
     }
-
-    @Override
     public Object clone()
     {
         return new ASomethingPower(
-            cloneNode(this._something_));
+            (PSomething) cloneNode(_something_));
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseASomethingPower(this);
@@ -37,14 +32,14 @@ public final class ASomethingPower extends PPower
 
     public PSomething getSomething()
     {
-        return this._something_;
+        return _something_;
     }
 
     public void setSomething(PSomething node)
     {
-        if(this._something_ != null)
+        if(_something_ != null)
         {
-            this._something_.parent(null);
+            _something_.parent(null);
         }
 
         if(node != null)
@@ -57,39 +52,32 @@ public final class ASomethingPower extends PPower
             node.parent(this);
         }
 
-        this._something_ = node;
+        _something_ = node;
     }
 
-    @Override
     public String toString()
     {
         return ""
-            + toString(this._something_);
+            + toString(_something_);
     }
 
-    @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
+    void removeChild(Node child)
     {
-        // Remove child
-        if(this._something_ == child)
+        if(_something_ == child)
         {
-            this._something_ = null;
+            _something_ = null;
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 
-    @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    void replaceChild(Node oldChild, Node newChild)
     {
-        // Replace child
-        if(this._something_ == oldChild)
+        if(_something_ == oldChild)
         {
             setSomething((PSomething) newChild);
             return;
         }
 
-        throw new RuntimeException("Not a child.");
     }
 }

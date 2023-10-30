@@ -4,7 +4,6 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-@SuppressWarnings("nls")
 public final class TWhiteSpace extends Token
 {
     public TWhiteSpace(String text)
@@ -19,13 +18,11 @@ public final class TWhiteSpace extends Token
         setPos(pos);
     }
 
-    @Override
     public Object clone()
     {
       return new TWhiteSpace(getText(), getLine(), getPos());
     }
 
-    @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTWhiteSpace(this);
