@@ -64,3 +64,81 @@ tab = 9 ;
 	string_double_quotes = '"'not_eol* '"';
 	string_single_quotes = '''not_eol* ''';
 	everything_else = all;
+
+	/// prodyctions
+	programme = commands*;
+	
+	commands ={stat} statement|
+				 {expr}expression;
+	
+	statement ={if}tab* if  comparison semi statement |
+				  {assign}tab* id eq expression |
+				  {print}tab* print expression;
+	
+	comparison = {true} true|
+					 {false} false|
+					 {lessc} [lpar]:expression less [rpar]:expression|
+					 {greatc}[lpar]:expression great [rpar]:expression;
+					 
+	expression = {multiplication} multiplication |
+					{addition} expression plus multiplication|
+					{subtraction} expression minus multiplication;
+					
+	multiplication = {pow} power | 
+						  {multiplication} multiplication mult power;
+
+	power = {something} something | 
+					{power} power pow something;
+						  
+	something ={identifier}id|
+				  {numb}number|
+				  {par} l_par expression r_par;
+
+
+
+----
+goal = ({func} function | {stat} statement)*;
+
+	function = {definition} def id l_par (argument)? r_par semi statement;
+	
+	argument = {args} id (assign value)? (comma id (assign value)?)*;
+
+	statement = {if_statement} (tab)* if comparison semi statement | 
+				{while_statement} (tab)* while comparison semi statement |
+				{for_statement} (tab)* id in id semi statement |
+				{return_statement} (tab)* return expression ; 
+				{print_statement} (tab)* print expression (comma expression)* |
+				{}(tab)* id(assign | mineq | diveq) expression | /** mallon thelei allagi na spasoun ta or s*/
+				{array_statement} (tab)* id l_br expression r_br assign expression |
+				{assertion_statement} (tab)* assert expression (comma expression)? |
+				{func_call} function_call ; 
+
+	expression = 
+        {arithmetic_expression} expression (plus | minus | mult | div | mod | pow) expression |
+        {array_expression} id l_br expression r_br |
+        {func_call_expression} function_call |
+        {value} value |
+        {identifier} id |
+        {quickpp_mm} expression ( plusplus | minusminus)
+        {length_expression} len lpar expression rpar |
+        {min_max expression} (max | min) lpar value (comma value)* rpar |
+        {parenthesis_expression} lpar expression rpar |
+        {brackets_expression} l_br expression (comma expression)* r_br;
+
+	comparison = 
+        comparison (logic_and | logic_or) comparison |
+        not comparison |
+        expression (great | less | greateq | lesseq | noteq | equalequal) expression |
+        true |
+        false;
+
+	function_call = {func_call}id lpar (arglist)? rpar;
+
+	arglist = {arglist} expression (comma expression)*;
+
+	value = {dot_call} id dot function_call |
+			{num} number |
+			{str_d} string_double_quotes |
+			{str_s} string_single_quotes |
+			{none} none ;
+ 	
