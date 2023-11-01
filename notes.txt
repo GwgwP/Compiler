@@ -142,3 +142,130 @@ goal = ({func} function | {stat} statement)*;
 			{str_s} string_single_quotes |
 			{none} none ;
  	
+-----------------------
+
+
+goal = commands*;
+
+	commands = function|
+				statement;
+
+	function = {definition} def id l_par argument ? r_par semi statement;
+	
+	argument = {args} id assign_value ? ciav *;
+
+	ciav = {b} comma id assign_value ? ;
+
+	assign_value = {a} assign value ;
+
+	statement = {if_statement} tab* if comparison semi statement | 
+				{while_statement} tab* while comparison semi statement |
+				{for_statement} tab* [lid]:id in [rid]:id semi statement |
+				{return_statement} tab* return expression | 
+				{print_statement} tab* print expression comma_expression* |
+				{id_as_mineq_diveq}tab* id as_mineq_diveq expression | 
+				{array_statement} tab* id l_br [lex]:expression r_br assign [rex]:expression |
+				{assertion_statement} tab* assert expression comma_expression? |
+				{func_call} tab* function_call ; 
+
+	as_mineq_diveq = {asmidi} assign | mineq | diveq;
+
+	comma_expression = {c_e} comma  expression;
+
+	expression = 
+        {arithmetic_expression} [lex]:expression operators [rex]:expression |
+        {array_expression} id l_br expression r_br |
+        {func_call_expression} function_call |
+        {value} value |
+        {identifier} id |
+        {quickpp_mm} expression increment |
+        {length_expression} len lpar expression rpar |
+        {min_max_expression} operator_max_min lpar value comma_value* rpar |
+        {parenthesis_expression} lpar expression rpar |
+        {brackets_expression} l_br expression comma_expression* r_br;
+
+	operators = {oper} plus| minus | mult | div | mod | pow;
+
+	increment = {addmin} plusplus | minusminus;
+
+	operator_max_min = {maxmin} max | min;
+
+	comma_value = {cv} comma value;
+
+	comparison = 
+        [lcom]:comparison  logic_and_or [rcom]:comparison |
+        not comparison |
+        [lex]:expression logical_operators [rex]:expression |
+        true |
+        false;
+
+	logic_and_or = {lao} logic_and | logic_or ;
+
+	logical_operators = {lo}  great | less | greateq | lesseq | noteq | equalequal;
+
+	function_call = {func_call} id lpar arglist? rpar;
+
+	arglist = {arglist} expression comma_expression*;
+
+	value = {dot_call} id dot function_call |
+			{num} number |
+			{str_d} string_double_quotes |
+			{str_s} string_single_quotes |
+			{none} none ;
+ 	
+
+	--
+	tab = 9;
+	plusplus = '++';
+	equalequal = '==';
+	minusminus = '--'; 
+	mineq = '-=';
+	pluseq = '+=';
+	diveq = '/=';
+	multeq = '*=';
+	plus = '+';
+	minus = '-';
+	pow = '**';
+	mult = '*';
+	mod = '%';
+	div = '/';
+	eq = '=';
+	def = 'def';
+	not = 'not';
+	logic_and = 'and';
+	logic_or = 'or';
+	l_br = '[';
+	r_br = ']';
+	l_par = '(';
+	r_par = ')';
+	comma=',';
+	in = 'in';
+	if = 'if';
+	while = 'while';
+	for = 'for';
+	len = 'len';
+	min = 'min';
+	max = 'max';
+	print = 'print';
+	return = 'return';
+	assert = 'assert';
+	noteq = '!=';
+	lesseq = '<=';
+	greateq = '>=';
+	less = '<';
+	great = '>';
+	true = 'true';
+	semi = ':';
+	false = 'false';
+	else = 'else';
+	none = 'None';
+	quote = '"';
+	blank = (' ' | lf | cr);
+	white_space = (sp|ff|ht)*;
+	line_comment = '#' not_eol* eol; 
+	number = digit+;
+	dot = '.';
+	id = letter (letter | digit)*;
+	string_double_quotes = '"'not_eol* '"';
+	string_single_quotes = '''not_eol* ''';
+	everything_else = all;
