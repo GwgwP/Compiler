@@ -8,7 +8,7 @@ import minipython.analysis.*;
 public final class ANotcComparison extends PComparison
 {
     private TNot _not_;
-    private PComparison _comparison_;
+    private PDisjunction _disjunction_;
 
     public ANotcComparison()
     {
@@ -16,18 +16,18 @@ public final class ANotcComparison extends PComparison
 
     public ANotcComparison(
         TNot _not_,
-        PComparison _comparison_)
+        PDisjunction _disjunction_)
     {
         setNot(_not_);
 
-        setComparison(_comparison_);
+        setDisjunction(_disjunction_);
 
     }
     public Object clone()
     {
         return new ANotcComparison(
             (TNot) cloneNode(_not_),
-            (PComparison) cloneNode(_comparison_));
+            (PDisjunction) cloneNode(_disjunction_));
     }
 
     public void apply(Switch sw)
@@ -60,16 +60,16 @@ public final class ANotcComparison extends PComparison
         _not_ = node;
     }
 
-    public PComparison getComparison()
+    public PDisjunction getDisjunction()
     {
-        return _comparison_;
+        return _disjunction_;
     }
 
-    public void setComparison(PComparison node)
+    public void setDisjunction(PDisjunction node)
     {
-        if(_comparison_ != null)
+        if(_disjunction_ != null)
         {
-            _comparison_.parent(null);
+            _disjunction_.parent(null);
         }
 
         if(node != null)
@@ -82,14 +82,14 @@ public final class ANotcComparison extends PComparison
             node.parent(this);
         }
 
-        _comparison_ = node;
+        _disjunction_ = node;
     }
 
     public String toString()
     {
         return ""
             + toString(_not_)
-            + toString(_comparison_);
+            + toString(_disjunction_);
     }
 
     void removeChild(Node child)
@@ -100,9 +100,9 @@ public final class ANotcComparison extends PComparison
             return;
         }
 
-        if(_comparison_ == child)
+        if(_disjunction_ == child)
         {
-            _comparison_ = null;
+            _disjunction_ = null;
             return;
         }
 
@@ -116,9 +116,9 @@ public final class ANotcComparison extends PComparison
             return;
         }
 
-        if(_comparison_ == oldChild)
+        if(_disjunction_ == oldChild)
         {
-            setComparison((PComparison) newChild);
+            setDisjunction((PDisjunction) newChild);
             return;
         }
 

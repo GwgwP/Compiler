@@ -85,7 +85,9 @@ Productions
 
   assign_value = {a} eq value;
 
+
   statement =
+  	{if_statement} if_compount |
     {while_statement} tab* while comparison semi statement |
     {for_statement} tab* [lid]:id in [rid]:id semi statement |
     {return_statement} tab* return expression |
@@ -94,6 +96,20 @@ Productions
     {array_statement} tab* id l_br [lex]:expression r_br eq [rex]:expression |
     {assertion_statement} tab* assert expression comma_expression? |
     {func_call} tab* function_call;
+
+  if_compount = tab* if comparison semi statement;
+  
+  disjunction=
+     {agfra} [gg]:conjunction logic_or [t]:conjunction  |
+     {bb} conjunction;
+
+	conjunction=
+		 {ada}[gg]:inversion logic_and [g]:inversion  | 
+		 {dfdfd}inversion;
+
+	inversion=
+		{frf} inversion |
+		 {fer}comparison;
 
   as_mineq_diveq = {asmidi} eq | 
   					{mineqq} mineq | 
@@ -126,28 +142,34 @@ Productions
 
   comma_value = {cv} comma value;
 
-  comparison =  {true} true|
-				{false} false|
-				{lessc} [lpar]:expression less [rpar]:expression|
+  comparison =
+  				{orc}[lcom]:comparison logic_or [rcom]:comparison |  
+  				{andc}[lcom]:comparison logic_and [rcom]:comparison |
+  				{notc} not disjunction | 
+				{eqc}[lpar]:expression equalequal [rpar]:expression|
+				{notcc} [lpar]:expression noteq [rpar]:expression|
 				{greatc}[lpar]:expression great [rpar]:expression|
 				{grcc} [lpar]:expression greateq [rpar]:expression|
+				{lessc} [lpar]:expression less [rpar]:expression|
 				{lcc}[lpar]:expression lesseq [rpar]:expression|
-				{notcc} [lpar]:expression noteq [rpar]:expression|
-				{eqc}[lpar]:expression equalequal [rpar]:expression|
-    			{andc}[lcom]:comparison logic_and [rcom]:comparison |
-    			{orc}[lcom]:comparison logic_or [rcom]:comparison |
-    			{notc}not comparison;
+				{true} true|
+				{false} false;
+
 
 
   function_call = {func_call} id l_par arglist? r_par;
 
   arglist = {arglist} expression comma_expression*;
 
-  value = {dot_call} id dot function_call |
-    {num} number |
-    {str_d} string_double_quotes |
-    {str_s} string_single_quotes |
-    {none} none;
+  value = 
+  		{dot_call} id dot function_call |
+    	{num} number |
+    	{str_d} string_double_quotes |
+    	{str_s} string_single_quotes |
+    	{none} none;
 
-
+					
+something ={identifier}id|
+			{numb}number|
+			{par} l_par expression r_par;
 

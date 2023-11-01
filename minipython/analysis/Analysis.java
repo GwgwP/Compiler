@@ -19,6 +19,7 @@ public interface Analysis extends Switch
     void caseAArgsArgument(AArgsArgument node);
     void caseABCiav(ABCiav node);
     void caseAAAssignValue(AAAssignValue node);
+    void caseAIfStatementStatement(AIfStatementStatement node);
     void caseAWhileStatementStatement(AWhileStatementStatement node);
     void caseAForStatementStatement(AForStatementStatement node);
     void caseAReturnStatementStatement(AReturnStatementStatement node);
@@ -27,6 +28,13 @@ public interface Analysis extends Switch
     void caseAArrayStatementStatement(AArrayStatementStatement node);
     void caseAAssertionStatementStatement(AAssertionStatementStatement node);
     void caseAFuncCallStatement(AFuncCallStatement node);
+    void caseAIfCompount(AIfCompount node);
+    void caseAAgfraDisjunction(AAgfraDisjunction node);
+    void caseABbDisjunction(ABbDisjunction node);
+    void caseAAdaConjunction(AAdaConjunction node);
+    void caseADfdfdConjunction(ADfdfdConjunction node);
+    void caseAFrfInversion(AFrfInversion node);
+    void caseAFerInversion(AFerInversion node);
     void caseAAsmidiAsMineqDiveq(AAsmidiAsMineqDiveq node);
     void caseAMineqqAsMineqDiveq(AMineqqAsMineqDiveq node);
     void caseADiveqAsMineqDiveq(ADiveqAsMineqDiveq node);
@@ -52,17 +60,17 @@ public interface Analysis extends Switch
     void caseAMaxminOperatorMaxMin(AMaxminOperatorMaxMin node);
     void caseAOperatorMaxMin(AOperatorMaxMin node);
     void caseACvCommaValue(ACvCommaValue node);
-    void caseATrueComparison(ATrueComparison node);
-    void caseAFalseComparison(AFalseComparison node);
-    void caseALesscComparison(ALesscComparison node);
+    void caseAOrcComparison(AOrcComparison node);
+    void caseAAndcComparison(AAndcComparison node);
+    void caseANotcComparison(ANotcComparison node);
+    void caseAEqcComparison(AEqcComparison node);
+    void caseANotccComparison(ANotccComparison node);
     void caseAGreatcComparison(AGreatcComparison node);
     void caseAGrccComparison(AGrccComparison node);
+    void caseALesscComparison(ALesscComparison node);
     void caseALccComparison(ALccComparison node);
-    void caseANotccComparison(ANotccComparison node);
-    void caseAEqcComparison(AEqcComparison node);
-    void caseAAndcComparison(AAndcComparison node);
-    void caseAOrcComparison(AOrcComparison node);
-    void caseANotcComparison(ANotcComparison node);
+    void caseATrueComparison(ATrueComparison node);
+    void caseAFalseComparison(AFalseComparison node);
     void caseAFuncCallFunctionCall(AFuncCallFunctionCall node);
     void caseAArglistArglist(AArglistArglist node);
     void caseADotCallValue(ADotCallValue node);
@@ -70,6 +78,9 @@ public interface Analysis extends Switch
     void caseAStrDValue(AStrDValue node);
     void caseAStrSValue(AStrSValue node);
     void caseANoneValue(ANoneValue node);
+    void caseAIdentifierSomething(AIdentifierSomething node);
+    void caseANumbSomething(ANumbSomething node);
+    void caseAParSomething(AParSomething node);
 
     void caseTTab(TTab node);
     void caseTPlusplus(TPlusplus node);

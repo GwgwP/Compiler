@@ -272,7 +272,7 @@ goal = commands*;
 	
 
 
-    {if_statement} tab* if comparison semi statement |
+    
 
 	logic_and_or = {lao} logic_and | 
   				{logc} logic_or;

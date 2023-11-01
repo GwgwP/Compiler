@@ -103,6 +103,11 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
+    public void caseAIfStatementStatement(AIfStatementStatement node)
+    {
+        defaultCase(node);
+    }
+
     public void caseAWhileStatementStatement(AWhileStatementStatement node)
     {
         defaultCase(node);
@@ -139,6 +144,41 @@ public class AnalysisAdapter implements Analysis
     }
 
     public void caseAFuncCallStatement(AFuncCallStatement node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAIfCompount(AIfCompount node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAAgfraDisjunction(AAgfraDisjunction node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseABbDisjunction(ABbDisjunction node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAAdaConjunction(AAdaConjunction node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseADfdfdConjunction(ADfdfdConjunction node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAFrfInversion(AFrfInversion node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAFerInversion(AFerInversion node)
     {
         defaultCase(node);
     }
@@ -268,17 +308,27 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseATrueComparison(ATrueComparison node)
+    public void caseAOrcComparison(AOrcComparison node)
     {
         defaultCase(node);
     }
 
-    public void caseAFalseComparison(AFalseComparison node)
+    public void caseAAndcComparison(AAndcComparison node)
     {
         defaultCase(node);
     }
 
-    public void caseALesscComparison(ALesscComparison node)
+    public void caseANotcComparison(ANotcComparison node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAEqcComparison(AEqcComparison node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseANotccComparison(ANotccComparison node)
     {
         defaultCase(node);
     }
@@ -293,32 +343,22 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
+    public void caseALesscComparison(ALesscComparison node)
+    {
+        defaultCase(node);
+    }
+
     public void caseALccComparison(ALccComparison node)
     {
         defaultCase(node);
     }
 
-    public void caseANotccComparison(ANotccComparison node)
+    public void caseATrueComparison(ATrueComparison node)
     {
         defaultCase(node);
     }
 
-    public void caseAEqcComparison(AEqcComparison node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAAndcComparison(AAndcComparison node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAOrcComparison(AOrcComparison node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseANotcComparison(ANotcComparison node)
+    public void caseAFalseComparison(AFalseComparison node)
     {
         defaultCase(node);
     }
@@ -354,6 +394,21 @@ public class AnalysisAdapter implements Analysis
     }
 
     public void caseANoneValue(ANoneValue node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAIdentifierSomething(AIdentifierSomething node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseANumbSomething(ANumbSomething node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAParSomething(AParSomething node)
     {
         defaultCase(node);
     }
