@@ -269,3 +269,17 @@ goal = commands*;
 	string_double_quotes = '"'not_eol* '"';
 	string_single_quotes = '''not_eol* ''';
 	everything_else = all;
+	
+
+
+    {if_statement} tab* if comparison semi statement |
+
+	logic_and_or = {lao} logic_and | 
+  				{logc} logic_or;
+
+  logical_operators = {lo} great | 
+  						{lec}less | 
+						{grc} greateq | 
+						{lcc}lesseq | 
+						{motc}noteq | 
+						{eqc}equalequal;

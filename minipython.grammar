@@ -83,20 +83,19 @@ Productions
 
   ciav = {b} comma id assign_value ?;
 
-  assign_value = {a} assign value;
+  assign_value = {a} eq value;
 
   statement =
-    {if_statement} tab* if comparison semi statement |
     {while_statement} tab* while comparison semi statement |
     {for_statement} tab* [lid]:id in [rid]:id semi statement |
     {return_statement} tab* return expression |
     {print_statement} tab* print expression comma_expression* |
     {id_as_mineq_diveq} tab* id as_mineq_diveq expression |
-    {array_statement} tab* id l_br [lex]:expression r_br assign [rex]:expression |
+    {array_statement} tab* id l_br [lex]:expression r_br eq [rex]:expression |
     {assertion_statement} tab* assert expression comma_expression? |
     {func_call} tab* function_call;
 
-  as_mineq_diveq = {asmidi} assign | 
+  as_mineq_diveq = {asmidi} eq | 
   					{mineqq} mineq | 
 					{diveq} diveq;
 
@@ -109,9 +108,9 @@ Productions
     {value} value |
     {identifier} id |
     {quickpp_mm} expression increment |
-    {length_expression} len lpar expression rpar |
-    {min_max_expression} operator_max_min lpar value comma_value* rpar |
-    {parenthesis_expression} lpar expression rpar |
+    {length_expression} len l_par expression r_par |
+    {min_max_expression} operator_max_min l_par value comma_value* r_par |
+    {parenthesis_expression} l_par expression r_par |
     {brackets_expression} l_br expression comma_expression* r_br;
 
   operators = {operc} plus | 
@@ -127,31 +126,27 @@ Productions
 
   comma_value = {cv} comma value;
 
-  comparison =
-    {andorc}[lcom]:comparison logic_and_or [rcom]:comparison |
-    {notc}not comparison |
-    {lc}[lex]:expression logical_operators [rex]:expression |
-    {trc}true |
-    {falc}false;
+  comparison =  {true} true|
+				{false} false|
+				{lessc} [lpar]:expression less [rpar]:expression|
+				{greatc}[lpar]:expression great [rpar]:expression|
+				{grcc} [lpar]:expression greateq [rpar]:expression|
+				{lcc}[lpar]:expression lesseq [rpar]:expression|
+				{notcc} [lpar]:expression noteq [rpar]:expression|
+				{eqc}[lpar]:expression equalequal [rpar]:expression|
+    			{andc}[lcom]:comparison logic_and [rcom]:comparison |
+    			{orc}[lcom]:comparison logic_or [rcom]:comparison |
+    			{notc}not comparison;
 
-  logic_and_or = {lao} logic_and | 
-  				{logc} logic_or;
 
-  logical_operators = {lo} great | 
-  						{lec}less | 
-						{grc} greateq | 
-						{lcc}lesseq | 
-						{motc}noteq | 
-						{eqc}equalequal;
-
-  function_call = {func_call} id lpar arglist? rpar;
+  function_call = {func_call} id l_par arglist? r_par;
 
   arglist = {arglist} expression comma_expression*;
 
   value = {dot_call} id dot function_call |
     {num} number |
-    {str_d} string_literal |
-    {str_s} single_quoted_string |
+    {str_d} string_double_quotes |
+    {str_s} string_single_quotes |
     {none} none;
 
 
