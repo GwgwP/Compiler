@@ -99,17 +99,17 @@ Productions
 
   if_compount = tab* if comparison semi statement;
   
-  disjunction=
-     {agfra} [gg]:conjunction logic_or [t]:conjunction  |
-     {bb} conjunction;
+disjunction =
+    {agfra} disjunction logic_or conjunction |
+    {bb} conjunction;
 
-	conjunction=
-		 {ada}[gg]:inversion logic_and [g]:inversion  | 
-		 {dfdfd}inversion;
+conjunction =
+    {ada} conjunction logic_and inversion  |
+    {dfdfd} inversion;
 
-	inversion=
-		{frf} inversion |
-		 {fer}comparison;
+inversion =
+    {frf} inversion |
+    {fer} comparison;
 
   as_mineq_diveq = {asmidi} eq | 
   					{mineqq} mineq | 
@@ -117,6 +117,17 @@ Productions
 
   comma_expression = {c_e} comma expression;
 
+  comparison =  {logical_or} disjunction |
+                {notc} not disjunction |
+                {eqc} [lpar]:expression equalequal [rpar]:expression |
+                {notcc} [lpar]:expression noteq [rpar]:expression |
+                {greatc} [lpar]:expression great [rpar]:expression |
+                {grcc} [lpar]:expression greateq [rpar]:expression |
+                {lessc} [lpar]:expression less [rpar]:expression |
+                {lcc} [lpar]:expression lesseq [rpar]:expression |
+                {true} true
+				{false} false;
+   
   expression =
     {arithmetic_expression} [lex]:expression operators [rex]:expression |
     {array_expression} id l_br expression r_br |
@@ -142,18 +153,8 @@ Productions
 
   comma_value = {cv} comma value;
 
-  comparison =
-  				{orc}[lcom]:comparison logic_or [rcom]:comparison |  
-  				{andc}[lcom]:comparison logic_and [rcom]:comparison |
-  				{notc} not disjunction | 
-				{eqc}[lpar]:expression equalequal [rpar]:expression|
-				{notcc} [lpar]:expression noteq [rpar]:expression|
-				{greatc}[lpar]:expression great [rpar]:expression|
-				{grcc} [lpar]:expression greateq [rpar]:expression|
-				{lessc} [lpar]:expression less [rpar]:expression|
-				{lcc}[lpar]:expression lesseq [rpar]:expression|
-				{true} true|
-				{false} false;
+             
+  		
 
 
 
