@@ -283,3 +283,53 @@ goal = commands*;
 						{lcc}lesseq | 
 						{motc}noteq | 
 						{eqc}equalequal;
+
+
+
+
+----------------
+
+{while_statement} tab* while comparison semi statement |
+    {for_statement} tab* [lid]:id in [rid]:id semi statement |
+    {return_statement} tab* return expression | 
+    {array_statement} tab* id l_br [lex]:expression r_br eq [rex]:expression ;
+
+comparison ={log_and}logical_and |
+            {log_or}logical_or|
+            {notc} logical_not|
+            {eqc} [lpar]:expression equalequal [rpar]:expression |
+            {notcc} [lpar]:expression noteq [rpar]:expression |
+            {greatc} [lpar]:expression great [rpar]:expression |
+            {grcc} [lpar]:expression greateq [rpar]:expression |
+            {lessc} [lpar]:expression less [rpar]:expression |
+            {lcc} [lpar]:expression lesseq [rpar]:expression |
+            {true} true |
+            {false} false;
+  
+
+
+
+expression =
+    {array_expression} id l_br expression r_br |
+    {value} value |
+    {identifier} id |
+    {length_expression} len l_par expression r_par ;
+
+// dilono proteraiotita?
+logical_not = {h}not something;
+logical_and = {ell}[l_com]:something logic_and [r_com]:something;
+logical_or= {la}logical_and| {ln}logical_not | {lc}comparison 
+                {lg}logic_or 
+             {ra}logical_and| {rn}logical_not | {rc}comparison;
+             
+  
+value = 
+    	{num} number |
+    	{str_d} string_double_quotes |
+    	{str_s} string_single_quotes |
+    	{none} none;
+
+something ={identifier}id|
+			{numb}number|
+			{par} l_par expression r_par|
+            comparison;
