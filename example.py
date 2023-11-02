@@ -4,4 +4,8 @@
 #! /usr/bin/env python
 #A miniPython example
 
-print(2%3)
+if x < 3+2:
+	yz(5)
+	x = None
+	print None
+	print 'wdwdw'

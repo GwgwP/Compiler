@@ -27,7 +27,7 @@ Tokens
 	mult = '*';
 	mod = '%';
 	div = '/';
-	eq = '=';
+	assign = '=';
 	def = 'def';
 	not = 'not';
 	logic_and = 'and';
@@ -75,23 +75,50 @@ Productions
   
 	goal = commands*;
 
-	commands = {func} function | {stat} statement  ;
+	commands = 
+				{func} function | 
+				{stat} statement  ;
 
-	function= {dede} def id l_par argument ? r_par semi statement ;
+	function= 
+				{dede} def id l_par argument ? r_par semi statement ;
 
-	argument = {frfrf} id assign_value ? ciav*;
+	argument = 
+				{frfrf} id assign_value ? ciav*;
 
 
-	ciav = {ff} comma id assign_value ?;
+	ciav = 
+				{ff} comma id assign_value ?;
 
-	assign_value = {frfrfrrfrf} eq value?;
+	assign_value = 
+				{frfrfrrfrf} assign value;
 
 
 	statement =
-		{if_statement} tab* if comparison semi statement | 
-		{assign}tab* id eq expression |
-		{print}tab* print expression;
+				{if_statement} tab* if comparison semi statement | 
+				{while_statement} tab* while comparison semi statement |
+				{for_statement} tab* [lid]:id in [rid]:id semi statement |
+				{return_statement} tab* return expression | 
+				{print_statement}tab* print expression comma_expression ? |
+				{assign} tab* id assign expression |
+				{id_mineq}tab* id mineq expression |
+				{id_diveq} tab* id diveq expression |
+				{pinakas} tab* id l_br [lex]:expression r_br assign [rex]:expression |
+				{assertion} tab* assert expression comma_expression ? |
+				{func_call} tab* function_call ;
+
+
+	function_call =
+				{erea} id l_par arglist ? r_par ;
+	
+	arglist = 
+				{ddsasa} expression comma_expression *;
+
 		
+	
+
+
+	comma_expression = 
+				{frfrfrfrfe} comma expression;
 		
 	comparison =
 				{true} true|
@@ -107,7 +134,10 @@ Productions
 	expression =
 				{addition} expression plus multiplication | 
 				{subtraction} expression minus multiplication |
-				{multiplication} multiplication ;
+				{multiplication} multiplication |
+				{pinakasexp} id l_br expression r_br |
+				{identifier} id |
+				{red} function_call; 
 				
 			
 						
@@ -118,9 +148,13 @@ Productions
 					{multiplication} multiplication mult power;
 
 	power = 
-			{value} value | 
-			{power} power pow value;
+					{value} value | 
+					{power} power pow value;
 							
-	value ={identifier}id|
-				{numb}number|
-				{par} l_par expression r_par;
+	value =
+					{identifier} id dot function_call |
+					{numb} number |
+					{d} string_double_quotes |
+					{we} string_single_quotes |
+					{nonenonegood} none |
+					{par} l_par expression r_par;

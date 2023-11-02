@@ -7,7 +7,7 @@ import minipython.analysis.*;
 
 public final class AFrfrfrrfrfAssignValue extends PAssignValue
 {
-    private TEq _eq_;
+    private TAssign _assign_;
     private PValue _value_;
 
     public AFrfrfrrfrfAssignValue()
@@ -15,10 +15,10 @@ public final class AFrfrfrrfrfAssignValue extends PAssignValue
     }
 
     public AFrfrfrrfrfAssignValue(
-        TEq _eq_,
+        TAssign _assign_,
         PValue _value_)
     {
-        setEq(_eq_);
+        setAssign(_assign_);
 
         setValue(_value_);
 
@@ -26,7 +26,7 @@ public final class AFrfrfrrfrfAssignValue extends PAssignValue
     public Object clone()
     {
         return new AFrfrfrrfrfAssignValue(
-            (TEq) cloneNode(_eq_),
+            (TAssign) cloneNode(_assign_),
             (PValue) cloneNode(_value_));
     }
 
@@ -35,16 +35,16 @@ public final class AFrfrfrrfrfAssignValue extends PAssignValue
         ((Analysis) sw).caseAFrfrfrrfrfAssignValue(this);
     }
 
-    public TEq getEq()
+    public TAssign getAssign()
     {
-        return _eq_;
+        return _assign_;
     }
 
-    public void setEq(TEq node)
+    public void setAssign(TAssign node)
     {
-        if(_eq_ != null)
+        if(_assign_ != null)
         {
-            _eq_.parent(null);
+            _assign_.parent(null);
         }
 
         if(node != null)
@@ -57,7 +57,7 @@ public final class AFrfrfrrfrfAssignValue extends PAssignValue
             node.parent(this);
         }
 
-        _eq_ = node;
+        _assign_ = node;
     }
 
     public PValue getValue()
@@ -88,15 +88,15 @@ public final class AFrfrfrrfrfAssignValue extends PAssignValue
     public String toString()
     {
         return ""
-            + toString(_eq_)
+            + toString(_assign_)
             + toString(_value_);
     }
 
     void removeChild(Node child)
     {
-        if(_eq_ == child)
+        if(_assign_ == child)
         {
-            _eq_ = null;
+            _assign_ = null;
             return;
         }
 
@@ -110,9 +110,9 @@ public final class AFrfrfrrfrfAssignValue extends PAssignValue
 
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(_eq_ == oldChild)
+        if(_assign_ == oldChild)
         {
-            setEq((TEq) newChild);
+            setAssign((TAssign) newChild);
             return;
         }
 

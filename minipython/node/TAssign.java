@@ -4,14 +4,14 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-public final class TEq extends Token
+public final class TAssign extends Token
 {
-    public TEq()
+    public TAssign()
     {
         super.setText("=");
     }
 
-    public TEq(int line, int pos)
+    public TAssign(int line, int pos)
     {
         super.setText("=");
         setLine(line);
@@ -20,16 +20,16 @@ public final class TEq extends Token
 
     public Object clone()
     {
-      return new TEq(getLine(), getPos());
+      return new TAssign(getLine(), getPos());
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTEq(this);
+        ((Analysis) sw).caseTAssign(this);
     }
 
     public void setText(String text)
     {
-        throw new RuntimeException("Cannot change TEq text.");
+        throw new RuntimeException("Cannot change TAssign text.");
     }
 }

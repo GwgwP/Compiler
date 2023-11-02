@@ -79,7 +79,7 @@ class TokenIndex extends AnalysisAdapter
         index = 13;
     }
 
-    public void caseTEq(TEq node)
+    public void caseTAssign(TAssign node)
     {
         index = 14;
     }

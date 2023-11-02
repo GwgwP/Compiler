@@ -215,9 +215,9 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         {
             node.getValue().apply(this);
         }
-        if(node.getEq() != null)
+        if(node.getAssign() != null)
         {
-            node.getEq().apply(this);
+            node.getAssign().apply(this);
         }
         outAFrfrfrrfrfAssignValue(node);
     }
@@ -261,6 +261,154 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAIfStatementStatement(node);
     }
 
+    public void inAWhileStatementStatement(AWhileStatementStatement node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAWhileStatementStatement(AWhileStatementStatement node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAWhileStatementStatement(AWhileStatementStatement node)
+    {
+        inAWhileStatementStatement(node);
+        if(node.getStatement() != null)
+        {
+            node.getStatement().apply(this);
+        }
+        if(node.getSemi() != null)
+        {
+            node.getSemi().apply(this);
+        }
+        if(node.getComparison() != null)
+        {
+            node.getComparison().apply(this);
+        }
+        if(node.getWhile() != null)
+        {
+            node.getWhile().apply(this);
+        }
+        {
+            Object temp[] = node.getTab().toArray();
+            for(int i = temp.length - 1; i >= 0; i--)
+            {
+                ((TTab) temp[i]).apply(this);
+            }
+        }
+        outAWhileStatementStatement(node);
+    }
+
+    public void inAForStatementStatement(AForStatementStatement node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAForStatementStatement(AForStatementStatement node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAForStatementStatement(AForStatementStatement node)
+    {
+        inAForStatementStatement(node);
+        if(node.getStatement() != null)
+        {
+            node.getStatement().apply(this);
+        }
+        if(node.getSemi() != null)
+        {
+            node.getSemi().apply(this);
+        }
+        if(node.getRid() != null)
+        {
+            node.getRid().apply(this);
+        }
+        if(node.getIn() != null)
+        {
+            node.getIn().apply(this);
+        }
+        if(node.getLid() != null)
+        {
+            node.getLid().apply(this);
+        }
+        {
+            Object temp[] = node.getTab().toArray();
+            for(int i = temp.length - 1; i >= 0; i--)
+            {
+                ((TTab) temp[i]).apply(this);
+            }
+        }
+        outAForStatementStatement(node);
+    }
+
+    public void inAReturnStatementStatement(AReturnStatementStatement node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAReturnStatementStatement(AReturnStatementStatement node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAReturnStatementStatement(AReturnStatementStatement node)
+    {
+        inAReturnStatementStatement(node);
+        if(node.getExpression() != null)
+        {
+            node.getExpression().apply(this);
+        }
+        if(node.getReturn() != null)
+        {
+            node.getReturn().apply(this);
+        }
+        {
+            Object temp[] = node.getTab().toArray();
+            for(int i = temp.length - 1; i >= 0; i--)
+            {
+                ((TTab) temp[i]).apply(this);
+            }
+        }
+        outAReturnStatementStatement(node);
+    }
+
+    public void inAPrintStatementStatement(APrintStatementStatement node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAPrintStatementStatement(APrintStatementStatement node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAPrintStatementStatement(APrintStatementStatement node)
+    {
+        inAPrintStatementStatement(node);
+        if(node.getCommaExpression() != null)
+        {
+            node.getCommaExpression().apply(this);
+        }
+        if(node.getExpression() != null)
+        {
+            node.getExpression().apply(this);
+        }
+        if(node.getPrint() != null)
+        {
+            node.getPrint().apply(this);
+        }
+        {
+            Object temp[] = node.getTab().toArray();
+            for(int i = temp.length - 1; i >= 0; i--)
+            {
+                ((TTab) temp[i]).apply(this);
+            }
+        }
+        outAPrintStatementStatement(node);
+    }
+
     public void inAAssignStatement(AAssignStatement node)
     {
         defaultIn(node);
@@ -278,9 +426,9 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         {
             node.getExpression().apply(this);
         }
-        if(node.getEq() != null)
+        if(node.getAssign() != null)
         {
-            node.getEq().apply(this);
+            node.getAssign().apply(this);
         }
         if(node.getId() != null)
         {
@@ -296,26 +444,30 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAAssignStatement(node);
     }
 
-    public void inAPrintStatement(APrintStatement node)
+    public void inAIdMineqStatement(AIdMineqStatement node)
     {
         defaultIn(node);
     }
 
-    public void outAPrintStatement(APrintStatement node)
+    public void outAIdMineqStatement(AIdMineqStatement node)
     {
         defaultOut(node);
     }
 
-    public void caseAPrintStatement(APrintStatement node)
+    public void caseAIdMineqStatement(AIdMineqStatement node)
     {
-        inAPrintStatement(node);
+        inAIdMineqStatement(node);
         if(node.getExpression() != null)
         {
             node.getExpression().apply(this);
         }
-        if(node.getPrint() != null)
+        if(node.getMineq() != null)
         {
-            node.getPrint().apply(this);
+            node.getMineq().apply(this);
+        }
+        if(node.getId() != null)
+        {
+            node.getId().apply(this);
         }
         {
             Object temp[] = node.getTab().toArray();
@@ -324,7 +476,234 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
                 ((TTab) temp[i]).apply(this);
             }
         }
-        outAPrintStatement(node);
+        outAIdMineqStatement(node);
+    }
+
+    public void inAIdDiveqStatement(AIdDiveqStatement node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAIdDiveqStatement(AIdDiveqStatement node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAIdDiveqStatement(AIdDiveqStatement node)
+    {
+        inAIdDiveqStatement(node);
+        if(node.getExpression() != null)
+        {
+            node.getExpression().apply(this);
+        }
+        if(node.getDiveq() != null)
+        {
+            node.getDiveq().apply(this);
+        }
+        if(node.getId() != null)
+        {
+            node.getId().apply(this);
+        }
+        {
+            Object temp[] = node.getTab().toArray();
+            for(int i = temp.length - 1; i >= 0; i--)
+            {
+                ((TTab) temp[i]).apply(this);
+            }
+        }
+        outAIdDiveqStatement(node);
+    }
+
+    public void inAPinakasStatement(APinakasStatement node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAPinakasStatement(APinakasStatement node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAPinakasStatement(APinakasStatement node)
+    {
+        inAPinakasStatement(node);
+        if(node.getRex() != null)
+        {
+            node.getRex().apply(this);
+        }
+        if(node.getAssign() != null)
+        {
+            node.getAssign().apply(this);
+        }
+        if(node.getRBr() != null)
+        {
+            node.getRBr().apply(this);
+        }
+        if(node.getLex() != null)
+        {
+            node.getLex().apply(this);
+        }
+        if(node.getLBr() != null)
+        {
+            node.getLBr().apply(this);
+        }
+        if(node.getId() != null)
+        {
+            node.getId().apply(this);
+        }
+        {
+            Object temp[] = node.getTab().toArray();
+            for(int i = temp.length - 1; i >= 0; i--)
+            {
+                ((TTab) temp[i]).apply(this);
+            }
+        }
+        outAPinakasStatement(node);
+    }
+
+    public void inAAssertionStatement(AAssertionStatement node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAAssertionStatement(AAssertionStatement node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAAssertionStatement(AAssertionStatement node)
+    {
+        inAAssertionStatement(node);
+        if(node.getCommaExpression() != null)
+        {
+            node.getCommaExpression().apply(this);
+        }
+        if(node.getExpression() != null)
+        {
+            node.getExpression().apply(this);
+        }
+        if(node.getAssert() != null)
+        {
+            node.getAssert().apply(this);
+        }
+        {
+            Object temp[] = node.getTab().toArray();
+            for(int i = temp.length - 1; i >= 0; i--)
+            {
+                ((TTab) temp[i]).apply(this);
+            }
+        }
+        outAAssertionStatement(node);
+    }
+
+    public void inAFuncCallStatement(AFuncCallStatement node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAFuncCallStatement(AFuncCallStatement node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAFuncCallStatement(AFuncCallStatement node)
+    {
+        inAFuncCallStatement(node);
+        if(node.getFunctionCall() != null)
+        {
+            node.getFunctionCall().apply(this);
+        }
+        {
+            Object temp[] = node.getTab().toArray();
+            for(int i = temp.length - 1; i >= 0; i--)
+            {
+                ((TTab) temp[i]).apply(this);
+            }
+        }
+        outAFuncCallStatement(node);
+    }
+
+    public void inAEreaFunctionCall(AEreaFunctionCall node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAEreaFunctionCall(AEreaFunctionCall node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAEreaFunctionCall(AEreaFunctionCall node)
+    {
+        inAEreaFunctionCall(node);
+        if(node.getRPar() != null)
+        {
+            node.getRPar().apply(this);
+        }
+        if(node.getArglist() != null)
+        {
+            node.getArglist().apply(this);
+        }
+        if(node.getLPar() != null)
+        {
+            node.getLPar().apply(this);
+        }
+        if(node.getId() != null)
+        {
+            node.getId().apply(this);
+        }
+        outAEreaFunctionCall(node);
+    }
+
+    public void inADdsasaArglist(ADdsasaArglist node)
+    {
+        defaultIn(node);
+    }
+
+    public void outADdsasaArglist(ADdsasaArglist node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseADdsasaArglist(ADdsasaArglist node)
+    {
+        inADdsasaArglist(node);
+        {
+            Object temp[] = node.getCommaExpression().toArray();
+            for(int i = temp.length - 1; i >= 0; i--)
+            {
+                ((PCommaExpression) temp[i]).apply(this);
+            }
+        }
+        if(node.getExpression() != null)
+        {
+            node.getExpression().apply(this);
+        }
+        outADdsasaArglist(node);
+    }
+
+    public void inAFrfrfrfrfeCommaExpression(AFrfrfrfrfeCommaExpression node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAFrfrfrfrfeCommaExpression(AFrfrfrfrfeCommaExpression node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAFrfrfrfrfeCommaExpression(AFrfrfrfrfeCommaExpression node)
+    {
+        inAFrfrfrfrfeCommaExpression(node);
+        if(node.getExpression() != null)
+        {
+            node.getExpression().apply(this);
+        }
+        if(node.getComma() != null)
+        {
+            node.getComma().apply(this);
+        }
+        outAFrfrfrfrfeCommaExpression(node);
     }
 
     public void inATrueComparison(ATrueComparison node)
@@ -611,6 +990,78 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAMultiplicationExpression(node);
     }
 
+    public void inAPinakasexpExpression(APinakasexpExpression node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAPinakasexpExpression(APinakasexpExpression node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAPinakasexpExpression(APinakasexpExpression node)
+    {
+        inAPinakasexpExpression(node);
+        if(node.getRBr() != null)
+        {
+            node.getRBr().apply(this);
+        }
+        if(node.getExpression() != null)
+        {
+            node.getExpression().apply(this);
+        }
+        if(node.getLBr() != null)
+        {
+            node.getLBr().apply(this);
+        }
+        if(node.getId() != null)
+        {
+            node.getId().apply(this);
+        }
+        outAPinakasexpExpression(node);
+    }
+
+    public void inAIdentifierExpression(AIdentifierExpression node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAIdentifierExpression(AIdentifierExpression node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAIdentifierExpression(AIdentifierExpression node)
+    {
+        inAIdentifierExpression(node);
+        if(node.getId() != null)
+        {
+            node.getId().apply(this);
+        }
+        outAIdentifierExpression(node);
+    }
+
+    public void inARedExpression(ARedExpression node)
+    {
+        defaultIn(node);
+    }
+
+    public void outARedExpression(ARedExpression node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseARedExpression(ARedExpression node)
+    {
+        inARedExpression(node);
+        if(node.getFunctionCall() != null)
+        {
+            node.getFunctionCall().apply(this);
+        }
+        outARedExpression(node);
+    }
+
     public void inAPowMultiplication(APowMultiplication node)
     {
         defaultIn(node);
@@ -776,6 +1227,14 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAIdentifierValue(AIdentifierValue node)
     {
         inAIdentifierValue(node);
+        if(node.getFunctionCall() != null)
+        {
+            node.getFunctionCall().apply(this);
+        }
+        if(node.getDot() != null)
+        {
+            node.getDot().apply(this);
+        }
         if(node.getId() != null)
         {
             node.getId().apply(this);
@@ -801,6 +1260,66 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
             node.getNumber().apply(this);
         }
         outANumbValue(node);
+    }
+
+    public void inADValue(ADValue node)
+    {
+        defaultIn(node);
+    }
+
+    public void outADValue(ADValue node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseADValue(ADValue node)
+    {
+        inADValue(node);
+        if(node.getStringDoubleQuotes() != null)
+        {
+            node.getStringDoubleQuotes().apply(this);
+        }
+        outADValue(node);
+    }
+
+    public void inAWeValue(AWeValue node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAWeValue(AWeValue node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAWeValue(AWeValue node)
+    {
+        inAWeValue(node);
+        if(node.getStringSingleQuotes() != null)
+        {
+            node.getStringSingleQuotes().apply(this);
+        }
+        outAWeValue(node);
+    }
+
+    public void inANonenonegoodValue(ANonenonegoodValue node)
+    {
+        defaultIn(node);
+    }
+
+    public void outANonenonegoodValue(ANonenonegoodValue node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseANonenonegoodValue(ANonenonegoodValue node)
+    {
+        inANonenonegoodValue(node);
+        if(node.getNone() != null)
+        {
+            node.getNone().apply(this);
+        }
+        outANonenonegoodValue(node);
     }
 
     public void inAParValue(AParValue node)

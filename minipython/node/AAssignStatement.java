@@ -9,7 +9,7 @@ public final class AAssignStatement extends PStatement
 {
     private final LinkedList _tab_ = new TypedLinkedList(new Tab_Cast());
     private TId _id_;
-    private TEq _eq_;
+    private TAssign _assign_;
     private PExpression _expression_;
 
     public AAssignStatement()
@@ -19,7 +19,7 @@ public final class AAssignStatement extends PStatement
     public AAssignStatement(
         List _tab_,
         TId _id_,
-        TEq _eq_,
+        TAssign _assign_,
         PExpression _expression_)
     {
         {
@@ -29,7 +29,7 @@ public final class AAssignStatement extends PStatement
 
         setId(_id_);
 
-        setEq(_eq_);
+        setAssign(_assign_);
 
         setExpression(_expression_);
 
@@ -39,7 +39,7 @@ public final class AAssignStatement extends PStatement
         return new AAssignStatement(
             cloneList(_tab_),
             (TId) cloneNode(_id_),
-            (TEq) cloneNode(_eq_),
+            (TAssign) cloneNode(_assign_),
             (PExpression) cloneNode(_expression_));
     }
 
@@ -84,16 +84,16 @@ public final class AAssignStatement extends PStatement
         _id_ = node;
     }
 
-    public TEq getEq()
+    public TAssign getAssign()
     {
-        return _eq_;
+        return _assign_;
     }
 
-    public void setEq(TEq node)
+    public void setAssign(TAssign node)
     {
-        if(_eq_ != null)
+        if(_assign_ != null)
         {
-            _eq_.parent(null);
+            _assign_.parent(null);
         }
 
         if(node != null)
@@ -106,7 +106,7 @@ public final class AAssignStatement extends PStatement
             node.parent(this);
         }
 
-        _eq_ = node;
+        _assign_ = node;
     }
 
     public PExpression getExpression()
@@ -139,7 +139,7 @@ public final class AAssignStatement extends PStatement
         return ""
             + toString(_tab_)
             + toString(_id_)
-            + toString(_eq_)
+            + toString(_assign_)
             + toString(_expression_);
     }
 
@@ -156,9 +156,9 @@ public final class AAssignStatement extends PStatement
             return;
         }
 
-        if(_eq_ == child)
+        if(_assign_ == child)
         {
-            _eq_ = null;
+            _assign_ = null;
             return;
         }
 
@@ -195,9 +195,9 @@ public final class AAssignStatement extends PStatement
             return;
         }
 
-        if(_eq_ == oldChild)
+        if(_assign_ == oldChild)
         {
-            setEq((TEq) newChild);
+            setAssign((TAssign) newChild);
             return;
         }
 

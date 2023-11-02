@@ -5,42 +5,47 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class APrintStatement extends PStatement
+public final class AAssertionStatement extends PStatement
 {
     private final LinkedList _tab_ = new TypedLinkedList(new Tab_Cast());
-    private TPrint _print_;
+    private TAssert _assert_;
     private PExpression _expression_;
+    private PCommaExpression _commaExpression_;
 
-    public APrintStatement()
+    public AAssertionStatement()
     {
     }
 
-    public APrintStatement(
+    public AAssertionStatement(
         List _tab_,
-        TPrint _print_,
-        PExpression _expression_)
+        TAssert _assert_,
+        PExpression _expression_,
+        PCommaExpression _commaExpression_)
     {
         {
             this._tab_.clear();
             this._tab_.addAll(_tab_);
         }
 
-        setPrint(_print_);
+        setAssert(_assert_);
 
         setExpression(_expression_);
+
+        setCommaExpression(_commaExpression_);
 
     }
     public Object clone()
     {
-        return new APrintStatement(
+        return new AAssertionStatement(
             cloneList(_tab_),
-            (TPrint) cloneNode(_print_),
-            (PExpression) cloneNode(_expression_));
+            (TAssert) cloneNode(_assert_),
+            (PExpression) cloneNode(_expression_),
+            (PCommaExpression) cloneNode(_commaExpression_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAPrintStatement(this);
+        ((Analysis) sw).caseAAssertionStatement(this);
     }
 
     public LinkedList getTab()
@@ -54,16 +59,16 @@ public final class APrintStatement extends PStatement
         _tab_.addAll(list);
     }
 
-    public TPrint getPrint()
+    public TAssert getAssert()
     {
-        return _print_;
+        return _assert_;
     }
 
-    public void setPrint(TPrint node)
+    public void setAssert(TAssert node)
     {
-        if(_print_ != null)
+        if(_assert_ != null)
         {
-            _print_.parent(null);
+            _assert_.parent(null);
         }
 
         if(node != null)
@@ -76,7 +81,7 @@ public final class APrintStatement extends PStatement
             node.parent(this);
         }
 
-        _print_ = node;
+        _assert_ = node;
     }
 
     public PExpression getExpression()
@@ -104,12 +109,38 @@ public final class APrintStatement extends PStatement
         _expression_ = node;
     }
 
+    public PCommaExpression getCommaExpression()
+    {
+        return _commaExpression_;
+    }
+
+    public void setCommaExpression(PCommaExpression node)
+    {
+        if(_commaExpression_ != null)
+        {
+            _commaExpression_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        _commaExpression_ = node;
+    }
+
     public String toString()
     {
         return ""
             + toString(_tab_)
-            + toString(_print_)
-            + toString(_expression_);
+            + toString(_assert_)
+            + toString(_expression_)
+            + toString(_commaExpression_);
     }
 
     void removeChild(Node child)
@@ -119,15 +150,21 @@ public final class APrintStatement extends PStatement
             return;
         }
 
-        if(_print_ == child)
+        if(_assert_ == child)
         {
-            _print_ = null;
+            _assert_ = null;
             return;
         }
 
         if(_expression_ == child)
         {
             _expression_ = null;
+            return;
+        }
+
+        if(_commaExpression_ == child)
+        {
+            _commaExpression_ = null;
             return;
         }
 
@@ -152,15 +189,21 @@ public final class APrintStatement extends PStatement
             }
         }
 
-        if(_print_ == oldChild)
+        if(_assert_ == oldChild)
         {
-            setPrint((TPrint) newChild);
+            setAssert((TAssert) newChild);
             return;
         }
 
         if(_expression_ == oldChild)
         {
             setExpression((PExpression) newChild);
+            return;
+        }
+
+        if(_commaExpression_ == oldChild)
+        {
+            setCommaExpression((PCommaExpression) newChild);
             return;
         }
 
@@ -173,15 +216,15 @@ public final class APrintStatement extends PStatement
             TTab node = (TTab) o;
 
             if((node.parent() != null) &&
-                (node.parent() != APrintStatement.this))
+                (node.parent() != AAssertionStatement.this))
             {
                 node.parent().removeChild(node);
             }
 
             if((node.parent() == null) ||
-                (node.parent() != APrintStatement.this))
+                (node.parent() != AAssertionStatement.this))
             {
-                node.parent(APrintStatement.this);
+                node.parent(AAssertionStatement.this);
             }
 
             return node;

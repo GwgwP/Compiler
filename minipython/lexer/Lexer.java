@@ -788,7 +788,7 @@ public class Lexer
     Token new11(int line, int pos) { return new TMult(line, pos); }
     Token new12(int line, int pos) { return new TMod(line, pos); }
     Token new13(int line, int pos) { return new TDiv(line, pos); }
-    Token new14(int line, int pos) { return new TEq(line, pos); }
+    Token new14(int line, int pos) { return new TAssign(line, pos); }
     Token new15(int line, int pos) { return new TDef(line, pos); }
     Token new16(int line, int pos) { return new TNot(line, pos); }
     Token new17(int line, int pos) { return new TLogicAnd(line, pos); }
