@@ -112,11 +112,11 @@ expression =
     {length_expression} len l_par expression r_par ;
 
 // dilono proteraiotita?
-logical_not = not something;
-logical_and = [l_com]:something logic_and [r_com]:something;
-logical_or= [la]:logical_and| [ln]:logical_not | [lc]:comparison 
-                logic_or 
-             [ra]:logical_and| [rn]:logical_not | [rc]:comparison;
+logical_not = {h}not something;
+logical_and = {ell}[l_com]:something logic_and [r_com]:something;
+logical_or= {la}logical_and| {ln}logical_not | {lc}comparison 
+                {lg}logic_or 
+             {ra}logical_and| {rn}logical_not | {rc}comparison;
              
   
 value = 
