@@ -128,7 +128,7 @@ Productions
 				{diff} [lpar]: expression noteq [rpar]: expression |   
 				{eqeq} [lpar]: expression equalequal [rpar]: expression |  
 				{lessc} [lpar]:expression less [rpar]:expression |
-				{greatc}[lpar]:expression great [rpar]:expression ;
+				{greatc}[lpar]:expression great [rpar]:expression  ;
 
 
 	expression =
