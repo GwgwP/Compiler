@@ -6,6 +6,6 @@
 
 if x < 3+2:
 	yz(5)
-	x = None
+	x = c**4*4
 	print None
 	print 'wdwdw'

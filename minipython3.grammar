@@ -136,7 +136,6 @@ Productions
 				{subtraction} expression minus multiplication |
 				{multiplication} multiplication |
 				{pinakasexp} id l_br expression r_br |
-				{identifier} id |
 				{red} function_call; 
 				
 			
@@ -152,7 +151,7 @@ Productions
 					{power} power pow value;
 							
 	value =
-					{identifier} id dot function_call |
+					{identifier} id  |
 					{numb} number |
 					{d} string_double_quotes |
 					{we} string_single_quotes |

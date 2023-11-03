@@ -1,0 +1,70 @@
+C:\Users\Gwgw\Documents\E-class\ΠΛΗΡΟΦΟΡΙΚΗ\Η' Εξάμηνο\Μεταγλωττιστές (Compilers)\project\Compiler>java ParserTest2 example.py
+
+  >- AGoal
+     |- AStatCommands
+     |  `- AIfStatementStatement
+     |     |- if
+     |     |- ALesscComparison
+     |     |  |- AMultiplicationExpression
+     |     |  |  `- APowMultiplication
+     |     |  |     `- AValuePower
+     |     |  |        `- AIdentifierValue
+     |     |  |           `- x
+     |     |  |- <
+     |     |  `- AAdditionExpression
+     |     |     |- AMultiplicationExpression
+     |     |     |  `- APowMultiplication
+     |     |     |     `- AValuePower
+     |     |     |        `- ANumbValue
+     |     |     |           `- 3
+     |     |     |- +
+     |     |     `- APowMultiplication
+     |     |        `- AValuePower
+     |     |           `- ANumbValue
+     |     |              `- 2
+     |     |- :
+     |     `- AFuncCallStatement
+     |        |-
+     |        `- AEreaFunctionCall
+     |           |- yz
+     |           |- (
+     |           |- ADdsasaArglist
+     |           |  `- AMultiplicationExpression
+     |           |     `- APowMultiplication
+     |           |        `- AValuePower
+     |           |           `- ANumbValue
+     |           |              `- 5
+     |           `- )
+     |- AStatCommands
+     |  `- AAssignStatement
+     |     |-
+     |     |- x
+     |     |- =
+     |     `- AMultiplicationExpression
+     |        `- APowMultiplication
+     |           `- AValuePower
+     |              `- ANonenonegoodValue
+     |                 `- None
+     |- AStatCommands
+     |  `- APrintStatementStatement
+     |     |-
+     |     |- print
+     |     `- AMultiplicationExpression
+     |        `- APowMultiplication
+     |           `- AValuePower
+     |              `- ANonenonegoodValue
+     |                 `- None
+     `- AStatCommands
+        `- APrintStatementStatement
+           |-
+           |- print
+           `- AMultiplicationExpression
+              `- APowMultiplication
+                 `- AValuePower
+                    `- AWeValue
+                       `- 'wdwdw'
+
+
+
+C:\Users\Gwgw\Documents\E-class\ΠΛΗΡΟΦΟΡΙΚΗ\Η' Εξάμηνο\Μεταγλωττιστές (Compilers)\project\Compiler>
+x id 
