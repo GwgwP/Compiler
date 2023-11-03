@@ -253,6 +253,11 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
+    public void caseAMarikaaaaaaaaExpressionsWithoutCulc(AMarikaaaaaaaaExpressionsWithoutCulc node)
+    {
+        defaultCase(node);
+    }
+
     public void caseACvCommaValue(ACvCommaValue node)
     {
         defaultCase(node);

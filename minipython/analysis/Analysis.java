@@ -49,6 +49,7 @@ public interface Analysis extends Switch
     void caseAMaxExExpressionsWithoutCulc(AMaxExExpressionsWithoutCulc node);
     void caseAMinExExpressionsWithoutCulc(AMinExExpressionsWithoutCulc node);
     void caseAParExExpressionsWithoutCulc(AParExExpressionsWithoutCulc node);
+    void caseAMarikaaaaaaaaExpressionsWithoutCulc(AMarikaaaaaaaaExpressionsWithoutCulc node);
     void caseACvCommaValue(ACvCommaValue node);
     void caseAAdditionCalculation(AAdditionCalculation node);
     void caseASubtractionCalculation(ASubtractionCalculation node);

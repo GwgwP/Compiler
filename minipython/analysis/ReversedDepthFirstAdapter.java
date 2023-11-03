@@ -1144,6 +1144,41 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAParExExpressionsWithoutCulc(node);
     }
 
+    public void inAMarikaaaaaaaaExpressionsWithoutCulc(AMarikaaaaaaaaExpressionsWithoutCulc node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAMarikaaaaaaaaExpressionsWithoutCulc(AMarikaaaaaaaaExpressionsWithoutCulc node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAMarikaaaaaaaaExpressionsWithoutCulc(AMarikaaaaaaaaExpressionsWithoutCulc node)
+    {
+        inAMarikaaaaaaaaExpressionsWithoutCulc(node);
+        if(node.getRBr() != null)
+        {
+            node.getRBr().apply(this);
+        }
+        {
+            Object temp[] = node.getCommaExpression().toArray();
+            for(int i = temp.length - 1; i >= 0; i--)
+            {
+                ((PCommaExpression) temp[i]).apply(this);
+            }
+        }
+        if(node.getExpression() != null)
+        {
+            node.getExpression().apply(this);
+        }
+        if(node.getLBr() != null)
+        {
+            node.getLBr().apply(this);
+        }
+        outAMarikaaaaaaaaExpressionsWithoutCulc(node);
+    }
+
     public void inACvCommaValue(ACvCommaValue node)
     {
         defaultIn(node);

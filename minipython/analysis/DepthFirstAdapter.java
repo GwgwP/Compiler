@@ -1145,6 +1145,41 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outAParExExpressionsWithoutCulc(node);
     }
 
+    public void inAMarikaaaaaaaaExpressionsWithoutCulc(AMarikaaaaaaaaExpressionsWithoutCulc node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAMarikaaaaaaaaExpressionsWithoutCulc(AMarikaaaaaaaaExpressionsWithoutCulc node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAMarikaaaaaaaaExpressionsWithoutCulc(AMarikaaaaaaaaExpressionsWithoutCulc node)
+    {
+        inAMarikaaaaaaaaExpressionsWithoutCulc(node);
+        if(node.getLBr() != null)
+        {
+            node.getLBr().apply(this);
+        }
+        if(node.getExpression() != null)
+        {
+            node.getExpression().apply(this);
+        }
+        {
+            Object temp[] = node.getCommaExpression().toArray();
+            for(int i = 0; i < temp.length; i++)
+            {
+                ((PCommaExpression) temp[i]).apply(this);
+            }
+        }
+        if(node.getRBr() != null)
+        {
+            node.getRBr().apply(this);
+        }
+        outAMarikaaaaaaaaExpressionsWithoutCulc(node);
+    }
+
     public void inACvCommaValue(ACvCommaValue node)
     {
         defaultIn(node);
