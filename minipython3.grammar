@@ -138,7 +138,14 @@ Productions
 
 	expressions_without_culc = 	
 				{pinakasexp} id l_br expression r_br |
-				{red} function_call;
+				{red} function_call |
+				{len_exp} len l_par expression r_par |
+				{max_ex} max l_par value comma_value* r_par |
+				{min_ex} min l_par value comma_value* r_par |
+				{par_ex} l_par expression r_par; 
+
+	comma_value =
+				{cv} comma value;
 
 	calculation = 
 				{addition} expression plus multiplication | 

@@ -68,3 +68,12 @@ C:\Users\Gwgw\Documents\E-class\ΠΛΗΡΟΦΟΡΙΚΗ\Η' Εξάμηνο\Μετ
 
 C:\Users\Gwgw\Documents\E-class\ΠΛΗΡΟΦΟΡΙΚΗ\Η' Εξάμηνο\Μεταγλωττιστές (Compilers)\project\Compiler>
 x id 
+
+
+
+
+
+----
+to : c**4**f(3)
+pws prepei na parsaretai?
+aristera pros ta deksia? dld (c^4)^f(3) i prwta c^(4^f(3))?

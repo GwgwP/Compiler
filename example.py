@@ -6,3 +6,4 @@
 
 if x < 3+2:
 	x = c**4**f(3)
+	print min(x)

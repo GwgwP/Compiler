@@ -45,6 +45,11 @@ public interface Analysis extends Switch
     void caseAExprWCExpression(AExprWCExpression node);
     void caseAPinakasexpExpressionsWithoutCulc(APinakasexpExpressionsWithoutCulc node);
     void caseARedExpressionsWithoutCulc(ARedExpressionsWithoutCulc node);
+    void caseALenExpExpressionsWithoutCulc(ALenExpExpressionsWithoutCulc node);
+    void caseAMaxExExpressionsWithoutCulc(AMaxExExpressionsWithoutCulc node);
+    void caseAMinExExpressionsWithoutCulc(AMinExExpressionsWithoutCulc node);
+    void caseAParExExpressionsWithoutCulc(AParExExpressionsWithoutCulc node);
+    void caseACvCommaValue(ACvCommaValue node);
     void caseAAdditionCalculation(AAdditionCalculation node);
     void caseASubtractionCalculation(ASubtractionCalculation node);
     void caseAMultiplicationCalculation(AMultiplicationCalculation node);
