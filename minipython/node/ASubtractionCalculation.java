@@ -5,39 +5,39 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class AAdditionExpression extends PExpression
+public final class ASubtractionCalculation extends PCalculation
 {
     private PExpression _expression_;
-    private TPlus _plus_;
+    private TMinus _minus_;
     private PMultiplication _multiplication_;
 
-    public AAdditionExpression()
+    public ASubtractionCalculation()
     {
     }
 
-    public AAdditionExpression(
+    public ASubtractionCalculation(
         PExpression _expression_,
-        TPlus _plus_,
+        TMinus _minus_,
         PMultiplication _multiplication_)
     {
         setExpression(_expression_);
 
-        setPlus(_plus_);
+        setMinus(_minus_);
 
         setMultiplication(_multiplication_);
 
     }
     public Object clone()
     {
-        return new AAdditionExpression(
+        return new ASubtractionCalculation(
             (PExpression) cloneNode(_expression_),
-            (TPlus) cloneNode(_plus_),
+            (TMinus) cloneNode(_minus_),
             (PMultiplication) cloneNode(_multiplication_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAAdditionExpression(this);
+        ((Analysis) sw).caseASubtractionCalculation(this);
     }
 
     public PExpression getExpression()
@@ -65,16 +65,16 @@ public final class AAdditionExpression extends PExpression
         _expression_ = node;
     }
 
-    public TPlus getPlus()
+    public TMinus getMinus()
     {
-        return _plus_;
+        return _minus_;
     }
 
-    public void setPlus(TPlus node)
+    public void setMinus(TMinus node)
     {
-        if(_plus_ != null)
+        if(_minus_ != null)
         {
-            _plus_.parent(null);
+            _minus_.parent(null);
         }
 
         if(node != null)
@@ -87,7 +87,7 @@ public final class AAdditionExpression extends PExpression
             node.parent(this);
         }
 
-        _plus_ = node;
+        _minus_ = node;
     }
 
     public PMultiplication getMultiplication()
@@ -119,7 +119,7 @@ public final class AAdditionExpression extends PExpression
     {
         return ""
             + toString(_expression_)
-            + toString(_plus_)
+            + toString(_minus_)
             + toString(_multiplication_);
     }
 
@@ -131,9 +131,9 @@ public final class AAdditionExpression extends PExpression
             return;
         }
 
-        if(_plus_ == child)
+        if(_minus_ == child)
         {
-            _plus_ = null;
+            _minus_ = null;
             return;
         }
 
@@ -153,9 +153,9 @@ public final class AAdditionExpression extends PExpression
             return;
         }
 
-        if(_plus_ == oldChild)
+        if(_minus_ == oldChild)
         {
-            setPlus((TPlus) newChild);
+            setMinus((TMinus) newChild);
             return;
         }
 

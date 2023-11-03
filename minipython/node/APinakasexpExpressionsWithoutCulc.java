@@ -5,51 +5,56 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class AParValue extends PValue
+public final class APinakasexpExpressionsWithoutCulc extends PExpressionsWithoutCulc
 {
-    private TLPar _lPar_;
+    private TId _id_;
+    private TLBr _lBr_;
     private PExpression _expression_;
-    private TRPar _rPar_;
+    private TRBr _rBr_;
 
-    public AParValue()
+    public APinakasexpExpressionsWithoutCulc()
     {
     }
 
-    public AParValue(
-        TLPar _lPar_,
+    public APinakasexpExpressionsWithoutCulc(
+        TId _id_,
+        TLBr _lBr_,
         PExpression _expression_,
-        TRPar _rPar_)
+        TRBr _rBr_)
     {
-        setLPar(_lPar_);
+        setId(_id_);
+
+        setLBr(_lBr_);
 
         setExpression(_expression_);
 
-        setRPar(_rPar_);
+        setRBr(_rBr_);
 
     }
     public Object clone()
     {
-        return new AParValue(
-            (TLPar) cloneNode(_lPar_),
+        return new APinakasexpExpressionsWithoutCulc(
+            (TId) cloneNode(_id_),
+            (TLBr) cloneNode(_lBr_),
             (PExpression) cloneNode(_expression_),
-            (TRPar) cloneNode(_rPar_));
+            (TRBr) cloneNode(_rBr_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAParValue(this);
+        ((Analysis) sw).caseAPinakasexpExpressionsWithoutCulc(this);
     }
 
-    public TLPar getLPar()
+    public TId getId()
     {
-        return _lPar_;
+        return _id_;
     }
 
-    public void setLPar(TLPar node)
+    public void setId(TId node)
     {
-        if(_lPar_ != null)
+        if(_id_ != null)
         {
-            _lPar_.parent(null);
+            _id_.parent(null);
         }
 
         if(node != null)
@@ -62,7 +67,32 @@ public final class AParValue extends PValue
             node.parent(this);
         }
 
-        _lPar_ = node;
+        _id_ = node;
+    }
+
+    public TLBr getLBr()
+    {
+        return _lBr_;
+    }
+
+    public void setLBr(TLBr node)
+    {
+        if(_lBr_ != null)
+        {
+            _lBr_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        _lBr_ = node;
     }
 
     public PExpression getExpression()
@@ -90,16 +120,16 @@ public final class AParValue extends PValue
         _expression_ = node;
     }
 
-    public TRPar getRPar()
+    public TRBr getRBr()
     {
-        return _rPar_;
+        return _rBr_;
     }
 
-    public void setRPar(TRPar node)
+    public void setRBr(TRBr node)
     {
-        if(_rPar_ != null)
+        if(_rBr_ != null)
         {
-            _rPar_.parent(null);
+            _rBr_.parent(null);
         }
 
         if(node != null)
@@ -112,22 +142,29 @@ public final class AParValue extends PValue
             node.parent(this);
         }
 
-        _rPar_ = node;
+        _rBr_ = node;
     }
 
     public String toString()
     {
         return ""
-            + toString(_lPar_)
+            + toString(_id_)
+            + toString(_lBr_)
             + toString(_expression_)
-            + toString(_rPar_);
+            + toString(_rBr_);
     }
 
     void removeChild(Node child)
     {
-        if(_lPar_ == child)
+        if(_id_ == child)
         {
-            _lPar_ = null;
+            _id_ = null;
+            return;
+        }
+
+        if(_lBr_ == child)
+        {
+            _lBr_ = null;
             return;
         }
 
@@ -137,9 +174,9 @@ public final class AParValue extends PValue
             return;
         }
 
-        if(_rPar_ == child)
+        if(_rBr_ == child)
         {
-            _rPar_ = null;
+            _rBr_ = null;
             return;
         }
 
@@ -147,9 +184,15 @@ public final class AParValue extends PValue
 
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(_lPar_ == oldChild)
+        if(_id_ == oldChild)
         {
-            setLPar((TLPar) newChild);
+            setId((TId) newChild);
+            return;
+        }
+
+        if(_lBr_ == oldChild)
+        {
+            setLBr((TLBr) newChild);
             return;
         }
 
@@ -159,9 +202,9 @@ public final class AParValue extends PValue
             return;
         }
 
-        if(_rPar_ == oldChild)
+        if(_rBr_ == oldChild)
         {
-            setRPar((TRPar) newChild);
+            setRBr((TRBr) newChild);
             return;
         }
 

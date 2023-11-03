@@ -132,28 +132,39 @@ Productions
 
 
 	expression =
+				{calculation} calculation |
+				{expr_w_c} expressions_without_culc ;
+
+
+	expressions_without_culc = 	
+				{pinakasexp} id l_br expression r_br |
+				{red} function_call;
+
+	calculation = 
 				{addition} expression plus multiplication | 
 				{subtraction} expression minus multiplication |
 				{multiplication} multiplication |
-				{pinakasexp} id l_br expression r_br |
-				{red} function_call; 
-				
-			
+				{addition_ex} expression plus expressions_without_culc | 
+				{subtraction_ex} expression minus expressions_without_culc;
+
 						
 	multiplication = 
 					{pow} power | 
 					{division} multiplication div power |
 					{modulo} multiplication mod power |
-					{multiplication} multiplication mult power;
+					{multiplication} multiplication mult power|
+					{divisionez} multiplication div expressions_without_culc |
+					{moduloez} multiplication mod expressions_without_culc |
+					{multiplicationez} multiplication mult expressions_without_culc;
 
 	power = 
 					{value} value | 
-					{power} power pow value;
+					{power} power pow value |
+					{powe2r} power pow expressions_without_culc;
 							
 	value =
 					{identifier} id  |
 					{numb} number |
 					{d} string_double_quotes |
 					{we} string_single_quotes |
-					{nonenonegood} none |
-					{par} l_par expression r_par;
+					{nonenonegood} none ;

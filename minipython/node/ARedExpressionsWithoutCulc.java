@@ -5,15 +5,15 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class ARedExpression extends PExpression
+public final class ARedExpressionsWithoutCulc extends PExpressionsWithoutCulc
 {
     private PFunctionCall _functionCall_;
 
-    public ARedExpression()
+    public ARedExpressionsWithoutCulc()
     {
     }
 
-    public ARedExpression(
+    public ARedExpressionsWithoutCulc(
         PFunctionCall _functionCall_)
     {
         setFunctionCall(_functionCall_);
@@ -21,13 +21,13 @@ public final class ARedExpression extends PExpression
     }
     public Object clone()
     {
-        return new ARedExpression(
+        return new ARedExpressionsWithoutCulc(
             (PFunctionCall) cloneNode(_functionCall_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseARedExpression(this);
+        ((Analysis) sw).caseARedExpressionsWithoutCulc(this);
     }
 
     public PFunctionCall getFunctionCall()

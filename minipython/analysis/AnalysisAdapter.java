@@ -213,27 +213,47 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseAAdditionExpression(AAdditionExpression node)
+    public void caseACalculationExpression(ACalculationExpression node)
     {
         defaultCase(node);
     }
 
-    public void caseASubtractionExpression(ASubtractionExpression node)
+    public void caseAExprWCExpression(AExprWCExpression node)
     {
         defaultCase(node);
     }
 
-    public void caseAMultiplicationExpression(AMultiplicationExpression node)
+    public void caseAPinakasexpExpressionsWithoutCulc(APinakasexpExpressionsWithoutCulc node)
     {
         defaultCase(node);
     }
 
-    public void caseAPinakasexpExpression(APinakasexpExpression node)
+    public void caseARedExpressionsWithoutCulc(ARedExpressionsWithoutCulc node)
     {
         defaultCase(node);
     }
 
-    public void caseARedExpression(ARedExpression node)
+    public void caseAAdditionCalculation(AAdditionCalculation node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseASubtractionCalculation(ASubtractionCalculation node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAMultiplicationCalculation(AMultiplicationCalculation node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAAdditionExCalculation(AAdditionExCalculation node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseASubtractionExCalculation(ASubtractionExCalculation node)
     {
         defaultCase(node);
     }
@@ -258,12 +278,32 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
+    public void caseADivisionezMultiplication(ADivisionezMultiplication node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAModuloezMultiplication(AModuloezMultiplication node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAMultiplicationezMultiplication(AMultiplicationezMultiplication node)
+    {
+        defaultCase(node);
+    }
+
     public void caseAValuePower(AValuePower node)
     {
         defaultCase(node);
     }
 
     public void caseAPowerPower(APowerPower node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAPowe2rPower(APowe2rPower node)
     {
         defaultCase(node);
     }
@@ -289,11 +329,6 @@ public class AnalysisAdapter implements Analysis
     }
 
     public void caseANonenonegoodValue(ANonenonegoodValue node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAParValue(AParValue node)
     {
         defaultCase(node);
     }
