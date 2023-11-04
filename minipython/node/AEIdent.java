@@ -5,41 +5,41 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class AIdentifierValue extends PValue
+public final class AEIdent extends PIdent
 {
-    private PIdent _ident_;
+    private TId _id_;
 
-    public AIdentifierValue()
+    public AEIdent()
     {
     }
 
-    public AIdentifierValue(
-        PIdent _ident_)
+    public AEIdent(
+        TId _id_)
     {
-        setIdent(_ident_);
+        setId(_id_);
 
     }
     public Object clone()
     {
-        return new AIdentifierValue(
-            (PIdent) cloneNode(_ident_));
+        return new AEIdent(
+            (TId) cloneNode(_id_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAIdentifierValue(this);
+        ((Analysis) sw).caseAEIdent(this);
     }
 
-    public PIdent getIdent()
+    public TId getId()
     {
-        return _ident_;
+        return _id_;
     }
 
-    public void setIdent(PIdent node)
+    public void setId(TId node)
     {
-        if(_ident_ != null)
+        if(_id_ != null)
         {
-            _ident_.parent(null);
+            _id_.parent(null);
         }
 
         if(node != null)
@@ -52,20 +52,20 @@ public final class AIdentifierValue extends PValue
             node.parent(this);
         }
 
-        _ident_ = node;
+        _id_ = node;
     }
 
     public String toString()
     {
         return ""
-            + toString(_ident_);
+            + toString(_id_);
     }
 
     void removeChild(Node child)
     {
-        if(_ident_ == child)
+        if(_id_ == child)
         {
-            _ident_ = null;
+            _id_ = null;
             return;
         }
 
@@ -73,9 +73,9 @@ public final class AIdentifierValue extends PValue
 
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(_ident_ == oldChild)
+        if(_id_ == oldChild)
         {
-            setIdent((PIdent) newChild);
+            setId((TId) newChild);
             return;
         }
 

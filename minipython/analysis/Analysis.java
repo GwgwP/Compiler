@@ -63,6 +63,7 @@ public interface Analysis extends Switch
     void caseADivisionezMultiplication(ADivisionezMultiplication node);
     void caseAModuloezMultiplication(AModuloezMultiplication node);
     void caseAMultiplicationezMultiplication(AMultiplicationezMultiplication node);
+    void caseAEIdent(AEIdent node);
     void caseAValuePower(AValuePower node);
     void caseAPowerPower(APowerPower node);
     void caseAPowe2rPower(APowe2rPower node);
@@ -86,6 +87,11 @@ public interface Analysis extends Switch
     void caseTMult(TMult node);
     void caseTMod(TMod node);
     void caseTDiv(TDiv node);
+    void caseTNoteq(TNoteq node);
+    void caseTLesseq(TLesseq node);
+    void caseTGreateq(TGreateq node);
+    void caseTLess(TLess node);
+    void caseTGreat(TGreat node);
     void caseTAssign(TAssign node);
     void caseTDef(TDef node);
     void caseTNot(TNot node);
@@ -106,11 +112,6 @@ public interface Analysis extends Switch
     void caseTPrint(TPrint node);
     void caseTReturn(TReturn node);
     void caseTAssert(TAssert node);
-    void caseTNoteq(TNoteq node);
-    void caseTLesseq(TLesseq node);
-    void caseTGreateq(TGreateq node);
-    void caseTLess(TLess node);
-    void caseTGreat(TGreat node);
     void caseTTrue(TTrue node);
     void caseTSemi(TSemi node);
     void caseTFalse(TFalse node);

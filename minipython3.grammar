@@ -27,6 +27,11 @@ Tokens
 	mult = '*';
 	mod = '%';
 	div = '/';
+	noteq = '!=';
+	lesseq = '<=';
+	greateq = '>=';
+	less = '<';
+	great = '>';
 	assign = '=';
 	def = 'def';
 	not = 'not';
@@ -47,11 +52,6 @@ Tokens
 	print = 'print';
 	return = 'return';
 	assert = 'assert';
-	noteq = '!=';
-	lesseq = '<=';
-	greateq = '>=';
-	less = '<';
-	great = '>';
 	true = 'true';
 	semi = ':';
 	false = 'false';
@@ -79,7 +79,7 @@ Productions
 				{func} function | 
 				{stat} statement  ;
 
-	function= 
+	function = 
 				{dede} def id l_par argument ? r_par semi statement ;
 
 	argument = 
@@ -112,9 +112,6 @@ Productions
 	
 	arglist = 
 				{ddsasa} expression comma_expression *;
-
-		
-	
 
 
 	comma_expression = 
@@ -157,22 +154,23 @@ Productions
 
 						
 	multiplication = 
-					{pow} power | 
-					{division} multiplication div power |
-					{modulo} multiplication mod power |
-					{multiplication} multiplication mult power|
-					{divisionez} multiplication div expressions_without_culc |
-					{moduloez} multiplication mod expressions_without_culc |
-					{multiplicationez} multiplication mult expressions_without_culc;
+				{pow} power | 
+				{division} multiplication div power |
+				{modulo} multiplication mod power |
+				{multiplication} multiplication mult power|
+				{divisionez} multiplication div expressions_without_culc |
+				{moduloez} multiplication mod expressions_without_culc |
+				{multiplicationez} multiplication mult expressions_without_culc;
 
+	ident = {e} id;
 	power = 
-					{value} value | 
-					{power} power pow value |
-					{powe2r} power pow expressions_without_culc;
+				{value} value | 
+				{power} power pow value |
+				{powe2r} power pow expressions_without_culc;
 							
 	value =
-					{identifier} id  |
-					{numb} number |
-					{d} string_double_quotes |
-					{we} string_single_quotes |
-					{nonenonegood} none ;
+				{identifier} ident |
+				{numb} number |
+				{d} string_double_quotes |
+				{we} string_single_quotes |
+				{nonenonegood} none ;

@@ -788,31 +788,31 @@ public class Lexer
     Token new11(int line, int pos) { return new TMult(line, pos); }
     Token new12(int line, int pos) { return new TMod(line, pos); }
     Token new13(int line, int pos) { return new TDiv(line, pos); }
-    Token new14(int line, int pos) { return new TAssign(line, pos); }
-    Token new15(int line, int pos) { return new TDef(line, pos); }
-    Token new16(int line, int pos) { return new TNot(line, pos); }
-    Token new17(int line, int pos) { return new TLogicAnd(line, pos); }
-    Token new18(int line, int pos) { return new TLogicOr(line, pos); }
-    Token new19(int line, int pos) { return new TLBr(line, pos); }
-    Token new20(int line, int pos) { return new TRBr(line, pos); }
-    Token new21(int line, int pos) { return new TLPar(line, pos); }
-    Token new22(int line, int pos) { return new TRPar(line, pos); }
-    Token new23(int line, int pos) { return new TComma(line, pos); }
-    Token new24(int line, int pos) { return new TIn(line, pos); }
-    Token new25(int line, int pos) { return new TIf(line, pos); }
-    Token new26(int line, int pos) { return new TWhile(line, pos); }
-    Token new27(int line, int pos) { return new TFor(line, pos); }
-    Token new28(int line, int pos) { return new TLen(line, pos); }
-    Token new29(int line, int pos) { return new TMin(line, pos); }
-    Token new30(int line, int pos) { return new TMax(line, pos); }
-    Token new31(int line, int pos) { return new TPrint(line, pos); }
-    Token new32(int line, int pos) { return new TReturn(line, pos); }
-    Token new33(int line, int pos) { return new TAssert(line, pos); }
-    Token new34(int line, int pos) { return new TNoteq(line, pos); }
-    Token new35(int line, int pos) { return new TLesseq(line, pos); }
-    Token new36(int line, int pos) { return new TGreateq(line, pos); }
-    Token new37(int line, int pos) { return new TLess(line, pos); }
-    Token new38(int line, int pos) { return new TGreat(line, pos); }
+    Token new14(int line, int pos) { return new TNoteq(line, pos); }
+    Token new15(int line, int pos) { return new TLesseq(line, pos); }
+    Token new16(int line, int pos) { return new TGreateq(line, pos); }
+    Token new17(int line, int pos) { return new TLess(line, pos); }
+    Token new18(int line, int pos) { return new TGreat(line, pos); }
+    Token new19(int line, int pos) { return new TAssign(line, pos); }
+    Token new20(int line, int pos) { return new TDef(line, pos); }
+    Token new21(int line, int pos) { return new TNot(line, pos); }
+    Token new22(int line, int pos) { return new TLogicAnd(line, pos); }
+    Token new23(int line, int pos) { return new TLogicOr(line, pos); }
+    Token new24(int line, int pos) { return new TLBr(line, pos); }
+    Token new25(int line, int pos) { return new TRBr(line, pos); }
+    Token new26(int line, int pos) { return new TLPar(line, pos); }
+    Token new27(int line, int pos) { return new TRPar(line, pos); }
+    Token new28(int line, int pos) { return new TComma(line, pos); }
+    Token new29(int line, int pos) { return new TIn(line, pos); }
+    Token new30(int line, int pos) { return new TIf(line, pos); }
+    Token new31(int line, int pos) { return new TWhile(line, pos); }
+    Token new32(int line, int pos) { return new TFor(line, pos); }
+    Token new33(int line, int pos) { return new TLen(line, pos); }
+    Token new34(int line, int pos) { return new TMin(line, pos); }
+    Token new35(int line, int pos) { return new TMax(line, pos); }
+    Token new36(int line, int pos) { return new TPrint(line, pos); }
+    Token new37(int line, int pos) { return new TReturn(line, pos); }
+    Token new38(int line, int pos) { return new TAssert(line, pos); }
     Token new39(int line, int pos) { return new TTrue(line, pos); }
     Token new40(int line, int pos) { return new TSemi(line, pos); }
     Token new41(int line, int pos) { return new TFalse(line, pos); }
@@ -1010,7 +1010,7 @@ public class Lexer
     private static int[][] accept;
 /*  {
         // INITIAL
-        {46, 53, 0, 45, 46, 45, 45, 53, 44, 53, 12, 53, 21, 22, 11, 8, 23, 9, 49, 13, 48, 40, 37, 14, 38, 50, 50, 19, 20, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 46, 46, 46, 34, -1, 51, -1, 47, 47, -1, 52, 10, 7, 1, 5, 3, 4, 6, 48, 35, 2, 36, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 25, 24, 50, 50, 50, 50, 18, 50, 50, 50, 50, 47, 50, 17, 50, 15, 50, 50, 27, 28, 30, 29, 16, 50, 50, 50, 50, 43, 50, 42, 50, 50, 50, 39, 50, 50, 41, 31, 50, 26, 33, 32, },
+        {46, 53, 0, 45, 46, 45, 45, 53, 44, 53, 12, 53, 26, 27, 11, 8, 28, 9, 49, 13, 48, 40, 17, 19, 18, 50, 50, 24, 25, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 46, 46, 46, 14, -1, 51, -1, 47, 47, -1, 52, 10, 7, 1, 5, 3, 4, 6, 48, 15, 2, 16, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 30, 29, 50, 50, 50, 50, 23, 50, 50, 50, 50, 47, 50, 22, 50, 20, 50, 50, 32, 33, 35, 34, 21, 50, 50, 50, 50, 43, 50, 42, 50, 50, 50, 39, 50, 50, 41, 36, 50, 31, 38, 37, },
 
     };*/
 

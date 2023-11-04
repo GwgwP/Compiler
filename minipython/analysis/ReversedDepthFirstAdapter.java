@@ -1523,6 +1523,26 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAMultiplicationezMultiplication(node);
     }
 
+    public void inAEIdent(AEIdent node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAEIdent(AEIdent node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAEIdent(AEIdent node)
+    {
+        inAEIdent(node);
+        if(node.getId() != null)
+        {
+            node.getId().apply(this);
+        }
+        outAEIdent(node);
+    }
+
     public void inAValuePower(AValuePower node)
     {
         defaultIn(node);
@@ -1612,9 +1632,9 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAIdentifierValue(AIdentifierValue node)
     {
         inAIdentifierValue(node);
-        if(node.getId() != null)
+        if(node.getIdent() != null)
         {
-            node.getId().apply(this);
+            node.getIdent().apply(this);
         }
         outAIdentifierValue(node);
     }

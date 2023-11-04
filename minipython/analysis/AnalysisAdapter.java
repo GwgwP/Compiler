@@ -323,6 +323,11 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
+    public void caseAEIdent(AEIdent node)
+    {
+        defaultCase(node);
+    }
+
     public void caseAValuePower(AValuePower node)
     {
         defaultCase(node);
@@ -433,6 +438,31 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
+    public void caseTNoteq(TNoteq node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTLesseq(TLesseq node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTGreateq(TGreateq node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTLess(TLess node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTGreat(TGreat node)
+    {
+        defaultCase(node);
+    }
+
     public void caseTAssign(TAssign node)
     {
         defaultCase(node);
@@ -529,31 +559,6 @@ public class AnalysisAdapter implements Analysis
     }
 
     public void caseTAssert(TAssert node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseTNoteq(TNoteq node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseTLesseq(TLesseq node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseTGreateq(TGreateq node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseTLess(TLess node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseTGreat(TGreat node)
     {
         defaultCase(node);
     }
