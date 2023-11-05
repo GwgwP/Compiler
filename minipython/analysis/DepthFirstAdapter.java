@@ -1348,54 +1348,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outACvCommaValue(node);
     }
 
-    public void inAPlplCalculation(APlplCalculation node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAPlplCalculation(APlplCalculation node)
-    {
-        defaultOut(node);
-    }
-
-    public void caseAPlplCalculation(APlplCalculation node)
-    {
-        inAPlplCalculation(node);
-        if(node.getExpression() != null)
-        {
-            node.getExpression().apply(this);
-        }
-        if(node.getPlusplus() != null)
-        {
-            node.getPlusplus().apply(this);
-        }
-        outAPlplCalculation(node);
-    }
-
-    public void inAMinminCalculation(AMinminCalculation node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAMinminCalculation(AMinminCalculation node)
-    {
-        defaultOut(node);
-    }
-
-    public void caseAMinminCalculation(AMinminCalculation node)
-    {
-        inAMinminCalculation(node);
-        if(node.getExpression() != null)
-        {
-            node.getExpression().apply(this);
-        }
-        if(node.getMinusminus() != null)
-        {
-            node.getMinusminus().apply(this);
-        }
-        outAMinminCalculation(node);
-    }
-
     public void inAAdditionCalculation(AAdditionCalculation node)
     {
         defaultIn(node);

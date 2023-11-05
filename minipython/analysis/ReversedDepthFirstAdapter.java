@@ -1347,54 +1347,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outACvCommaValue(node);
     }
 
-    public void inAPlplCalculation(APlplCalculation node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAPlplCalculation(APlplCalculation node)
-    {
-        defaultOut(node);
-    }
-
-    public void caseAPlplCalculation(APlplCalculation node)
-    {
-        inAPlplCalculation(node);
-        if(node.getPlusplus() != null)
-        {
-            node.getPlusplus().apply(this);
-        }
-        if(node.getExpression() != null)
-        {
-            node.getExpression().apply(this);
-        }
-        outAPlplCalculation(node);
-    }
-
-    public void inAMinminCalculation(AMinminCalculation node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAMinminCalculation(AMinminCalculation node)
-    {
-        defaultOut(node);
-    }
-
-    public void caseAMinminCalculation(AMinminCalculation node)
-    {
-        inAMinminCalculation(node);
-        if(node.getMinusminus() != null)
-        {
-            node.getMinusminus().apply(this);
-        }
-        if(node.getExpression() != null)
-        {
-            node.getExpression().apply(this);
-        }
-        outAMinminCalculation(node);
-    }
-
     public void inAAdditionCalculation(AAdditionCalculation node)
     {
         defaultIn(node);

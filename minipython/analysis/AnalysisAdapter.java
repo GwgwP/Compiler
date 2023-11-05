@@ -293,16 +293,6 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseAPlplCalculation(APlplCalculation node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAMinminCalculation(AMinminCalculation node)
-    {
-        defaultCase(node);
-    }
-
     public void caseAAdditionCalculation(AAdditionCalculation node)
     {
         defaultCase(node);

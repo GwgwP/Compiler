@@ -116,7 +116,7 @@ Productions
 
 	comma_expression = 
 				{frfrfrfrfe} comma expression;
-		
+	
 	comparison =
 				{dss} afteror |
 				{orc} comparison logic_or afteror  ;
@@ -141,6 +141,7 @@ Productions
 				{lessc} [lpar]:expression less [rpar]:expression |
 				{greatc}[lpar]:expression great [rpar]:expression  ;
 
+
 	expression =
 				{calculation} calculation |
 				{expr_w_c} expressions_without_culc ;
@@ -159,8 +160,6 @@ Productions
 				{cv} comma value;
 
 	calculation = 
-				{plpl} expression plusplus  |
-                {minmin} expression minusminus |
 				{addition} expression plus multiplication | 
 				{subtraction} expression minus multiplication |
 				{multiplication} multiplication |
