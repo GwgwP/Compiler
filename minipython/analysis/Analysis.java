@@ -26,6 +26,7 @@ public interface Analysis extends Switch
     void caseAPrintStatementStatement(APrintStatementStatement node);
     void caseAAssignStatement(AAssignStatement node);
     void caseAIdMineqStatement(AIdMineqStatement node);
+    void caseAIdPluseqStatement(AIdPluseqStatement node);
     void caseAIdDiveqStatement(AIdDiveqStatement node);
     void caseAPinakasStatement(APinakasStatement node);
     void caseAAssertionStatement(AAssertionStatement node);
@@ -54,9 +55,10 @@ public interface Analysis extends Switch
     void caseALenExpExpressionsWithoutCulc(ALenExpExpressionsWithoutCulc node);
     void caseAMaxExExpressionsWithoutCulc(AMaxExExpressionsWithoutCulc node);
     void caseAMinExExpressionsWithoutCulc(AMinExExpressionsWithoutCulc node);
-    void caseAParExExpressionsWithoutCulc(AParExExpressionsWithoutCulc node);
     void caseAMarikaaaaaaaaExpressionsWithoutCulc(AMarikaaaaaaaaExpressionsWithoutCulc node);
     void caseACvCommaValue(ACvCommaValue node);
+    void caseAPlplCalculation(APlplCalculation node);
+    void caseAMinminCalculation(AMinminCalculation node);
     void caseAAdditionCalculation(AAdditionCalculation node);
     void caseASubtractionCalculation(ASubtractionCalculation node);
     void caseAMultiplicationCalculation(AMultiplicationCalculation node);
@@ -69,15 +71,17 @@ public interface Analysis extends Switch
     void caseADivisionezMultiplication(ADivisionezMultiplication node);
     void caseAModuloezMultiplication(AModuloezMultiplication node);
     void caseAMultiplicationezMultiplication(AMultiplicationezMultiplication node);
-    void caseAEIdent(AEIdent node);
     void caseAValuePower(AValuePower node);
     void caseAPowerPower(APowerPower node);
     void caseAPowe2rPower(APowe2rPower node);
+    void caseAIddotValue(AIddotValue node);
     void caseAIdentifierValue(AIdentifierValue node);
     void caseANumbValue(ANumbValue node);
     void caseADValue(ADValue node);
     void caseAWeValue(AWeValue node);
+    void caseAPsrValue(APsrValue node);
     void caseANonenonegoodValue(ANonenonegoodValue node);
+    void caseAEIdent(AEIdent node);
 
     void caseTTab(TTab node);
     void caseTPlusplus(TPlusplus node);

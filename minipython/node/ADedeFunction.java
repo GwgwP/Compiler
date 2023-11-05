@@ -7,6 +7,7 @@ import minipython.analysis.*;
 
 public final class ADedeFunction extends PFunction
 {
+    private final LinkedList _tab_ = new TypedLinkedList(new Tab_Cast());
     private TDef _def_;
     private TId _id_;
     private TLPar _lPar_;
@@ -20,6 +21,7 @@ public final class ADedeFunction extends PFunction
     }
 
     public ADedeFunction(
+        List _tab_,
         TDef _def_,
         TId _id_,
         TLPar _lPar_,
@@ -28,6 +30,11 @@ public final class ADedeFunction extends PFunction
         TSemi _semi_,
         PStatement _statement_)
     {
+        {
+            this._tab_.clear();
+            this._tab_.addAll(_tab_);
+        }
+
         setDef(_def_);
 
         setId(_id_);
@@ -46,6 +53,7 @@ public final class ADedeFunction extends PFunction
     public Object clone()
     {
         return new ADedeFunction(
+            cloneList(_tab_),
             (TDef) cloneNode(_def_),
             (TId) cloneNode(_id_),
             (TLPar) cloneNode(_lPar_),
@@ -58,6 +66,17 @@ public final class ADedeFunction extends PFunction
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseADedeFunction(this);
+    }
+
+    public LinkedList getTab()
+    {
+        return _tab_;
+    }
+
+    public void setTab(List list)
+    {
+        _tab_.clear();
+        _tab_.addAll(list);
     }
 
     public TDef getDef()
@@ -238,6 +257,7 @@ public final class ADedeFunction extends PFunction
     public String toString()
     {
         return ""
+            + toString(_tab_)
             + toString(_def_)
             + toString(_id_)
             + toString(_lPar_)
@@ -249,6 +269,11 @@ public final class ADedeFunction extends PFunction
 
     void removeChild(Node child)
     {
+        if(_tab_.remove(child))
+        {
+            return;
+        }
+
         if(_def_ == child)
         {
             _def_ = null;
@@ -295,6 +320,23 @@ public final class ADedeFunction extends PFunction
 
     void replaceChild(Node oldChild, Node newChild)
     {
+        for(ListIterator i = _tab_.listIterator(); i.hasNext();)
+        {
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set(newChild);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
+        }
+
         if(_def_ == oldChild)
         {
             setDef((TDef) newChild);
@@ -337,5 +379,27 @@ public final class ADedeFunction extends PFunction
             return;
         }
 
+    }
+
+    private class Tab_Cast implements Cast
+    {
+        public Object cast(Object o)
+        {
+            TTab node = (TTab) o;
+
+            if((node.parent() != null) &&
+                (node.parent() != ADedeFunction.this))
+            {
+                node.parent().removeChild(node);
+            }
+
+            if((node.parent() == null) ||
+                (node.parent() != ADedeFunction.this))
+            {
+                node.parent(ADedeFunction.this);
+            }
+
+            return node;
+        }
     }
 }

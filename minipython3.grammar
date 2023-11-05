@@ -80,7 +80,7 @@ Productions
 				{stat} statement  ;
 
 	function = 
-				{dede} def id l_par argument ? r_par semi statement ;
+				{dede} tab* def id l_par argument? r_par semi statement ;
 
 	argument = 
 				{frfrf} id assign_value ? ciav*;
@@ -98,12 +98,13 @@ Productions
 				{while_statement} tab* while comparison semi statement |
 				{for_statement} tab* for [lid]:id in [rid]:id semi statement |
 				{return_statement} tab* return expression | 
-				{print_statement}tab* print expression comma_expression ? |
+				{print_statement}tab* print expression comma_expression* |
 				{assign} tab* id assign expression |
 				{id_mineq}tab* id mineq expression |
+				{id_pluseq}tab* id pluseq expression |
 				{id_diveq} tab* id diveq expression |
 				{pinakas} tab* id l_br [lex]:expression r_br assign [rex]:expression |
-				{assertion} tab* assert expression comma_expression ? |
+				{assertion} tab* assert expression comma_expression? |
 				{func_call} tab* function_call ;
 
 
@@ -153,13 +154,14 @@ Productions
 				{len_exp} len l_par expression r_par |
 				{max_ex} max l_par value comma_value* r_par |
 				{min_ex} min l_par value comma_value* r_par |
-				{par_ex} l_par expression r_par |
 				{marikaaaaaaaa} l_br expression comma_expression* r_br; 
 
 	comma_value =
 				{cv} comma value;
 
 	calculation = 
+				{plpl} expression plusplus  |
+                {minmin} expression minusminus |
 				{addition} expression plus multiplication | 
 				{subtraction} expression minus multiplication |
 				{multiplication} multiplication |
@@ -176,15 +178,19 @@ Productions
 				{moduloez} multiplication mod expressions_without_culc |
 				{multiplicationez} multiplication mult expressions_without_culc;
 
-	ident = {e} id;
+
 	power = 
 				{value} value | 
 				{power} power pow value |
 				{powe2r} power pow expressions_without_culc;
 							
 	value =
+				{iddot} id dot function_call |
 				{identifier} ident |
 				{numb} number |
 				{d} string_double_quotes |
 				{we} string_single_quotes |
+				{psr} l_par expression r_par |
 				{nonenonegood} none ;
+
+	ident = {e} id;

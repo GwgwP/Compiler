@@ -138,6 +138,11 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
+    public void caseAIdPluseqStatement(AIdPluseqStatement node)
+    {
+        defaultCase(node);
+    }
+
     public void caseAIdDiveqStatement(AIdDiveqStatement node)
     {
         defaultCase(node);
@@ -278,17 +283,22 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseAParExExpressionsWithoutCulc(AParExExpressionsWithoutCulc node)
-    {
-        defaultCase(node);
-    }
-
     public void caseAMarikaaaaaaaaExpressionsWithoutCulc(AMarikaaaaaaaaExpressionsWithoutCulc node)
     {
         defaultCase(node);
     }
 
     public void caseACvCommaValue(ACvCommaValue node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAPlplCalculation(APlplCalculation node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAMinminCalculation(AMinminCalculation node)
     {
         defaultCase(node);
     }
@@ -353,11 +363,6 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseAEIdent(AEIdent node)
-    {
-        defaultCase(node);
-    }
-
     public void caseAValuePower(AValuePower node)
     {
         defaultCase(node);
@@ -369,6 +374,11 @@ public class AnalysisAdapter implements Analysis
     }
 
     public void caseAPowe2rPower(APowe2rPower node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAIddotValue(AIddotValue node)
     {
         defaultCase(node);
     }
@@ -393,7 +403,17 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
+    public void caseAPsrValue(APsrValue node)
+    {
+        defaultCase(node);
+    }
+
     public void caseANonenonegoodValue(ANonenonegoodValue node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAEIdent(AEIdent node)
     {
         defaultCase(node);
     }

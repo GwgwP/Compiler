@@ -10,7 +10,7 @@ public final class APrintStatementStatement extends PStatement
     private final LinkedList _tab_ = new TypedLinkedList(new Tab_Cast());
     private TPrint _print_;
     private PExpression _expression_;
-    private PCommaExpression _commaExpression_;
+    private final LinkedList _commaExpression_ = new TypedLinkedList(new CommaExpression_Cast());
 
     public APrintStatementStatement()
     {
@@ -20,7 +20,7 @@ public final class APrintStatementStatement extends PStatement
         List _tab_,
         TPrint _print_,
         PExpression _expression_,
-        PCommaExpression _commaExpression_)
+        List _commaExpression_)
     {
         {
             this._tab_.clear();
@@ -31,7 +31,10 @@ public final class APrintStatementStatement extends PStatement
 
         setExpression(_expression_);
 
-        setCommaExpression(_commaExpression_);
+        {
+            this._commaExpression_.clear();
+            this._commaExpression_.addAll(_commaExpression_);
+        }
 
     }
     public Object clone()
@@ -40,7 +43,7 @@ public final class APrintStatementStatement extends PStatement
             cloneList(_tab_),
             (TPrint) cloneNode(_print_),
             (PExpression) cloneNode(_expression_),
-            (PCommaExpression) cloneNode(_commaExpression_));
+            cloneList(_commaExpression_));
     }
 
     public void apply(Switch sw)
@@ -109,29 +112,15 @@ public final class APrintStatementStatement extends PStatement
         _expression_ = node;
     }
 
-    public PCommaExpression getCommaExpression()
+    public LinkedList getCommaExpression()
     {
         return _commaExpression_;
     }
 
-    public void setCommaExpression(PCommaExpression node)
+    public void setCommaExpression(List list)
     {
-        if(_commaExpression_ != null)
-        {
-            _commaExpression_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        _commaExpression_ = node;
+        _commaExpression_.clear();
+        _commaExpression_.addAll(list);
     }
 
     public String toString()
@@ -162,9 +151,8 @@ public final class APrintStatementStatement extends PStatement
             return;
         }
 
-        if(_commaExpression_ == child)
+        if(_commaExpression_.remove(child))
         {
-            _commaExpression_ = null;
             return;
         }
 
@@ -201,10 +189,21 @@ public final class APrintStatementStatement extends PStatement
             return;
         }
 
-        if(_commaExpression_ == oldChild)
+        for(ListIterator i = _commaExpression_.listIterator(); i.hasNext();)
         {
-            setCommaExpression((PCommaExpression) newChild);
-            return;
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set(newChild);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
     }
@@ -214,6 +213,28 @@ public final class APrintStatementStatement extends PStatement
         public Object cast(Object o)
         {
             TTab node = (TTab) o;
+
+            if((node.parent() != null) &&
+                (node.parent() != APrintStatementStatement.this))
+            {
+                node.parent().removeChild(node);
+            }
+
+            if((node.parent() == null) ||
+                (node.parent() != APrintStatementStatement.this))
+            {
+                node.parent(APrintStatementStatement.this);
+            }
+
+            return node;
+        }
+    }
+
+    private class CommaExpression_Cast implements Cast
+    {
+        public Object cast(Object o)
+        {
+            PCommaExpression node = (PCommaExpression) o;
 
             if((node.parent() != null) &&
                 (node.parent() != APrintStatementStatement.this))

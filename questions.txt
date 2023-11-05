@@ -77,3 +77,8 @@ x id
 to : c**4**f(3)
 pws prepei na parsaretai?
 aristera pros ta deksia? dld (c^4)^f(3) i prwta c^(4^f(3))?
+
+
+ginetai string ** 6
+proteraiotites sta expressions
+

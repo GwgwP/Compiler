@@ -5,64 +5,34 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class AParExExpressionsWithoutCulc extends PExpressionsWithoutCulc
+public final class APlplCalculation extends PCalculation
 {
-    private TLPar _lPar_;
     private PExpression _expression_;
-    private TRPar _rPar_;
+    private TPlusplus _plusplus_;
 
-    public AParExExpressionsWithoutCulc()
+    public APlplCalculation()
     {
     }
 
-    public AParExExpressionsWithoutCulc(
-        TLPar _lPar_,
+    public APlplCalculation(
         PExpression _expression_,
-        TRPar _rPar_)
+        TPlusplus _plusplus_)
     {
-        setLPar(_lPar_);
-
         setExpression(_expression_);
 
-        setRPar(_rPar_);
+        setPlusplus(_plusplus_);
 
     }
     public Object clone()
     {
-        return new AParExExpressionsWithoutCulc(
-            (TLPar) cloneNode(_lPar_),
+        return new APlplCalculation(
             (PExpression) cloneNode(_expression_),
-            (TRPar) cloneNode(_rPar_));
+            (TPlusplus) cloneNode(_plusplus_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAParExExpressionsWithoutCulc(this);
-    }
-
-    public TLPar getLPar()
-    {
-        return _lPar_;
-    }
-
-    public void setLPar(TLPar node)
-    {
-        if(_lPar_ != null)
-        {
-            _lPar_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        _lPar_ = node;
+        ((Analysis) sw).caseAPlplCalculation(this);
     }
 
     public PExpression getExpression()
@@ -90,16 +60,16 @@ public final class AParExExpressionsWithoutCulc extends PExpressionsWithoutCulc
         _expression_ = node;
     }
 
-    public TRPar getRPar()
+    public TPlusplus getPlusplus()
     {
-        return _rPar_;
+        return _plusplus_;
     }
 
-    public void setRPar(TRPar node)
+    public void setPlusplus(TPlusplus node)
     {
-        if(_rPar_ != null)
+        if(_plusplus_ != null)
         {
-            _rPar_.parent(null);
+            _plusplus_.parent(null);
         }
 
         if(node != null)
@@ -112,34 +82,27 @@ public final class AParExExpressionsWithoutCulc extends PExpressionsWithoutCulc
             node.parent(this);
         }
 
-        _rPar_ = node;
+        _plusplus_ = node;
     }
 
     public String toString()
     {
         return ""
-            + toString(_lPar_)
             + toString(_expression_)
-            + toString(_rPar_);
+            + toString(_plusplus_);
     }
 
     void removeChild(Node child)
     {
-        if(_lPar_ == child)
-        {
-            _lPar_ = null;
-            return;
-        }
-
         if(_expression_ == child)
         {
             _expression_ = null;
             return;
         }
 
-        if(_rPar_ == child)
+        if(_plusplus_ == child)
         {
-            _rPar_ = null;
+            _plusplus_ = null;
             return;
         }
 
@@ -147,21 +110,15 @@ public final class AParExExpressionsWithoutCulc extends PExpressionsWithoutCulc
 
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(_lPar_ == oldChild)
-        {
-            setLPar((TLPar) newChild);
-            return;
-        }
-
         if(_expression_ == oldChild)
         {
             setExpression((PExpression) newChild);
             return;
         }
 
-        if(_rPar_ == oldChild)
+        if(_plusplus_ == oldChild)
         {
-            setRPar((TRPar) newChild);
+            setPlusplus((TPlusplus) newChild);
             return;
         }
 

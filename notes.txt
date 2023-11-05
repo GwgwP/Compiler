@@ -333,3 +333,30 @@ something ={identifier}id|
 			{numb}number|
 			{par} l_par expression r_par|
             comparison;
+
+
+---------------
+	expression =
+				{func} functions ;
+	
+	functions =
+				{clc} calculations |
+				{red} function_call |
+				{len_exp} len l_par expression r_par | 
+				{max_ex} max l_par value comma_value* r_par |
+				{min_ex} min l_par value comma_value* r_par ;
+
+
+	calculations = 
+				{dsd} arrays |
+				{plpl} expression plusplus  |
+				{minmin} expression minusminus |
+				{addition} expression plus multiplication | 
+				{subtraction} expression minus multiplication |
+				{multiplication} multiplication |
+				{addition_ex} expression plus calculations | 
+				{subtraction_ex} expression minus calculations;
+				
+	arrays =
+				{pinakasexp} id l_br expression r_br |
+				{marikaaaaaaaa} l_br expression comma_expression* r_br; 
