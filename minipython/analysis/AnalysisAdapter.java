@@ -173,42 +173,72 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseATrueComparison(ATrueComparison node)
+    public void caseADssComparison(ADssComparison node)
     {
         defaultCase(node);
     }
 
-    public void caseAFalseComparison(AFalseComparison node)
+    public void caseAOrcComparison(AOrcComparison node)
     {
         defaultCase(node);
     }
 
-    public void caseALesseqComparison(ALesseqComparison node)
+    public void caseADdAfteror(ADdAfteror node)
     {
         defaultCase(node);
     }
 
-    public void caseAGreateqComparison(AGreateqComparison node)
+    public void caseAAndcAfteror(AAndcAfteror node)
     {
         defaultCase(node);
     }
 
-    public void caseADiffComparison(ADiffComparison node)
+    public void caseAWAfterand(AWAfterand node)
     {
         defaultCase(node);
     }
 
-    public void caseAEqeqComparison(AEqeqComparison node)
+    public void caseANotcAfterand(ANotcAfterand node)
     {
         defaultCase(node);
     }
 
-    public void caseALesscComparison(ALesscComparison node)
+    public void caseATrueAfternot(ATrueAfternot node)
     {
         defaultCase(node);
     }
 
-    public void caseAGreatcComparison(AGreatcComparison node)
+    public void caseAFalseAfternot(AFalseAfternot node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseALesseqAfternot(ALesseqAfternot node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAGreateqAfternot(AGreateqAfternot node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseADiffAfternot(ADiffAfternot node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAEqeqAfternot(AEqeqAfternot node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseALesscAfternot(ALesscAfternot node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAGreatcAfternot(AGreatcAfternot node)
     {
         defaultCase(node);
     }
@@ -259,6 +289,16 @@ public class AnalysisAdapter implements Analysis
     }
 
     public void caseACvCommaValue(ACvCommaValue node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAPlplCalculation(APlplCalculation node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAMinminCalculation(AMinminCalculation node)
     {
         defaultCase(node);
     }

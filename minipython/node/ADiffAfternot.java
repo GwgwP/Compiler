@@ -5,39 +5,39 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class AGreatcComparison extends PComparison
+public final class ADiffAfternot extends PAfternot
 {
     private PExpression _lpar_;
-    private TGreat _great_;
+    private TNoteq _noteq_;
     private PExpression _rpar_;
 
-    public AGreatcComparison()
+    public ADiffAfternot()
     {
     }
 
-    public AGreatcComparison(
+    public ADiffAfternot(
         PExpression _lpar_,
-        TGreat _great_,
+        TNoteq _noteq_,
         PExpression _rpar_)
     {
         setLpar(_lpar_);
 
-        setGreat(_great_);
+        setNoteq(_noteq_);
 
         setRpar(_rpar_);
 
     }
     public Object clone()
     {
-        return new AGreatcComparison(
+        return new ADiffAfternot(
             (PExpression) cloneNode(_lpar_),
-            (TGreat) cloneNode(_great_),
+            (TNoteq) cloneNode(_noteq_),
             (PExpression) cloneNode(_rpar_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAGreatcComparison(this);
+        ((Analysis) sw).caseADiffAfternot(this);
     }
 
     public PExpression getLpar()
@@ -65,16 +65,16 @@ public final class AGreatcComparison extends PComparison
         _lpar_ = node;
     }
 
-    public TGreat getGreat()
+    public TNoteq getNoteq()
     {
-        return _great_;
+        return _noteq_;
     }
 
-    public void setGreat(TGreat node)
+    public void setNoteq(TNoteq node)
     {
-        if(_great_ != null)
+        if(_noteq_ != null)
         {
-            _great_.parent(null);
+            _noteq_.parent(null);
         }
 
         if(node != null)
@@ -87,7 +87,7 @@ public final class AGreatcComparison extends PComparison
             node.parent(this);
         }
 
-        _great_ = node;
+        _noteq_ = node;
     }
 
     public PExpression getRpar()
@@ -119,7 +119,7 @@ public final class AGreatcComparison extends PComparison
     {
         return ""
             + toString(_lpar_)
-            + toString(_great_)
+            + toString(_noteq_)
             + toString(_rpar_);
     }
 
@@ -131,9 +131,9 @@ public final class AGreatcComparison extends PComparison
             return;
         }
 
-        if(_great_ == child)
+        if(_noteq_ == child)
         {
-            _great_ = null;
+            _noteq_ = null;
             return;
         }
 
@@ -153,9 +153,9 @@ public final class AGreatcComparison extends PComparison
             return;
         }
 
-        if(_great_ == oldChild)
+        if(_noteq_ == oldChild)
         {
-            setGreat((TGreat) newChild);
+            setNoteq((TNoteq) newChild);
             return;
         }
 

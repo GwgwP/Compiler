@@ -5,39 +5,39 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class ALesseqComparison extends PComparison
+public final class AGreatcAfternot extends PAfternot
 {
     private PExpression _lpar_;
-    private TLesseq _lesseq_;
+    private TGreat _great_;
     private PExpression _rpar_;
 
-    public ALesseqComparison()
+    public AGreatcAfternot()
     {
     }
 
-    public ALesseqComparison(
+    public AGreatcAfternot(
         PExpression _lpar_,
-        TLesseq _lesseq_,
+        TGreat _great_,
         PExpression _rpar_)
     {
         setLpar(_lpar_);
 
-        setLesseq(_lesseq_);
+        setGreat(_great_);
 
         setRpar(_rpar_);
 
     }
     public Object clone()
     {
-        return new ALesseqComparison(
+        return new AGreatcAfternot(
             (PExpression) cloneNode(_lpar_),
-            (TLesseq) cloneNode(_lesseq_),
+            (TGreat) cloneNode(_great_),
             (PExpression) cloneNode(_rpar_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseALesseqComparison(this);
+        ((Analysis) sw).caseAGreatcAfternot(this);
     }
 
     public PExpression getLpar()
@@ -65,16 +65,16 @@ public final class ALesseqComparison extends PComparison
         _lpar_ = node;
     }
 
-    public TLesseq getLesseq()
+    public TGreat getGreat()
     {
-        return _lesseq_;
+        return _great_;
     }
 
-    public void setLesseq(TLesseq node)
+    public void setGreat(TGreat node)
     {
-        if(_lesseq_ != null)
+        if(_great_ != null)
         {
-            _lesseq_.parent(null);
+            _great_.parent(null);
         }
 
         if(node != null)
@@ -87,7 +87,7 @@ public final class ALesseqComparison extends PComparison
             node.parent(this);
         }
 
-        _lesseq_ = node;
+        _great_ = node;
     }
 
     public PExpression getRpar()
@@ -119,7 +119,7 @@ public final class ALesseqComparison extends PComparison
     {
         return ""
             + toString(_lpar_)
-            + toString(_lesseq_)
+            + toString(_great_)
             + toString(_rpar_);
     }
 
@@ -131,9 +131,9 @@ public final class ALesseqComparison extends PComparison
             return;
         }
 
-        if(_lesseq_ == child)
+        if(_great_ == child)
         {
-            _lesseq_ = null;
+            _great_ = null;
             return;
         }
 
@@ -153,9 +153,9 @@ public final class ALesseqComparison extends PComparison
             return;
         }
 
-        if(_lesseq_ == oldChild)
+        if(_great_ == oldChild)
         {
-            setLesseq((TLesseq) newChild);
+            setGreat((TGreat) newChild);
             return;
         }
 

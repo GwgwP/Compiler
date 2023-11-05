@@ -5,41 +5,41 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class AFalseComparison extends PComparison
+public final class ADssComparison extends PComparison
 {
-    private TFalse _false_;
+    private PAfteror _afteror_;
 
-    public AFalseComparison()
+    public ADssComparison()
     {
     }
 
-    public AFalseComparison(
-        TFalse _false_)
+    public ADssComparison(
+        PAfteror _afteror_)
     {
-        setFalse(_false_);
+        setAfteror(_afteror_);
 
     }
     public Object clone()
     {
-        return new AFalseComparison(
-            (TFalse) cloneNode(_false_));
+        return new ADssComparison(
+            (PAfteror) cloneNode(_afteror_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAFalseComparison(this);
+        ((Analysis) sw).caseADssComparison(this);
     }
 
-    public TFalse getFalse()
+    public PAfteror getAfteror()
     {
-        return _false_;
+        return _afteror_;
     }
 
-    public void setFalse(TFalse node)
+    public void setAfteror(PAfteror node)
     {
-        if(_false_ != null)
+        if(_afteror_ != null)
         {
-            _false_.parent(null);
+            _afteror_.parent(null);
         }
 
         if(node != null)
@@ -52,20 +52,20 @@ public final class AFalseComparison extends PComparison
             node.parent(this);
         }
 
-        _false_ = node;
+        _afteror_ = node;
     }
 
     public String toString()
     {
         return ""
-            + toString(_false_);
+            + toString(_afteror_);
     }
 
     void removeChild(Node child)
     {
-        if(_false_ == child)
+        if(_afteror_ == child)
         {
-            _false_ = null;
+            _afteror_ = null;
             return;
         }
 
@@ -73,9 +73,9 @@ public final class AFalseComparison extends PComparison
 
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(_false_ == oldChild)
+        if(_afteror_ == oldChild)
         {
-            setFalse((TFalse) newChild);
+            setAfteror((PAfteror) newChild);
             return;
         }
 

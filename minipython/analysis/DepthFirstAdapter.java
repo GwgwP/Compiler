@@ -321,6 +321,10 @@ public class DepthFirstAdapter extends AnalysisAdapter
                 ((TTab) temp[i]).apply(this);
             }
         }
+        if(node.getFor() != null)
+        {
+            node.getFor().apply(this);
+        }
         if(node.getLid() != null)
         {
             node.getLid().apply(this);
@@ -707,59 +711,199 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outAFrfrfrfrfeCommaExpression(node);
     }
 
-    public void inATrueComparison(ATrueComparison node)
+    public void inADssComparison(ADssComparison node)
     {
         defaultIn(node);
     }
 
-    public void outATrueComparison(ATrueComparison node)
+    public void outADssComparison(ADssComparison node)
     {
         defaultOut(node);
     }
 
-    public void caseATrueComparison(ATrueComparison node)
+    public void caseADssComparison(ADssComparison node)
     {
-        inATrueComparison(node);
+        inADssComparison(node);
+        if(node.getAfteror() != null)
+        {
+            node.getAfteror().apply(this);
+        }
+        outADssComparison(node);
+    }
+
+    public void inAOrcComparison(AOrcComparison node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAOrcComparison(AOrcComparison node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAOrcComparison(AOrcComparison node)
+    {
+        inAOrcComparison(node);
+        if(node.getComparison() != null)
+        {
+            node.getComparison().apply(this);
+        }
+        if(node.getLogicOr() != null)
+        {
+            node.getLogicOr().apply(this);
+        }
+        if(node.getAfteror() != null)
+        {
+            node.getAfteror().apply(this);
+        }
+        outAOrcComparison(node);
+    }
+
+    public void inADdAfteror(ADdAfteror node)
+    {
+        defaultIn(node);
+    }
+
+    public void outADdAfteror(ADdAfteror node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseADdAfteror(ADdAfteror node)
+    {
+        inADdAfteror(node);
+        if(node.getAfterand() != null)
+        {
+            node.getAfterand().apply(this);
+        }
+        outADdAfteror(node);
+    }
+
+    public void inAAndcAfteror(AAndcAfteror node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAAndcAfteror(AAndcAfteror node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAAndcAfteror(AAndcAfteror node)
+    {
+        inAAndcAfteror(node);
+        if(node.getAfteror() != null)
+        {
+            node.getAfteror().apply(this);
+        }
+        if(node.getLogicAnd() != null)
+        {
+            node.getLogicAnd().apply(this);
+        }
+        if(node.getAfterand() != null)
+        {
+            node.getAfterand().apply(this);
+        }
+        outAAndcAfteror(node);
+    }
+
+    public void inAWAfterand(AWAfterand node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAWAfterand(AWAfterand node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAWAfterand(AWAfterand node)
+    {
+        inAWAfterand(node);
+        if(node.getAfternot() != null)
+        {
+            node.getAfternot().apply(this);
+        }
+        outAWAfterand(node);
+    }
+
+    public void inANotcAfterand(ANotcAfterand node)
+    {
+        defaultIn(node);
+    }
+
+    public void outANotcAfterand(ANotcAfterand node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseANotcAfterand(ANotcAfterand node)
+    {
+        inANotcAfterand(node);
+        if(node.getNot() != null)
+        {
+            node.getNot().apply(this);
+        }
+        if(node.getAfternot() != null)
+        {
+            node.getAfternot().apply(this);
+        }
+        outANotcAfterand(node);
+    }
+
+    public void inATrueAfternot(ATrueAfternot node)
+    {
+        defaultIn(node);
+    }
+
+    public void outATrueAfternot(ATrueAfternot node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseATrueAfternot(ATrueAfternot node)
+    {
+        inATrueAfternot(node);
         if(node.getTrue() != null)
         {
             node.getTrue().apply(this);
         }
-        outATrueComparison(node);
+        outATrueAfternot(node);
     }
 
-    public void inAFalseComparison(AFalseComparison node)
+    public void inAFalseAfternot(AFalseAfternot node)
     {
         defaultIn(node);
     }
 
-    public void outAFalseComparison(AFalseComparison node)
+    public void outAFalseAfternot(AFalseAfternot node)
     {
         defaultOut(node);
     }
 
-    public void caseAFalseComparison(AFalseComparison node)
+    public void caseAFalseAfternot(AFalseAfternot node)
     {
-        inAFalseComparison(node);
+        inAFalseAfternot(node);
         if(node.getFalse() != null)
         {
             node.getFalse().apply(this);
         }
-        outAFalseComparison(node);
+        outAFalseAfternot(node);
     }
 
-    public void inALesseqComparison(ALesseqComparison node)
+    public void inALesseqAfternot(ALesseqAfternot node)
     {
         defaultIn(node);
     }
 
-    public void outALesseqComparison(ALesseqComparison node)
+    public void outALesseqAfternot(ALesseqAfternot node)
     {
         defaultOut(node);
     }
 
-    public void caseALesseqComparison(ALesseqComparison node)
+    public void caseALesseqAfternot(ALesseqAfternot node)
     {
-        inALesseqComparison(node);
+        inALesseqAfternot(node);
         if(node.getLpar() != null)
         {
             node.getLpar().apply(this);
@@ -772,22 +916,22 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getRpar().apply(this);
         }
-        outALesseqComparison(node);
+        outALesseqAfternot(node);
     }
 
-    public void inAGreateqComparison(AGreateqComparison node)
+    public void inAGreateqAfternot(AGreateqAfternot node)
     {
         defaultIn(node);
     }
 
-    public void outAGreateqComparison(AGreateqComparison node)
+    public void outAGreateqAfternot(AGreateqAfternot node)
     {
         defaultOut(node);
     }
 
-    public void caseAGreateqComparison(AGreateqComparison node)
+    public void caseAGreateqAfternot(AGreateqAfternot node)
     {
-        inAGreateqComparison(node);
+        inAGreateqAfternot(node);
         if(node.getLpar() != null)
         {
             node.getLpar().apply(this);
@@ -800,22 +944,22 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getRpar().apply(this);
         }
-        outAGreateqComparison(node);
+        outAGreateqAfternot(node);
     }
 
-    public void inADiffComparison(ADiffComparison node)
+    public void inADiffAfternot(ADiffAfternot node)
     {
         defaultIn(node);
     }
 
-    public void outADiffComparison(ADiffComparison node)
+    public void outADiffAfternot(ADiffAfternot node)
     {
         defaultOut(node);
     }
 
-    public void caseADiffComparison(ADiffComparison node)
+    public void caseADiffAfternot(ADiffAfternot node)
     {
-        inADiffComparison(node);
+        inADiffAfternot(node);
         if(node.getLpar() != null)
         {
             node.getLpar().apply(this);
@@ -828,22 +972,22 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getRpar().apply(this);
         }
-        outADiffComparison(node);
+        outADiffAfternot(node);
     }
 
-    public void inAEqeqComparison(AEqeqComparison node)
+    public void inAEqeqAfternot(AEqeqAfternot node)
     {
         defaultIn(node);
     }
 
-    public void outAEqeqComparison(AEqeqComparison node)
+    public void outAEqeqAfternot(AEqeqAfternot node)
     {
         defaultOut(node);
     }
 
-    public void caseAEqeqComparison(AEqeqComparison node)
+    public void caseAEqeqAfternot(AEqeqAfternot node)
     {
-        inAEqeqComparison(node);
+        inAEqeqAfternot(node);
         if(node.getLpar() != null)
         {
             node.getLpar().apply(this);
@@ -856,22 +1000,22 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getRpar().apply(this);
         }
-        outAEqeqComparison(node);
+        outAEqeqAfternot(node);
     }
 
-    public void inALesscComparison(ALesscComparison node)
+    public void inALesscAfternot(ALesscAfternot node)
     {
         defaultIn(node);
     }
 
-    public void outALesscComparison(ALesscComparison node)
+    public void outALesscAfternot(ALesscAfternot node)
     {
         defaultOut(node);
     }
 
-    public void caseALesscComparison(ALesscComparison node)
+    public void caseALesscAfternot(ALesscAfternot node)
     {
-        inALesscComparison(node);
+        inALesscAfternot(node);
         if(node.getLpar() != null)
         {
             node.getLpar().apply(this);
@@ -884,22 +1028,22 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getRpar().apply(this);
         }
-        outALesscComparison(node);
+        outALesscAfternot(node);
     }
 
-    public void inAGreatcComparison(AGreatcComparison node)
+    public void inAGreatcAfternot(AGreatcAfternot node)
     {
         defaultIn(node);
     }
 
-    public void outAGreatcComparison(AGreatcComparison node)
+    public void outAGreatcAfternot(AGreatcAfternot node)
     {
         defaultOut(node);
     }
 
-    public void caseAGreatcComparison(AGreatcComparison node)
+    public void caseAGreatcAfternot(AGreatcAfternot node)
     {
-        inAGreatcComparison(node);
+        inAGreatcAfternot(node);
         if(node.getLpar() != null)
         {
             node.getLpar().apply(this);
@@ -912,7 +1056,7 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getRpar().apply(this);
         }
-        outAGreatcComparison(node);
+        outAGreatcAfternot(node);
     }
 
     public void inACalculationExpression(ACalculationExpression node)
@@ -1202,6 +1346,54 @@ public class DepthFirstAdapter extends AnalysisAdapter
             node.getValue().apply(this);
         }
         outACvCommaValue(node);
+    }
+
+    public void inAPlplCalculation(APlplCalculation node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAPlplCalculation(APlplCalculation node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAPlplCalculation(APlplCalculation node)
+    {
+        inAPlplCalculation(node);
+        if(node.getExpression() != null)
+        {
+            node.getExpression().apply(this);
+        }
+        if(node.getPlusplus() != null)
+        {
+            node.getPlusplus().apply(this);
+        }
+        outAPlplCalculation(node);
+    }
+
+    public void inAMinminCalculation(AMinminCalculation node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAMinminCalculation(AMinminCalculation node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAMinminCalculation(AMinminCalculation node)
+    {
+        inAMinminCalculation(node);
+        if(node.getExpression() != null)
+        {
+            node.getExpression().apply(this);
+        }
+        if(node.getMinusminus() != null)
+        {
+            node.getMinusminus().apply(this);
+        }
+        outAMinminCalculation(node);
     }
 
     public void inAAdditionCalculation(AAdditionCalculation node)

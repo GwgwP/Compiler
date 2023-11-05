@@ -5,17 +5,17 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class AEqeqComparison extends PComparison
+public final class AEqeqAfternot extends PAfternot
 {
     private PExpression _lpar_;
     private TEqualequal _equalequal_;
     private PExpression _rpar_;
 
-    public AEqeqComparison()
+    public AEqeqAfternot()
     {
     }
 
-    public AEqeqComparison(
+    public AEqeqAfternot(
         PExpression _lpar_,
         TEqualequal _equalequal_,
         PExpression _rpar_)
@@ -29,7 +29,7 @@ public final class AEqeqComparison extends PComparison
     }
     public Object clone()
     {
-        return new AEqeqComparison(
+        return new AEqeqAfternot(
             (PExpression) cloneNode(_lpar_),
             (TEqualequal) cloneNode(_equalequal_),
             (PExpression) cloneNode(_rpar_));
@@ -37,7 +37,7 @@ public final class AEqeqComparison extends PComparison
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAEqeqComparison(this);
+        ((Analysis) sw).caseAEqeqAfternot(this);
     }
 
     public PExpression getLpar()

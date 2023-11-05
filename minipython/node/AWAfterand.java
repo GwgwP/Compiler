@@ -5,41 +5,41 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class ATrueComparison extends PComparison
+public final class AWAfterand extends PAfterand
 {
-    private TTrue _true_;
+    private PAfternot _afternot_;
 
-    public ATrueComparison()
+    public AWAfterand()
     {
     }
 
-    public ATrueComparison(
-        TTrue _true_)
+    public AWAfterand(
+        PAfternot _afternot_)
     {
-        setTrue(_true_);
+        setAfternot(_afternot_);
 
     }
     public Object clone()
     {
-        return new ATrueComparison(
-            (TTrue) cloneNode(_true_));
+        return new AWAfterand(
+            (PAfternot) cloneNode(_afternot_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseATrueComparison(this);
+        ((Analysis) sw).caseAWAfterand(this);
     }
 
-    public TTrue getTrue()
+    public PAfternot getAfternot()
     {
-        return _true_;
+        return _afternot_;
     }
 
-    public void setTrue(TTrue node)
+    public void setAfternot(PAfternot node)
     {
-        if(_true_ != null)
+        if(_afternot_ != null)
         {
-            _true_.parent(null);
+            _afternot_.parent(null);
         }
 
         if(node != null)
@@ -52,20 +52,20 @@ public final class ATrueComparison extends PComparison
             node.parent(this);
         }
 
-        _true_ = node;
+        _afternot_ = node;
     }
 
     public String toString()
     {
         return ""
-            + toString(_true_);
+            + toString(_afternot_);
     }
 
     void removeChild(Node child)
     {
-        if(_true_ == child)
+        if(_afternot_ == child)
         {
-            _true_ = null;
+            _afternot_ = null;
             return;
         }
 
@@ -73,9 +73,9 @@ public final class ATrueComparison extends PComparison
 
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(_true_ == oldChild)
+        if(_afternot_ == oldChild)
         {
-            setTrue((TTrue) newChild);
+            setAfternot((PAfternot) newChild);
             return;
         }
 

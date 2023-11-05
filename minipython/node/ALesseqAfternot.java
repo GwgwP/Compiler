@@ -5,39 +5,39 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class ADiffComparison extends PComparison
+public final class ALesseqAfternot extends PAfternot
 {
     private PExpression _lpar_;
-    private TNoteq _noteq_;
+    private TLesseq _lesseq_;
     private PExpression _rpar_;
 
-    public ADiffComparison()
+    public ALesseqAfternot()
     {
     }
 
-    public ADiffComparison(
+    public ALesseqAfternot(
         PExpression _lpar_,
-        TNoteq _noteq_,
+        TLesseq _lesseq_,
         PExpression _rpar_)
     {
         setLpar(_lpar_);
 
-        setNoteq(_noteq_);
+        setLesseq(_lesseq_);
 
         setRpar(_rpar_);
 
     }
     public Object clone()
     {
-        return new ADiffComparison(
+        return new ALesseqAfternot(
             (PExpression) cloneNode(_lpar_),
-            (TNoteq) cloneNode(_noteq_),
+            (TLesseq) cloneNode(_lesseq_),
             (PExpression) cloneNode(_rpar_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseADiffComparison(this);
+        ((Analysis) sw).caseALesseqAfternot(this);
     }
 
     public PExpression getLpar()
@@ -65,16 +65,16 @@ public final class ADiffComparison extends PComparison
         _lpar_ = node;
     }
 
-    public TNoteq getNoteq()
+    public TLesseq getLesseq()
     {
-        return _noteq_;
+        return _lesseq_;
     }
 
-    public void setNoteq(TNoteq node)
+    public void setLesseq(TLesseq node)
     {
-        if(_noteq_ != null)
+        if(_lesseq_ != null)
         {
-            _noteq_.parent(null);
+            _lesseq_.parent(null);
         }
 
         if(node != null)
@@ -87,7 +87,7 @@ public final class ADiffComparison extends PComparison
             node.parent(this);
         }
 
-        _noteq_ = node;
+        _lesseq_ = node;
     }
 
     public PExpression getRpar()
@@ -119,7 +119,7 @@ public final class ADiffComparison extends PComparison
     {
         return ""
             + toString(_lpar_)
-            + toString(_noteq_)
+            + toString(_lesseq_)
             + toString(_rpar_);
     }
 
@@ -131,9 +131,9 @@ public final class ADiffComparison extends PComparison
             return;
         }
 
-        if(_noteq_ == child)
+        if(_lesseq_ == child)
         {
-            _noteq_ = null;
+            _lesseq_ = null;
             return;
         }
 
@@ -153,9 +153,9 @@ public final class ADiffComparison extends PComparison
             return;
         }
 
-        if(_noteq_ == oldChild)
+        if(_lesseq_ == oldChild)
         {
-            setNoteq((TNoteq) newChild);
+            setLesseq((TLesseq) newChild);
             return;
         }
 

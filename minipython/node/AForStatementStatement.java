@@ -8,6 +8,7 @@ import minipython.analysis.*;
 public final class AForStatementStatement extends PStatement
 {
     private final LinkedList _tab_ = new TypedLinkedList(new Tab_Cast());
+    private TFor _for_;
     private TId _lid_;
     private TIn _in_;
     private TId _rid_;
@@ -20,6 +21,7 @@ public final class AForStatementStatement extends PStatement
 
     public AForStatementStatement(
         List _tab_,
+        TFor _for_,
         TId _lid_,
         TIn _in_,
         TId _rid_,
@@ -30,6 +32,8 @@ public final class AForStatementStatement extends PStatement
             this._tab_.clear();
             this._tab_.addAll(_tab_);
         }
+
+        setFor(_for_);
 
         setLid(_lid_);
 
@@ -46,6 +50,7 @@ public final class AForStatementStatement extends PStatement
     {
         return new AForStatementStatement(
             cloneList(_tab_),
+            (TFor) cloneNode(_for_),
             (TId) cloneNode(_lid_),
             (TIn) cloneNode(_in_),
             (TId) cloneNode(_rid_),
@@ -67,6 +72,31 @@ public final class AForStatementStatement extends PStatement
     {
         _tab_.clear();
         _tab_.addAll(list);
+    }
+
+    public TFor getFor()
+    {
+        return _for_;
+    }
+
+    public void setFor(TFor node)
+    {
+        if(_for_ != null)
+        {
+            _for_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        _for_ = node;
     }
 
     public TId getLid()
@@ -198,6 +228,7 @@ public final class AForStatementStatement extends PStatement
     {
         return ""
             + toString(_tab_)
+            + toString(_for_)
             + toString(_lid_)
             + toString(_in_)
             + toString(_rid_)
@@ -209,6 +240,12 @@ public final class AForStatementStatement extends PStatement
     {
         if(_tab_.remove(child))
         {
+            return;
+        }
+
+        if(_for_ == child)
+        {
+            _for_ = null;
             return;
         }
 
@@ -261,6 +298,12 @@ public final class AForStatementStatement extends PStatement
                 oldChild.parent(null);
                 return;
             }
+        }
+
+        if(_for_ == oldChild)
+        {
+            setFor((TFor) newChild);
+            return;
         }
 
         if(_lid_ == oldChild)
