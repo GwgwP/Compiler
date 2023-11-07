@@ -143,46 +143,41 @@ Productions
 				{greatc}[lpar]:expression great [rpar]:expression  ;
 
 
-	expression =
-				{calculation} calculation |
-				{expr_w_c} expressions_without_culc ;
 
-
-	expressions_without_culc = 	
-				{pinakasexp} id l_br expression r_br |
-				{red} function_call |
-				{len_exp} len l_par expression r_par |
-				{max_ex} max l_par value comma_value* r_par |
-				{min_ex} min l_par value comma_value* r_par |
-				{marikaaaaaaaa} l_br expression comma_expression* r_br; 
 
 	comma_value =
 				{cv} comma value;
+				
 
-	calculation = 
+	expression = 
+				{dew} expressions_without_culc |
+				{pinakasexp} id l_br expression r_br |
 				{plpl} expression plusplus  |
+				{red} function_call |
                 {minmin} expression minusminus |
-				{addition} expression plus multiplication | 
-				{subtraction} expression minus multiplication |
-				{multiplication} multiplication |
+				{len_exp} len l_par expression r_par |
 				{addition_ex} expression plus expressions_without_culc | 
 				{subtraction_ex} expression minus expressions_without_culc;
+
+
+	simple_expressions = 
+				{msa} multiplication |	
+				{max_ex} max l_par value comma_value* r_par |
+				{min_ex} min l_par value comma_value* r_par ;
+
 
 						
 	multiplication = 
 				{pow} power | 
 				{division} multiplication div power |
 				{modulo} multiplication mod power |
-				{multiplication} multiplication mult power|
-				{divisionez} multiplication div expressions_without_culc |
-				{moduloez} multiplication mod expressions_without_culc |
-				{multiplicationez} multiplication mult expressions_without_culc;
+				{multiplication} multiplication mult power;
 
 
 	power = 
 				{value} value | 
-				{power} power pow value |
-				{powe2r} power pow expressions_without_culc;
+				{power} power pow value ;
+					
 							
 	value =
 				{iddot} id dot function_call |
@@ -191,6 +186,7 @@ Productions
 				{d} string_double_quotes |
 				{we} string_single_quotes |
 				{psr} l_par expression r_par |
+				{giiagiga} l_br expression comma_expression* r_br|
 				{nonenonegood} none ;
 
 	ident = {e} id;

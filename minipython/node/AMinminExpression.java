@@ -5,16 +5,16 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class AMinminCalculation extends PCalculation
+public final class AMinminExpression extends PExpression
 {
     private PExpression _expression_;
     private TMinusminus _minusminus_;
 
-    public AMinminCalculation()
+    public AMinminExpression()
     {
     }
 
-    public AMinminCalculation(
+    public AMinminExpression(
         PExpression _expression_,
         TMinusminus _minusminus_)
     {
@@ -25,14 +25,14 @@ public final class AMinminCalculation extends PCalculation
     }
     public Object clone()
     {
-        return new AMinminCalculation(
+        return new AMinminExpression(
             (PExpression) cloneNode(_expression_),
             (TMinusminus) cloneNode(_minusminus_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAMinminCalculation(this);
+        ((Analysis) sw).caseAMinminExpression(this);
     }
 
     public PExpression getExpression()

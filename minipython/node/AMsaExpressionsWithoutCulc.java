@@ -5,15 +5,15 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class AMultiplicationCalculation extends PCalculation
+public final class AMsaExpressionsWithoutCulc extends PExpressionsWithoutCulc
 {
     private PMultiplication _multiplication_;
 
-    public AMultiplicationCalculation()
+    public AMsaExpressionsWithoutCulc()
     {
     }
 
-    public AMultiplicationCalculation(
+    public AMsaExpressionsWithoutCulc(
         PMultiplication _multiplication_)
     {
         setMultiplication(_multiplication_);
@@ -21,13 +21,13 @@ public final class AMultiplicationCalculation extends PCalculation
     }
     public Object clone()
     {
-        return new AMultiplicationCalculation(
+        return new AMsaExpressionsWithoutCulc(
             (PMultiplication) cloneNode(_multiplication_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAMultiplicationCalculation(this);
+        ((Analysis) sw).caseAMsaExpressionsWithoutCulc(this);
     }
 
     public PMultiplication getMultiplication()

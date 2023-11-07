@@ -5,15 +5,15 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class AExprWCExpression extends PExpression
+public final class ADewExpression extends PExpression
 {
     private PExpressionsWithoutCulc _expressionsWithoutCulc_;
 
-    public AExprWCExpression()
+    public ADewExpression()
     {
     }
 
-    public AExprWCExpression(
+    public ADewExpression(
         PExpressionsWithoutCulc _expressionsWithoutCulc_)
     {
         setExpressionsWithoutCulc(_expressionsWithoutCulc_);
@@ -21,13 +21,13 @@ public final class AExprWCExpression extends PExpression
     }
     public Object clone()
     {
-        return new AExprWCExpression(
+        return new ADewExpression(
             (PExpressionsWithoutCulc) cloneNode(_expressionsWithoutCulc_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAExprWCExpression(this);
+        ((Analysis) sw).caseADewExpression(this);
     }
 
     public PExpressionsWithoutCulc getExpressionsWithoutCulc()

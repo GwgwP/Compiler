@@ -5,39 +5,39 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class AAdditionCalculation extends PCalculation
+public final class ASubtractionExExpression extends PExpression
 {
     private PExpression _expression_;
-    private TPlus _plus_;
-    private PMultiplication _multiplication_;
+    private TMinus _minus_;
+    private PExpressionsWithoutCulc _expressionsWithoutCulc_;
 
-    public AAdditionCalculation()
+    public ASubtractionExExpression()
     {
     }
 
-    public AAdditionCalculation(
+    public ASubtractionExExpression(
         PExpression _expression_,
-        TPlus _plus_,
-        PMultiplication _multiplication_)
+        TMinus _minus_,
+        PExpressionsWithoutCulc _expressionsWithoutCulc_)
     {
         setExpression(_expression_);
 
-        setPlus(_plus_);
+        setMinus(_minus_);
 
-        setMultiplication(_multiplication_);
+        setExpressionsWithoutCulc(_expressionsWithoutCulc_);
 
     }
     public Object clone()
     {
-        return new AAdditionCalculation(
+        return new ASubtractionExExpression(
             (PExpression) cloneNode(_expression_),
-            (TPlus) cloneNode(_plus_),
-            (PMultiplication) cloneNode(_multiplication_));
+            (TMinus) cloneNode(_minus_),
+            (PExpressionsWithoutCulc) cloneNode(_expressionsWithoutCulc_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAAdditionCalculation(this);
+        ((Analysis) sw).caseASubtractionExExpression(this);
     }
 
     public PExpression getExpression()
@@ -65,16 +65,16 @@ public final class AAdditionCalculation extends PCalculation
         _expression_ = node;
     }
 
-    public TPlus getPlus()
+    public TMinus getMinus()
     {
-        return _plus_;
+        return _minus_;
     }
 
-    public void setPlus(TPlus node)
+    public void setMinus(TMinus node)
     {
-        if(_plus_ != null)
+        if(_minus_ != null)
         {
-            _plus_.parent(null);
+            _minus_.parent(null);
         }
 
         if(node != null)
@@ -87,19 +87,19 @@ public final class AAdditionCalculation extends PCalculation
             node.parent(this);
         }
 
-        _plus_ = node;
+        _minus_ = node;
     }
 
-    public PMultiplication getMultiplication()
+    public PExpressionsWithoutCulc getExpressionsWithoutCulc()
     {
-        return _multiplication_;
+        return _expressionsWithoutCulc_;
     }
 
-    public void setMultiplication(PMultiplication node)
+    public void setExpressionsWithoutCulc(PExpressionsWithoutCulc node)
     {
-        if(_multiplication_ != null)
+        if(_expressionsWithoutCulc_ != null)
         {
-            _multiplication_.parent(null);
+            _expressionsWithoutCulc_.parent(null);
         }
 
         if(node != null)
@@ -112,15 +112,15 @@ public final class AAdditionCalculation extends PCalculation
             node.parent(this);
         }
 
-        _multiplication_ = node;
+        _expressionsWithoutCulc_ = node;
     }
 
     public String toString()
     {
         return ""
             + toString(_expression_)
-            + toString(_plus_)
-            + toString(_multiplication_);
+            + toString(_minus_)
+            + toString(_expressionsWithoutCulc_);
     }
 
     void removeChild(Node child)
@@ -131,15 +131,15 @@ public final class AAdditionCalculation extends PCalculation
             return;
         }
 
-        if(_plus_ == child)
+        if(_minus_ == child)
         {
-            _plus_ = null;
+            _minus_ = null;
             return;
         }
 
-        if(_multiplication_ == child)
+        if(_expressionsWithoutCulc_ == child)
         {
-            _multiplication_ = null;
+            _expressionsWithoutCulc_ = null;
             return;
         }
 
@@ -153,15 +153,15 @@ public final class AAdditionCalculation extends PCalculation
             return;
         }
 
-        if(_plus_ == oldChild)
+        if(_minus_ == oldChild)
         {
-            setPlus((TPlus) newChild);
+            setMinus((TMinus) newChild);
             return;
         }
 
-        if(_multiplication_ == oldChild)
+        if(_expressionsWithoutCulc_ == oldChild)
         {
-            setMultiplication((PMultiplication) newChild);
+            setExpressionsWithoutCulc((PExpressionsWithoutCulc) newChild);
             return;
         }
 

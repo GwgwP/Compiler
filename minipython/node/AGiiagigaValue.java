@@ -5,69 +5,47 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class APinakasexpExpressionsWithoutCulc extends PExpressionsWithoutCulc
+public final class AGiiagigaValue extends PValue
 {
-    private TId _id_;
     private TLBr _lBr_;
     private PExpression _expression_;
+    private final LinkedList _commaExpression_ = new TypedLinkedList(new CommaExpression_Cast());
     private TRBr _rBr_;
 
-    public APinakasexpExpressionsWithoutCulc()
+    public AGiiagigaValue()
     {
     }
 
-    public APinakasexpExpressionsWithoutCulc(
-        TId _id_,
+    public AGiiagigaValue(
         TLBr _lBr_,
         PExpression _expression_,
+        List _commaExpression_,
         TRBr _rBr_)
     {
-        setId(_id_);
-
         setLBr(_lBr_);
 
         setExpression(_expression_);
+
+        {
+            this._commaExpression_.clear();
+            this._commaExpression_.addAll(_commaExpression_);
+        }
 
         setRBr(_rBr_);
 
     }
     public Object clone()
     {
-        return new APinakasexpExpressionsWithoutCulc(
-            (TId) cloneNode(_id_),
+        return new AGiiagigaValue(
             (TLBr) cloneNode(_lBr_),
             (PExpression) cloneNode(_expression_),
+            cloneList(_commaExpression_),
             (TRBr) cloneNode(_rBr_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAPinakasexpExpressionsWithoutCulc(this);
-    }
-
-    public TId getId()
-    {
-        return _id_;
-    }
-
-    public void setId(TId node)
-    {
-        if(_id_ != null)
-        {
-            _id_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        _id_ = node;
+        ((Analysis) sw).caseAGiiagigaValue(this);
     }
 
     public TLBr getLBr()
@@ -120,6 +98,17 @@ public final class APinakasexpExpressionsWithoutCulc extends PExpressionsWithout
         _expression_ = node;
     }
 
+    public LinkedList getCommaExpression()
+    {
+        return _commaExpression_;
+    }
+
+    public void setCommaExpression(List list)
+    {
+        _commaExpression_.clear();
+        _commaExpression_.addAll(list);
+    }
+
     public TRBr getRBr()
     {
         return _rBr_;
@@ -148,20 +137,14 @@ public final class APinakasexpExpressionsWithoutCulc extends PExpressionsWithout
     public String toString()
     {
         return ""
-            + toString(_id_)
             + toString(_lBr_)
             + toString(_expression_)
+            + toString(_commaExpression_)
             + toString(_rBr_);
     }
 
     void removeChild(Node child)
     {
-        if(_id_ == child)
-        {
-            _id_ = null;
-            return;
-        }
-
         if(_lBr_ == child)
         {
             _lBr_ = null;
@@ -171,6 +154,11 @@ public final class APinakasexpExpressionsWithoutCulc extends PExpressionsWithout
         if(_expression_ == child)
         {
             _expression_ = null;
+            return;
+        }
+
+        if(_commaExpression_.remove(child))
+        {
             return;
         }
 
@@ -184,12 +172,6 @@ public final class APinakasexpExpressionsWithoutCulc extends PExpressionsWithout
 
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(_id_ == oldChild)
-        {
-            setId((TId) newChild);
-            return;
-        }
-
         if(_lBr_ == oldChild)
         {
             setLBr((TLBr) newChild);
@@ -202,11 +184,50 @@ public final class APinakasexpExpressionsWithoutCulc extends PExpressionsWithout
             return;
         }
 
+        for(ListIterator i = _commaExpression_.listIterator(); i.hasNext();)
+        {
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set(newChild);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
+        }
+
         if(_rBr_ == oldChild)
         {
             setRBr((TRBr) newChild);
             return;
         }
 
+    }
+
+    private class CommaExpression_Cast implements Cast
+    {
+        public Object cast(Object o)
+        {
+            PCommaExpression node = (PCommaExpression) o;
+
+            if((node.parent() != null) &&
+                (node.parent() != AGiiagigaValue.this))
+            {
+                node.parent().removeChild(node);
+            }
+
+            if((node.parent() == null) ||
+                (node.parent() != AGiiagigaValue.this))
+            {
+                node.parent(AGiiagigaValue.this);
+            }
+
+            return node;
+        }
     }
 }

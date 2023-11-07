@@ -5,56 +5,56 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class ALenExpExpressionsWithoutCulc extends PExpressionsWithoutCulc
+public final class APinakasexpExpression extends PExpression
 {
-    private TLen _len_;
-    private TLPar _lPar_;
+    private TId _id_;
+    private TLBr _lBr_;
     private PExpression _expression_;
-    private TRPar _rPar_;
+    private TRBr _rBr_;
 
-    public ALenExpExpressionsWithoutCulc()
+    public APinakasexpExpression()
     {
     }
 
-    public ALenExpExpressionsWithoutCulc(
-        TLen _len_,
-        TLPar _lPar_,
+    public APinakasexpExpression(
+        TId _id_,
+        TLBr _lBr_,
         PExpression _expression_,
-        TRPar _rPar_)
+        TRBr _rBr_)
     {
-        setLen(_len_);
+        setId(_id_);
 
-        setLPar(_lPar_);
+        setLBr(_lBr_);
 
         setExpression(_expression_);
 
-        setRPar(_rPar_);
+        setRBr(_rBr_);
 
     }
     public Object clone()
     {
-        return new ALenExpExpressionsWithoutCulc(
-            (TLen) cloneNode(_len_),
-            (TLPar) cloneNode(_lPar_),
+        return new APinakasexpExpression(
+            (TId) cloneNode(_id_),
+            (TLBr) cloneNode(_lBr_),
             (PExpression) cloneNode(_expression_),
-            (TRPar) cloneNode(_rPar_));
+            (TRBr) cloneNode(_rBr_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseALenExpExpressionsWithoutCulc(this);
+        ((Analysis) sw).caseAPinakasexpExpression(this);
     }
 
-    public TLen getLen()
+    public TId getId()
     {
-        return _len_;
+        return _id_;
     }
 
-    public void setLen(TLen node)
+    public void setId(TId node)
     {
-        if(_len_ != null)
+        if(_id_ != null)
         {
-            _len_.parent(null);
+            _id_.parent(null);
         }
 
         if(node != null)
@@ -67,19 +67,19 @@ public final class ALenExpExpressionsWithoutCulc extends PExpressionsWithoutCulc
             node.parent(this);
         }
 
-        _len_ = node;
+        _id_ = node;
     }
 
-    public TLPar getLPar()
+    public TLBr getLBr()
     {
-        return _lPar_;
+        return _lBr_;
     }
 
-    public void setLPar(TLPar node)
+    public void setLBr(TLBr node)
     {
-        if(_lPar_ != null)
+        if(_lBr_ != null)
         {
-            _lPar_.parent(null);
+            _lBr_.parent(null);
         }
 
         if(node != null)
@@ -92,7 +92,7 @@ public final class ALenExpExpressionsWithoutCulc extends PExpressionsWithoutCulc
             node.parent(this);
         }
 
-        _lPar_ = node;
+        _lBr_ = node;
     }
 
     public PExpression getExpression()
@@ -120,16 +120,16 @@ public final class ALenExpExpressionsWithoutCulc extends PExpressionsWithoutCulc
         _expression_ = node;
     }
 
-    public TRPar getRPar()
+    public TRBr getRBr()
     {
-        return _rPar_;
+        return _rBr_;
     }
 
-    public void setRPar(TRPar node)
+    public void setRBr(TRBr node)
     {
-        if(_rPar_ != null)
+        if(_rBr_ != null)
         {
-            _rPar_.parent(null);
+            _rBr_.parent(null);
         }
 
         if(node != null)
@@ -142,29 +142,29 @@ public final class ALenExpExpressionsWithoutCulc extends PExpressionsWithoutCulc
             node.parent(this);
         }
 
-        _rPar_ = node;
+        _rBr_ = node;
     }
 
     public String toString()
     {
         return ""
-            + toString(_len_)
-            + toString(_lPar_)
+            + toString(_id_)
+            + toString(_lBr_)
             + toString(_expression_)
-            + toString(_rPar_);
+            + toString(_rBr_);
     }
 
     void removeChild(Node child)
     {
-        if(_len_ == child)
+        if(_id_ == child)
         {
-            _len_ = null;
+            _id_ = null;
             return;
         }
 
-        if(_lPar_ == child)
+        if(_lBr_ == child)
         {
-            _lPar_ = null;
+            _lBr_ = null;
             return;
         }
 
@@ -174,9 +174,9 @@ public final class ALenExpExpressionsWithoutCulc extends PExpressionsWithoutCulc
             return;
         }
 
-        if(_rPar_ == child)
+        if(_rBr_ == child)
         {
-            _rPar_ = null;
+            _rBr_ = null;
             return;
         }
 
@@ -184,15 +184,15 @@ public final class ALenExpExpressionsWithoutCulc extends PExpressionsWithoutCulc
 
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(_len_ == oldChild)
+        if(_id_ == oldChild)
         {
-            setLen((TLen) newChild);
+            setId((TId) newChild);
             return;
         }
 
-        if(_lPar_ == oldChild)
+        if(_lBr_ == oldChild)
         {
-            setLPar((TLPar) newChild);
+            setLBr((TLBr) newChild);
             return;
         }
 
@@ -202,9 +202,9 @@ public final class ALenExpExpressionsWithoutCulc extends PExpressionsWithoutCulc
             return;
         }
 
-        if(_rPar_ == oldChild)
+        if(_rBr_ == oldChild)
         {
-            setRPar((TRPar) newChild);
+            setRBr((TRBr) newChild);
             return;
         }
 

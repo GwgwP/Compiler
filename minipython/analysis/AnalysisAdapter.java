@@ -248,27 +248,52 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseACalculationExpression(ACalculationExpression node)
+    public void caseACvCommaValue(ACvCommaValue node)
     {
         defaultCase(node);
     }
 
-    public void caseAExprWCExpression(AExprWCExpression node)
+    public void caseADewExpression(ADewExpression node)
     {
         defaultCase(node);
     }
 
-    public void caseAPinakasexpExpressionsWithoutCulc(APinakasexpExpressionsWithoutCulc node)
+    public void caseAPinakasexpExpression(APinakasexpExpression node)
     {
         defaultCase(node);
     }
 
-    public void caseARedExpressionsWithoutCulc(ARedExpressionsWithoutCulc node)
+    public void caseAPlplExpression(APlplExpression node)
     {
         defaultCase(node);
     }
 
-    public void caseALenExpExpressionsWithoutCulc(ALenExpExpressionsWithoutCulc node)
+    public void caseARedExpression(ARedExpression node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAMinminExpression(AMinminExpression node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseALenExpExpression(ALenExpExpression node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAAdditionExExpression(AAdditionExExpression node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseASubtractionExExpression(ASubtractionExExpression node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAMsaExpressionsWithoutCulc(AMsaExpressionsWithoutCulc node)
     {
         defaultCase(node);
     }
@@ -279,51 +304,6 @@ public class AnalysisAdapter implements Analysis
     }
 
     public void caseAMinExExpressionsWithoutCulc(AMinExExpressionsWithoutCulc node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAMarikaaaaaaaaExpressionsWithoutCulc(AMarikaaaaaaaaExpressionsWithoutCulc node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseACvCommaValue(ACvCommaValue node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAPlplCalculation(APlplCalculation node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAMinminCalculation(AMinminCalculation node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAAdditionCalculation(AAdditionCalculation node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseASubtractionCalculation(ASubtractionCalculation node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAMultiplicationCalculation(AMultiplicationCalculation node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAAdditionExCalculation(AAdditionExCalculation node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseASubtractionExCalculation(ASubtractionExCalculation node)
     {
         defaultCase(node);
     }
@@ -348,32 +328,12 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseADivisionezMultiplication(ADivisionezMultiplication node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAModuloezMultiplication(AModuloezMultiplication node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAMultiplicationezMultiplication(AMultiplicationezMultiplication node)
-    {
-        defaultCase(node);
-    }
-
     public void caseAValuePower(AValuePower node)
     {
         defaultCase(node);
     }
 
     public void caseAPowerPower(APowerPower node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAPowe2rPower(APowe2rPower node)
     {
         defaultCase(node);
     }
@@ -404,6 +364,11 @@ public class AnalysisAdapter implements Analysis
     }
 
     public void caseAPsrValue(APsrValue node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAGiiagigaValue(AGiiagigaValue node)
     {
         defaultCase(node);
     }

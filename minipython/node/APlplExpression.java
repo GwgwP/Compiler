@@ -5,16 +5,16 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class APlplCalculation extends PCalculation
+public final class APlplExpression extends PExpression
 {
     private PExpression _expression_;
     private TPlusplus _plusplus_;
 
-    public APlplCalculation()
+    public APlplExpression()
     {
     }
 
-    public APlplCalculation(
+    public APlplExpression(
         PExpression _expression_,
         TPlusplus _plusplus_)
     {
@@ -25,14 +25,14 @@ public final class APlplCalculation extends PCalculation
     }
     public Object clone()
     {
-        return new APlplCalculation(
+        return new APlplExpression(
             (PExpression) cloneNode(_expression_),
             (TPlusplus) cloneNode(_plusplus_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAPlplCalculation(this);
+        ((Analysis) sw).caseAPlplExpression(this);
     }
 
     public PExpression getExpression()
