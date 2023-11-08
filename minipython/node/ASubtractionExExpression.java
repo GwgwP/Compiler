@@ -9,7 +9,7 @@ public final class ASubtractionExExpression extends PExpression
 {
     private PExpression _expression_;
     private TMinus _minus_;
-    private PExpressionsWithoutCulc _expressionsWithoutCulc_;
+    private PExpressiono _expressiono_;
 
     public ASubtractionExExpression()
     {
@@ -18,13 +18,13 @@ public final class ASubtractionExExpression extends PExpression
     public ASubtractionExExpression(
         PExpression _expression_,
         TMinus _minus_,
-        PExpressionsWithoutCulc _expressionsWithoutCulc_)
+        PExpressiono _expressiono_)
     {
         setExpression(_expression_);
 
         setMinus(_minus_);
 
-        setExpressionsWithoutCulc(_expressionsWithoutCulc_);
+        setExpressiono(_expressiono_);
 
     }
     public Object clone()
@@ -32,7 +32,7 @@ public final class ASubtractionExExpression extends PExpression
         return new ASubtractionExExpression(
             (PExpression) cloneNode(_expression_),
             (TMinus) cloneNode(_minus_),
-            (PExpressionsWithoutCulc) cloneNode(_expressionsWithoutCulc_));
+            (PExpressiono) cloneNode(_expressiono_));
     }
 
     public void apply(Switch sw)
@@ -90,16 +90,16 @@ public final class ASubtractionExExpression extends PExpression
         _minus_ = node;
     }
 
-    public PExpressionsWithoutCulc getExpressionsWithoutCulc()
+    public PExpressiono getExpressiono()
     {
-        return _expressionsWithoutCulc_;
+        return _expressiono_;
     }
 
-    public void setExpressionsWithoutCulc(PExpressionsWithoutCulc node)
+    public void setExpressiono(PExpressiono node)
     {
-        if(_expressionsWithoutCulc_ != null)
+        if(_expressiono_ != null)
         {
-            _expressionsWithoutCulc_.parent(null);
+            _expressiono_.parent(null);
         }
 
         if(node != null)
@@ -112,7 +112,7 @@ public final class ASubtractionExExpression extends PExpression
             node.parent(this);
         }
 
-        _expressionsWithoutCulc_ = node;
+        _expressiono_ = node;
     }
 
     public String toString()
@@ -120,7 +120,7 @@ public final class ASubtractionExExpression extends PExpression
         return ""
             + toString(_expression_)
             + toString(_minus_)
-            + toString(_expressionsWithoutCulc_);
+            + toString(_expressiono_);
     }
 
     void removeChild(Node child)
@@ -137,9 +137,9 @@ public final class ASubtractionExExpression extends PExpression
             return;
         }
 
-        if(_expressionsWithoutCulc_ == child)
+        if(_expressiono_ == child)
         {
-            _expressionsWithoutCulc_ = null;
+            _expressiono_ = null;
             return;
         }
 
@@ -159,9 +159,9 @@ public final class ASubtractionExExpression extends PExpression
             return;
         }
 
-        if(_expressionsWithoutCulc_ == oldChild)
+        if(_expressiono_ == oldChild)
         {
-            setExpressionsWithoutCulc((PExpressionsWithoutCulc) newChild);
+            setExpressiono((PExpressiono) newChild);
             return;
         }
 

@@ -9,7 +9,7 @@ public final class AAdditionExExpression extends PExpression
 {
     private PExpression _expression_;
     private TPlus _plus_;
-    private PExpressionsWithoutCulc _expressionsWithoutCulc_;
+    private PExpressiono _expressiono_;
 
     public AAdditionExExpression()
     {
@@ -18,13 +18,13 @@ public final class AAdditionExExpression extends PExpression
     public AAdditionExExpression(
         PExpression _expression_,
         TPlus _plus_,
-        PExpressionsWithoutCulc _expressionsWithoutCulc_)
+        PExpressiono _expressiono_)
     {
         setExpression(_expression_);
 
         setPlus(_plus_);
 
-        setExpressionsWithoutCulc(_expressionsWithoutCulc_);
+        setExpressiono(_expressiono_);
 
     }
     public Object clone()
@@ -32,7 +32,7 @@ public final class AAdditionExExpression extends PExpression
         return new AAdditionExExpression(
             (PExpression) cloneNode(_expression_),
             (TPlus) cloneNode(_plus_),
-            (PExpressionsWithoutCulc) cloneNode(_expressionsWithoutCulc_));
+            (PExpressiono) cloneNode(_expressiono_));
     }
 
     public void apply(Switch sw)
@@ -90,16 +90,16 @@ public final class AAdditionExExpression extends PExpression
         _plus_ = node;
     }
 
-    public PExpressionsWithoutCulc getExpressionsWithoutCulc()
+    public PExpressiono getExpressiono()
     {
-        return _expressionsWithoutCulc_;
+        return _expressiono_;
     }
 
-    public void setExpressionsWithoutCulc(PExpressionsWithoutCulc node)
+    public void setExpressiono(PExpressiono node)
     {
-        if(_expressionsWithoutCulc_ != null)
+        if(_expressiono_ != null)
         {
-            _expressionsWithoutCulc_.parent(null);
+            _expressiono_.parent(null);
         }
 
         if(node != null)
@@ -112,7 +112,7 @@ public final class AAdditionExExpression extends PExpression
             node.parent(this);
         }
 
-        _expressionsWithoutCulc_ = node;
+        _expressiono_ = node;
     }
 
     public String toString()
@@ -120,7 +120,7 @@ public final class AAdditionExExpression extends PExpression
         return ""
             + toString(_expression_)
             + toString(_plus_)
-            + toString(_expressionsWithoutCulc_);
+            + toString(_expressiono_);
     }
 
     void removeChild(Node child)
@@ -137,9 +137,9 @@ public final class AAdditionExExpression extends PExpression
             return;
         }
 
-        if(_expressionsWithoutCulc_ == child)
+        if(_expressiono_ == child)
         {
-            _expressionsWithoutCulc_ = null;
+            _expressiono_ = null;
             return;
         }
 
@@ -159,9 +159,9 @@ public final class AAdditionExExpression extends PExpression
             return;
         }
 
-        if(_expressionsWithoutCulc_ == oldChild)
+        if(_expressiono_ == oldChild)
         {
-            setExpressionsWithoutCulc((PExpressionsWithoutCulc) newChild);
+            setExpressiono((PExpressiono) newChild);
             return;
         }
 

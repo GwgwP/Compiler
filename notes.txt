@@ -360,3 +360,27 @@ something ={identifier}id|
 	arrays =
 				{pinakasexp} id l_br expression r_br |
 				{marikaaaaaaaa} l_br expression comma_expression* r_br; 
+
+
+
+
+
+
+
+
+
+	expression = 
+			-	{dew} simple_expression |
+			-	{red} function_call |
+			?	{len_exp} len l_par expression r_par |
+			-	{max_ex} max l_par value comma_value* r_par |
+			-	{min_ex} min l_par value comma_value* r_par |
+			-	{addition_ex} expression plus simple_expression | 
+			-	{subtraction_ex} expression minus simple_expression;
+
+
+	simple_expression = 
+			?	{pinakasexp} id l_br expression r_br |
+			-	{plpl} simple_expression plusplus  |
+	 		-	{minmin} simple_expression minusminus |
+			-	{msa} multiplication ;

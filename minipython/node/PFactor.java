@@ -2,6 +2,6 @@
 
 package minipython.node;
 
-public abstract class PExpressionsWithoutCulc extends Node
+public abstract class PFactor extends Node
 {
 }

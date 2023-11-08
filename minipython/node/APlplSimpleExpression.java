@@ -5,46 +5,46 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class APlplExpression extends PExpression
+public final class APlplSimpleExpression extends PSimpleExpression
 {
-    private PExpression _expression_;
+    private PSimpleExpression _simpleExpression_;
     private TPlusplus _plusplus_;
 
-    public APlplExpression()
+    public APlplSimpleExpression()
     {
     }
 
-    public APlplExpression(
-        PExpression _expression_,
+    public APlplSimpleExpression(
+        PSimpleExpression _simpleExpression_,
         TPlusplus _plusplus_)
     {
-        setExpression(_expression_);
+        setSimpleExpression(_simpleExpression_);
 
         setPlusplus(_plusplus_);
 
     }
     public Object clone()
     {
-        return new APlplExpression(
-            (PExpression) cloneNode(_expression_),
+        return new APlplSimpleExpression(
+            (PSimpleExpression) cloneNode(_simpleExpression_),
             (TPlusplus) cloneNode(_plusplus_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAPlplExpression(this);
+        ((Analysis) sw).caseAPlplSimpleExpression(this);
     }
 
-    public PExpression getExpression()
+    public PSimpleExpression getSimpleExpression()
     {
-        return _expression_;
+        return _simpleExpression_;
     }
 
-    public void setExpression(PExpression node)
+    public void setSimpleExpression(PSimpleExpression node)
     {
-        if(_expression_ != null)
+        if(_simpleExpression_ != null)
         {
-            _expression_.parent(null);
+            _simpleExpression_.parent(null);
         }
 
         if(node != null)
@@ -57,7 +57,7 @@ public final class APlplExpression extends PExpression
             node.parent(this);
         }
 
-        _expression_ = node;
+        _simpleExpression_ = node;
     }
 
     public TPlusplus getPlusplus()
@@ -88,15 +88,15 @@ public final class APlplExpression extends PExpression
     public String toString()
     {
         return ""
-            + toString(_expression_)
+            + toString(_simpleExpression_)
             + toString(_plusplus_);
     }
 
     void removeChild(Node child)
     {
-        if(_expression_ == child)
+        if(_simpleExpression_ == child)
         {
-            _expression_ = null;
+            _simpleExpression_ = null;
             return;
         }
 
@@ -110,9 +110,9 @@ public final class APlplExpression extends PExpression
 
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(_expression_ == oldChild)
+        if(_simpleExpression_ == oldChild)
         {
-            setExpression((PExpression) newChild);
+            setSimpleExpression((PSimpleExpression) newChild);
             return;
         }
 

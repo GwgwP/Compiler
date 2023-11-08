@@ -5,18 +5,18 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class ALenExpExpression extends PExpression
+public final class ALenExpValue extends PValue
 {
     private TLen _len_;
     private TLPar _lPar_;
     private PExpression _expression_;
     private TRPar _rPar_;
 
-    public ALenExpExpression()
+    public ALenExpValue()
     {
     }
 
-    public ALenExpExpression(
+    public ALenExpValue(
         TLen _len_,
         TLPar _lPar_,
         PExpression _expression_,
@@ -33,7 +33,7 @@ public final class ALenExpExpression extends PExpression
     }
     public Object clone()
     {
-        return new ALenExpExpression(
+        return new ALenExpValue(
             (TLen) cloneNode(_len_),
             (TLPar) cloneNode(_lPar_),
             (PExpression) cloneNode(_expression_),
@@ -42,7 +42,7 @@ public final class ALenExpExpression extends PExpression
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseALenExpExpression(this);
+        ((Analysis) sw).caseALenExpValue(this);
     }
 
     public TLen getLen()

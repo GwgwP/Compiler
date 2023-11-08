@@ -5,46 +5,46 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class AMinminExpression extends PExpression
+public final class AMinminSimpleExpression extends PSimpleExpression
 {
-    private PExpression _expression_;
+    private PSimpleExpression _simpleExpression_;
     private TMinusminus _minusminus_;
 
-    public AMinminExpression()
+    public AMinminSimpleExpression()
     {
     }
 
-    public AMinminExpression(
-        PExpression _expression_,
+    public AMinminSimpleExpression(
+        PSimpleExpression _simpleExpression_,
         TMinusminus _minusminus_)
     {
-        setExpression(_expression_);
+        setSimpleExpression(_simpleExpression_);
 
         setMinusminus(_minusminus_);
 
     }
     public Object clone()
     {
-        return new AMinminExpression(
-            (PExpression) cloneNode(_expression_),
+        return new AMinminSimpleExpression(
+            (PSimpleExpression) cloneNode(_simpleExpression_),
             (TMinusminus) cloneNode(_minusminus_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAMinminExpression(this);
+        ((Analysis) sw).caseAMinminSimpleExpression(this);
     }
 
-    public PExpression getExpression()
+    public PSimpleExpression getSimpleExpression()
     {
-        return _expression_;
+        return _simpleExpression_;
     }
 
-    public void setExpression(PExpression node)
+    public void setSimpleExpression(PSimpleExpression node)
     {
-        if(_expression_ != null)
+        if(_simpleExpression_ != null)
         {
-            _expression_.parent(null);
+            _simpleExpression_.parent(null);
         }
 
         if(node != null)
@@ -57,7 +57,7 @@ public final class AMinminExpression extends PExpression
             node.parent(this);
         }
 
-        _expression_ = node;
+        _simpleExpression_ = node;
     }
 
     public TMinusminus getMinusminus()
@@ -88,15 +88,15 @@ public final class AMinminExpression extends PExpression
     public String toString()
     {
         return ""
-            + toString(_expression_)
+            + toString(_simpleExpression_)
             + toString(_minusminus_);
     }
 
     void removeChild(Node child)
     {
-        if(_expression_ == child)
+        if(_simpleExpression_ == child)
         {
-            _expression_ = null;
+            _simpleExpression_ = null;
             return;
         }
 
@@ -110,9 +110,9 @@ public final class AMinminExpression extends PExpression
 
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(_expression_ == oldChild)
+        if(_simpleExpression_ == oldChild)
         {
-            setExpression((PExpression) newChild);
+            setSimpleExpression((PSimpleExpression) newChild);
             return;
         }
 

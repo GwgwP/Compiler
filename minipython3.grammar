@@ -5,7 +5,6 @@ Helpers
 	letter = ['a' .. 'z']|['A' .. 'Z']; 
 	cr = 13; 
 	lf = 10;
-	ht = 9;
 	ff = 12;
 	sp = 32;
 	all = [0..127]; 
@@ -59,7 +58,7 @@ Tokens
 	none = 'None';
 	quote = '"';
 	blank = (' ' | lf | cr);
-	white_space = (sp|ff|ht)*;
+	white_space = (sp|ff)*;
 	line_comment = '#' not_eol* eol; 
 	number = digit+;
 	dot = '.';
@@ -73,14 +72,14 @@ Ignored Tokens
 
 Productions
   
-	goal = commands*;
+	goal = commands *;
 
 	commands = 
 				{func} function | 
 				{stat} statement  ;
 
 	function = 
-				{dede} tab* def id l_par argument? r_par semi statement ;
+				{dede} tab * def id l_par argument? r_par semi statement ;
 
 	argument = 
 				{frfrf} id assign_value ? ciav*;
@@ -94,18 +93,18 @@ Productions
 
 
 	statement =
-				{if_statement} tab* if comparison semi statement | 
-				{while_statement} tab* while comparison semi statement |
-				{for_statement} tab* for [lid]:id in [rid]:id semi statement |
-				{return_statement} tab* return expression | 
-				{print_statement}tab* print expression comma_expression* |
-				{assign} tab* id assign expression |
-				{id_mineq}tab* id mineq expression |
-				{id_pluseq}tab* id pluseq expression |
-				{id_diveq} tab* id diveq expression |
-				{pinakas} tab* id l_br [lex]:expression r_br assign [rex]:expression |
-				{assertion} tab* assert expression comma_expression? |
-				{func_call} tab* function_call ;
+				{if_statement} tab * if comparison semi statement | 
+				{while_statement} tab * while comparison semi statement |
+				{for_statement} tab * for [lid]:id in [rid]:id semi statement |
+				{return_statement} tab * return expression | 
+				{print_statement} tab * print expression comma_expression * |
+				{assign} tab * id assign expression |
+				{id_mineq}tab * id mineq expression |
+				{id_pluseq}tab * id pluseq expression |
+				{id_diveq} tab * id diveq expression |
+				{pinakas} tab * id l_br [lex]:expression r_br assign [rex]:expression |
+				{assertion} tab * assert expression comma_expression? |
+				{func_call} tab * function_call ;
 
 
 	function_call =
@@ -147,24 +146,31 @@ Productions
 
 	comma_value =
 				{cv} comma value;
-				
 
 	expression = 
-				{dew} expressions_without_culc |
+				{addition_ex} expression plus expressiono | 
+				{subtraction_ex} expression minus expressiono|
+				{as} expressiono;
+
+	expressiono = 	
+				{dew} simple_expression |
 				{pinakasexp} id l_br expression r_br |
-				{plpl} expression plusplus  |
 				{red} function_call |
-                {minmin} expression minusminus |
-				{len_exp} len l_par expression r_par |
-				{addition_ex} expression plus expressions_without_culc | 
-				{subtraction_ex} expression minus expressions_without_culc;
+				{max_ex} max l_par value comma_value * r_par |
+				{min_ex} min l_par value comma_value * r_par ;
+				
 
 
-	simple_expressions = 
-				{msa} multiplication |	
-				{max_ex} max l_par value comma_value* r_par |
-				{min_ex} min l_par value comma_value* r_par ;
-
+	simple_expression = 
+				{plpl} simple_expression plusplus  |
+	 			{minmin} simple_expression minusminus |
+				{a} factor ;
+				
+				
+	factor = 
+				{msa} multiplication|
+				{ad} plus factor |
+				{as} minus factor ;
 
 						
 	multiplication = 
@@ -179,14 +185,15 @@ Productions
 				{power} power pow value ;
 					
 							
-	value =
+	value =	
+				{len_exp} len l_par expression r_par |
 				{iddot} id dot function_call |
 				{identifier} ident |
 				{numb} number |
 				{d} string_double_quotes |
 				{we} string_single_quotes |
 				{psr} l_par expression r_par |
-				{giiagiga} l_br expression comma_expression* r_br|
+				{giiagiga} l_br expression comma_expression * r_br|
 				{nonenonegood} none ;
 
 	ident = {e} id;

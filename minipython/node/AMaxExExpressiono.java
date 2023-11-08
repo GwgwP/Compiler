@@ -5,26 +5,26 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class AMinExExpressionsWithoutCulc extends PExpressionsWithoutCulc
+public final class AMaxExExpressiono extends PExpressiono
 {
-    private TMin _min_;
+    private TMax _max_;
     private TLPar _lPar_;
     private PValue _value_;
     private final LinkedList _commaValue_ = new TypedLinkedList(new CommaValue_Cast());
     private TRPar _rPar_;
 
-    public AMinExExpressionsWithoutCulc()
+    public AMaxExExpressiono()
     {
     }
 
-    public AMinExExpressionsWithoutCulc(
-        TMin _min_,
+    public AMaxExExpressiono(
+        TMax _max_,
         TLPar _lPar_,
         PValue _value_,
         List _commaValue_,
         TRPar _rPar_)
     {
-        setMin(_min_);
+        setMax(_max_);
 
         setLPar(_lPar_);
 
@@ -40,8 +40,8 @@ public final class AMinExExpressionsWithoutCulc extends PExpressionsWithoutCulc
     }
     public Object clone()
     {
-        return new AMinExExpressionsWithoutCulc(
-            (TMin) cloneNode(_min_),
+        return new AMaxExExpressiono(
+            (TMax) cloneNode(_max_),
             (TLPar) cloneNode(_lPar_),
             (PValue) cloneNode(_value_),
             cloneList(_commaValue_),
@@ -50,19 +50,19 @@ public final class AMinExExpressionsWithoutCulc extends PExpressionsWithoutCulc
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAMinExExpressionsWithoutCulc(this);
+        ((Analysis) sw).caseAMaxExExpressiono(this);
     }
 
-    public TMin getMin()
+    public TMax getMax()
     {
-        return _min_;
+        return _max_;
     }
 
-    public void setMin(TMin node)
+    public void setMax(TMax node)
     {
-        if(_min_ != null)
+        if(_max_ != null)
         {
-            _min_.parent(null);
+            _max_.parent(null);
         }
 
         if(node != null)
@@ -75,7 +75,7 @@ public final class AMinExExpressionsWithoutCulc extends PExpressionsWithoutCulc
             node.parent(this);
         }
 
-        _min_ = node;
+        _max_ = node;
     }
 
     public TLPar getLPar()
@@ -167,7 +167,7 @@ public final class AMinExExpressionsWithoutCulc extends PExpressionsWithoutCulc
     public String toString()
     {
         return ""
-            + toString(_min_)
+            + toString(_max_)
             + toString(_lPar_)
             + toString(_value_)
             + toString(_commaValue_)
@@ -176,9 +176,9 @@ public final class AMinExExpressionsWithoutCulc extends PExpressionsWithoutCulc
 
     void removeChild(Node child)
     {
-        if(_min_ == child)
+        if(_max_ == child)
         {
-            _min_ = null;
+            _max_ = null;
             return;
         }
 
@@ -209,9 +209,9 @@ public final class AMinExExpressionsWithoutCulc extends PExpressionsWithoutCulc
 
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(_min_ == oldChild)
+        if(_max_ == oldChild)
         {
-            setMin((TMin) newChild);
+            setMax((TMax) newChild);
             return;
         }
 
@@ -259,15 +259,15 @@ public final class AMinExExpressionsWithoutCulc extends PExpressionsWithoutCulc
             PCommaValue node = (PCommaValue) o;
 
             if((node.parent() != null) &&
-                (node.parent() != AMinExExpressionsWithoutCulc.this))
+                (node.parent() != AMaxExExpressiono.this))
             {
                 node.parent().removeChild(node);
             }
 
             if((node.parent() == null) ||
-                (node.parent() != AMinExExpressionsWithoutCulc.this))
+                (node.parent() != AMaxExExpressiono.this))
             {
-                node.parent(AMinExExpressionsWithoutCulc.this);
+                node.parent(AMaxExExpressiono.this);
             }
 
             return node;

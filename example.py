@@ -1,5 +1,14 @@
 #! /usr/bin/env python
 #A miniPython example
 
-for x in x :
-	x = [2,3,4,5,4, len((x[3]+f(x)+5)) ]
+
+def fib(n): #ehrfudwojals
+			a = 0
+			b = 1
+				while a < n:
+						print a 
+						a = b
+						b = a + b
+
+def funcwithdef(name, university = "aueb"):
+	print name, " studies in ", university
