@@ -1,4 +1,62 @@
 # miniPython Grammar 
+**Project Description**
+### BNF Form:
+### NON-TERMINALS
+- **Goal::=** (Function|Statement)* `<EOF>`
+- **Function::=** "def" Identifier "(" Argument? ")" ":" Statement
+- **Argument::=** Identifier ("=" Value )? ( "," Identifier ("=" Value )?)*
+- **Statement::=**
+  - tab* "if" Comparison ":" Statement
+  - tab* "while" Comparison ":" Statement
+  - tab* "for" Identifier "in" Identifier ":" Statement
+  - tab* "return" Expression
+  - tab* "print" Expression ("," Expression)*
+  - tab* Identifier ( "=" | "-=" | "/=" ) Expression
+  - tab* Identifier "[" Expression "]" "=" Expression
+  - tab* "assert" Expression ("," Expression )?
+  - tab* Function Call
+
+- **Expression::=**
+  - Expression ( "+" | "-" | "*" | "/" | "%" | "**" ) Expression
+  - Identifier "[" Expression "]"
+  - Function Call
+  - Value
+  - Identifier
+  - Expression( "++" | "--" )
+  - "len" "(" Expression ")"
+  - ( "max" | "min" ) "(" Value ( "," Value )* ")"
+  - "(" Expression ")"
+  - "["Expression ( "," Expression)*"]"
+
+- **Comparison::=**
+  - Comparison ( "and" | "or") Comparison
+  - "not" Comparison
+  - Expression ( ">" | "<" | ">=" | "<=" |"!=" | "==") Expression
+  - "true"
+  - "false"
+
+- **Function Call::=** Identifier "(" Arglist? ")"
+
+- **Arglist::=** Expression ( "," Expression )*
+
+- **Value::=**
+  - Identifier "." Function Call
+  - Number
+  - "<STRING_LITERAL>"
+  - '<STRING_LITERAL>'
+  - "None"
+
+- **Number::=** `<INTEGER_LITERAL>`
+
+- **Identifier::=** `<IDENTIFIER>`
+
+- `<STRING_LITERAL>`: A word containing letters (both lowercase and uppercase) and spaces.
+- `<INTEGER_LITERAL>`: An integer or decimal number.
+- `<IDENTIFIER>`: A variable name.
+
+For operator precedence, refer to the table at the following link: [Python Operator Precedence and Associativity](https://www.programiz.com/python-programming/precedence-associativity)
+
+## Implementation: 
 
 # Lexical Analysis Explanation
 
