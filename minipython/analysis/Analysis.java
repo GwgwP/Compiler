@@ -52,11 +52,11 @@ public interface Analysis extends Switch
     void caseAAdditionExExpression(AAdditionExExpression node);
     void caseASubtractionExExpression(ASubtractionExExpression node);
     void caseAExpressionSubsetExpression(AExpressionSubsetExpression node);
+    void caseAMaxExprExpressiono(AMaxExprExpressiono node);
+    void caseAMinExprExpressiono(AMinExprExpressiono node);
     void caseASimpleExprExpressiono(ASimpleExprExpressiono node);
     void caseAPinakasExprExpressiono(APinakasExprExpressiono node);
     void caseAFuncCallExprExpressiono(AFuncCallExprExpressiono node);
-    void caseAMaxExprExpressiono(AMaxExprExpressiono node);
-    void caseAMinExprExpressiono(AMinExprExpressiono node);
     void caseAPlplSimpleExpression(APlplSimpleExpression node);
     void caseAMinminSimpleExpression(AMinminSimpleExpression node);
     void caseAFacSimpleExpression(AFacSimpleExpression node);
@@ -69,15 +69,16 @@ public interface Analysis extends Switch
     void caseAMultiplicationMultiplication(AMultiplicationMultiplication node);
     void caseAValuePower(AValuePower node);
     void caseAPowerPower(APowerPower node);
+    void caseAValueSubsetValue(AValueSubsetValue node);
     void caseALenExpValue(ALenExpValue node);
-    void caseAIdDotFuncValue(AIdDotFuncValue node);
-    void caseAIdentifierValue(AIdentifierValue node);
-    void caseANumberValue(ANumberValue node);
-    void caseADoubleQuotesValue(ADoubleQuotesValue node);
-    void caseASingleQuotesValue(ASingleQuotesValue node);
     void caseAParenthesisExprValueValue(AParenthesisExprValueValue node);
     void caseABracketsExprValueValue(ABracketsExprValueValue node);
-    void caseANoneValueValue(ANoneValueValue node);
+    void caseAIdDotFuncValueno(AIdDotFuncValueno node);
+    void caseAIdentifierValueno(AIdentifierValueno node);
+    void caseANumberValueno(ANumberValueno node);
+    void caseADoubleQuotesValueno(ADoubleQuotesValueno node);
+    void caseASingleQuotesValueno(ASingleQuotesValueno node);
+    void caseANoneValueValueno(ANoneValueValueno node);
     void caseAIdIdent(AIdIdent node);
 
     void caseTTab(TTab node);

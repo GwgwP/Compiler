@@ -5,15 +5,15 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class AIdentifierValue extends PValue
+public final class AIdentifierValueno extends PValueno
 {
     private PIdent _ident_;
 
-    public AIdentifierValue()
+    public AIdentifierValueno()
     {
     }
 
-    public AIdentifierValue(
+    public AIdentifierValueno(
         PIdent _ident_)
     {
         setIdent(_ident_);
@@ -21,13 +21,13 @@ public final class AIdentifierValue extends PValue
     }
     public Object clone()
     {
-        return new AIdentifierValue(
+        return new AIdentifierValueno(
             (PIdent) cloneNode(_ident_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAIdentifierValue(this);
+        ((Analysis) sw).caseAIdentifierValueno(this);
     }
 
     public PIdent getIdent()

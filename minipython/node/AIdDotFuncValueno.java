@@ -5,17 +5,17 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class AIdDotFuncValue extends PValue
+public final class AIdDotFuncValueno extends PValueno
 {
     private TId _id_;
     private TDot _dot_;
     private PFunctionCall _functionCall_;
 
-    public AIdDotFuncValue()
+    public AIdDotFuncValueno()
     {
     }
 
-    public AIdDotFuncValue(
+    public AIdDotFuncValueno(
         TId _id_,
         TDot _dot_,
         PFunctionCall _functionCall_)
@@ -29,7 +29,7 @@ public final class AIdDotFuncValue extends PValue
     }
     public Object clone()
     {
-        return new AIdDotFuncValue(
+        return new AIdDotFuncValueno(
             (TId) cloneNode(_id_),
             (TDot) cloneNode(_dot_),
             (PFunctionCall) cloneNode(_functionCall_));
@@ -37,7 +37,7 @@ public final class AIdDotFuncValue extends PValue
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAIdDotFuncValue(this);
+        ((Analysis) sw).caseAIdDotFuncValueno(this);
     }
 
     public TId getId()

@@ -5,41 +5,41 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class ANoneValueValue extends PValue
+public final class AValueSubsetValue extends PValue
 {
-    private TNone _none_;
+    private PValueno _valueno_;
 
-    public ANoneValueValue()
+    public AValueSubsetValue()
     {
     }
 
-    public ANoneValueValue(
-        TNone _none_)
+    public AValueSubsetValue(
+        PValueno _valueno_)
     {
-        setNone(_none_);
+        setValueno(_valueno_);
 
     }
     public Object clone()
     {
-        return new ANoneValueValue(
-            (TNone) cloneNode(_none_));
+        return new AValueSubsetValue(
+            (PValueno) cloneNode(_valueno_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseANoneValueValue(this);
+        ((Analysis) sw).caseAValueSubsetValue(this);
     }
 
-    public TNone getNone()
+    public PValueno getValueno()
     {
-        return _none_;
+        return _valueno_;
     }
 
-    public void setNone(TNone node)
+    public void setValueno(PValueno node)
     {
-        if(_none_ != null)
+        if(_valueno_ != null)
         {
-            _none_.parent(null);
+            _valueno_.parent(null);
         }
 
         if(node != null)
@@ -52,20 +52,20 @@ public final class ANoneValueValue extends PValue
             node.parent(this);
         }
 
-        _none_ = node;
+        _valueno_ = node;
     }
 
     public String toString()
     {
         return ""
-            + toString(_none_);
+            + toString(_valueno_);
     }
 
     void removeChild(Node child)
     {
-        if(_none_ == child)
+        if(_valueno_ == child)
         {
-            _none_ = null;
+            _valueno_ = null;
             return;
         }
 
@@ -73,9 +73,9 @@ public final class ANoneValueValue extends PValue
 
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(_none_ == oldChild)
+        if(_valueno_ == oldChild)
         {
-            setNone((TNone) newChild);
+            setValueno((PValueno) newChild);
             return;
         }
 

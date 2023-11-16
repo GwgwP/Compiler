@@ -268,6 +268,16 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
+    public void caseAMaxExprExpressiono(AMaxExprExpressiono node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAMinExprExpressiono(AMinExprExpressiono node)
+    {
+        defaultCase(node);
+    }
+
     public void caseASimpleExprExpressiono(ASimpleExprExpressiono node)
     {
         defaultCase(node);
@@ -279,16 +289,6 @@ public class AnalysisAdapter implements Analysis
     }
 
     public void caseAFuncCallExprExpressiono(AFuncCallExprExpressiono node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAMaxExprExpressiono(AMaxExprExpressiono node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAMinExprExpressiono(AMinExprExpressiono node)
     {
         defaultCase(node);
     }
@@ -353,32 +353,12 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
+    public void caseAValueSubsetValue(AValueSubsetValue node)
+    {
+        defaultCase(node);
+    }
+
     public void caseALenExpValue(ALenExpValue node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAIdDotFuncValue(AIdDotFuncValue node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAIdentifierValue(AIdentifierValue node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseANumberValue(ANumberValue node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseADoubleQuotesValue(ADoubleQuotesValue node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseASingleQuotesValue(ASingleQuotesValue node)
     {
         defaultCase(node);
     }
@@ -393,7 +373,32 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseANoneValueValue(ANoneValueValue node)
+    public void caseAIdDotFuncValueno(AIdDotFuncValueno node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAIdentifierValueno(AIdentifierValueno node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseANumberValueno(ANumberValueno node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseADoubleQuotesValueno(ADoubleQuotesValueno node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseASingleQuotesValueno(ASingleQuotesValueno node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseANoneValueValueno(ANoneValueValueno node)
     {
         defaultCase(node);
     }

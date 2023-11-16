@@ -5,15 +5,15 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class ASingleQuotesValue extends PValue
+public final class ASingleQuotesValueno extends PValueno
 {
     private TStringSingleQuotes _stringSingleQuotes_;
 
-    public ASingleQuotesValue()
+    public ASingleQuotesValueno()
     {
     }
 
-    public ASingleQuotesValue(
+    public ASingleQuotesValueno(
         TStringSingleQuotes _stringSingleQuotes_)
     {
         setStringSingleQuotes(_stringSingleQuotes_);
@@ -21,13 +21,13 @@ public final class ASingleQuotesValue extends PValue
     }
     public Object clone()
     {
-        return new ASingleQuotesValue(
+        return new ASingleQuotesValueno(
             (TStringSingleQuotes) cloneNode(_stringSingleQuotes_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASingleQuotesValue(this);
+        ((Analysis) sw).caseASingleQuotesValueno(this);
     }
 
     public TStringSingleQuotes getStringSingleQuotes()

@@ -5,15 +5,15 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class ANumberValue extends PValue
+public final class ANumberValueno extends PValueno
 {
     private TNumber _number_;
 
-    public ANumberValue()
+    public ANumberValueno()
     {
     }
 
-    public ANumberValue(
+    public ANumberValueno(
         TNumber _number_)
     {
         setNumber(_number_);
@@ -21,13 +21,13 @@ public final class ANumberValue extends PValue
     }
     public Object clone()
     {
-        return new ANumberValue(
+        return new ANumberValueno(
             (TNumber) cloneNode(_number_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseANumberValue(this);
+        ((Analysis) sw).caseANumberValueno(this);
     }
 
     public TNumber getNumber()

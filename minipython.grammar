@@ -151,11 +151,11 @@ Productions
 				{expression_subset} expressiono;
 
 	expressiono = 	
+				{max_expr} max l_par value comma_value * r_par |
+				{min_expr} min l_par value comma_value * r_par |
 				{simple_expr} simple_expression |
 				{pinakas_expr} id l_br expression r_br |
-				{func_call_expr} function_call |
-				{max_expr} max l_par value comma_value * r_par |
-				{min_expr} min l_par value comma_value * r_par ;
+				{func_call_expr} function_call ;
 				
 
 
@@ -184,14 +184,20 @@ Productions
 					
 							
 	value =	
+				{value_subset} valueno |
 				{len_exp} len l_par expression r_par |
+				{parenthesis_expr_value} l_par expression r_par |
+				{brackets_expr_value} l_br expression comma_expression * r_br;
+				
+
+	valueno =
 				{id_dot_func} id dot function_call |
 				{identifier} ident |
 				{number} number |
 				{double_quotes} string_double_quotes |
 				{single_quotes} string_single_quotes |
-				{parenthesis_expr_value} l_par expression r_par |
-				{brackets_expr_value} l_br expression comma_expression * r_br|
 				{none_value} none ;
+
+
 
 	ident = {id} id;
