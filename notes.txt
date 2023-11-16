@@ -384,3 +384,27 @@ something ={identifier}id|
 			-	{plpl} simple_expression plusplus  |
 	 		-	{minmin} simple_expression minusminus |
 			-	{msa} multiplication ;
+
+
+
+
+
+
+
+
+
+
+
+			value =	
+				{value_simple} valueno | 
+				{len_exp} len l_par expression r_par |
+				{parenthesis_expr_value} l_par expression r_par |
+				{brackets_expr_value} l_br expression comma_expression * r_br;
+				
+	valueno =
+				{id_dot_func} id dot function_call |
+				{identifier} ident |
+				{number} number |
+				{double_quotes} string_double_quotes |
+				{single_quotes} string_single_quotes |
+				{none_value} none ;

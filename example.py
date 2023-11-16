@@ -3,12 +3,4 @@
 
 
 def fib(n): #ehrfudwojals
-			a = 0
-			b = 1
-				while a < n:
-						print a 
-						a = b
-						b = a + b
-
-def funcwithdef(name, university = "aueb"):
-	print name, " studies in ", university
+		x  =   5+  6  +7/3+ 7**7%1%1%1			

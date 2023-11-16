@@ -83,22 +83,22 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseADedeFunction(ADedeFunction node)
+    public void caseADefFuncFunction(ADefFuncFunction node)
     {
         defaultCase(node);
     }
 
-    public void caseAFrfrfArgument(AFrfrfArgument node)
+    public void caseAArgArgument(AArgArgument node)
     {
         defaultCase(node);
     }
 
-    public void caseAFfCiav(AFfCiav node)
+    public void caseACommaIdAsVCiav(ACommaIdAsVCiav node)
     {
         defaultCase(node);
     }
 
-    public void caseAFrfrfrrfrfAssignValue(AFrfrfrrfrfAssignValue node)
+    public void caseAAsVAssignValue(AAsVAssignValue node)
     {
         defaultCase(node);
     }
@@ -128,82 +128,82 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseAAssignStatement(AAssignStatement node)
+    public void caseAAssignStatementStatement(AAssignStatementStatement node)
     {
         defaultCase(node);
     }
 
-    public void caseAIdMineqStatement(AIdMineqStatement node)
+    public void caseAIdMineqStatementStatement(AIdMineqStatementStatement node)
     {
         defaultCase(node);
     }
 
-    public void caseAIdPluseqStatement(AIdPluseqStatement node)
+    public void caseAIdPluseqStatementStatement(AIdPluseqStatementStatement node)
     {
         defaultCase(node);
     }
 
-    public void caseAIdDiveqStatement(AIdDiveqStatement node)
+    public void caseAIdDiveqStatementStatement(AIdDiveqStatementStatement node)
     {
         defaultCase(node);
     }
 
-    public void caseAPinakasStatement(APinakasStatement node)
+    public void caseAArrayStatementStatement(AArrayStatementStatement node)
     {
         defaultCase(node);
     }
 
-    public void caseAAssertionStatement(AAssertionStatement node)
+    public void caseAAssertionStatementStatement(AAssertionStatementStatement node)
     {
         defaultCase(node);
     }
 
-    public void caseAFuncCallStatement(AFuncCallStatement node)
+    public void caseAFuncCallStatementStatement(AFuncCallStatementStatement node)
     {
         defaultCase(node);
     }
 
-    public void caseAEreaFunctionCall(AEreaFunctionCall node)
+    public void caseAFuncCallFunctionCall(AFuncCallFunctionCall node)
     {
         defaultCase(node);
     }
 
-    public void caseADdsasaArglist(ADdsasaArglist node)
+    public void caseAArglistArglist(AArglistArglist node)
     {
         defaultCase(node);
     }
 
-    public void caseAFrfrfrfrfeCommaExpression(AFrfrfrfrfeCommaExpression node)
+    public void caseACommaExprCommaExpression(ACommaExprCommaExpression node)
     {
         defaultCase(node);
     }
 
-    public void caseADssComparison(ADssComparison node)
+    public void caseAComparisonComparison(AComparisonComparison node)
     {
         defaultCase(node);
     }
 
-    public void caseAOrcComparison(AOrcComparison node)
+    public void caseAComparisonMoreComparison(AComparisonMoreComparison node)
     {
         defaultCase(node);
     }
 
-    public void caseADdAfteror(ADdAfteror node)
+    public void caseAAftOrAfteror(AAftOrAfteror node)
     {
         defaultCase(node);
     }
 
-    public void caseAAndcAfteror(AAndcAfteror node)
+    public void caseAAftOrMoreAfteror(AAftOrMoreAfteror node)
     {
         defaultCase(node);
     }
 
-    public void caseAWAfterand(AWAfterand node)
+    public void caseAAftAndAfterand(AAftAndAfterand node)
     {
         defaultCase(node);
     }
 
-    public void caseANotcAfterand(ANotcAfterand node)
+    public void caseAAftAndNotAfterand(AAftAndNotAfterand node)
     {
         defaultCase(node);
     }
@@ -263,32 +263,32 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseAAsExpression(AAsExpression node)
+    public void caseAExpressionSubsetExpression(AExpressionSubsetExpression node)
     {
         defaultCase(node);
     }
 
-    public void caseADewExpressiono(ADewExpressiono node)
+    public void caseASimpleExprExpressiono(ASimpleExprExpressiono node)
     {
         defaultCase(node);
     }
 
-    public void caseAPinakasexpExpressiono(APinakasexpExpressiono node)
+    public void caseAPinakasExprExpressiono(APinakasExprExpressiono node)
     {
         defaultCase(node);
     }
 
-    public void caseARedExpressiono(ARedExpressiono node)
+    public void caseAFuncCallExprExpressiono(AFuncCallExprExpressiono node)
     {
         defaultCase(node);
     }
 
-    public void caseAMaxExExpressiono(AMaxExExpressiono node)
+    public void caseAMaxExprExpressiono(AMaxExprExpressiono node)
     {
         defaultCase(node);
     }
 
-    public void caseAMinExExpressiono(AMinExExpressiono node)
+    public void caseAMinExprExpressiono(AMinExprExpressiono node)
     {
         defaultCase(node);
     }
@@ -303,22 +303,22 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseAASimpleExpression(AASimpleExpression node)
+    public void caseAFacSimpleExpression(AFacSimpleExpression node)
     {
         defaultCase(node);
     }
 
-    public void caseAMsaFactor(AMsaFactor node)
+    public void caseAMultFactorFactor(AMultFactorFactor node)
     {
         defaultCase(node);
     }
 
-    public void caseAAdFactor(AAdFactor node)
+    public void caseAAdFactorFactor(AAdFactorFactor node)
     {
         defaultCase(node);
     }
 
-    public void caseAAsFactor(AAsFactor node)
+    public void caseAMinFactorFactor(AMinFactorFactor node)
     {
         defaultCase(node);
     }
@@ -358,7 +358,7 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseAIddotValue(AIddotValue node)
+    public void caseAIdDotFuncValue(AIdDotFuncValue node)
     {
         defaultCase(node);
     }
@@ -368,37 +368,37 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseANumbValue(ANumbValue node)
+    public void caseANumberValue(ANumberValue node)
     {
         defaultCase(node);
     }
 
-    public void caseADValue(ADValue node)
+    public void caseADoubleQuotesValue(ADoubleQuotesValue node)
     {
         defaultCase(node);
     }
 
-    public void caseAWeValue(AWeValue node)
+    public void caseASingleQuotesValue(ASingleQuotesValue node)
     {
         defaultCase(node);
     }
 
-    public void caseAPsrValue(APsrValue node)
+    public void caseAParenthesisExprValueValue(AParenthesisExprValueValue node)
     {
         defaultCase(node);
     }
 
-    public void caseAGiiagigaValue(AGiiagigaValue node)
+    public void caseABracketsExprValueValue(ABracketsExprValueValue node)
     {
         defaultCase(node);
     }
 
-    public void caseANonenonegoodValue(ANonenonegoodValue node)
+    public void caseANoneValueValue(ANoneValueValue node)
     {
         defaultCase(node);
     }
 
-    public void caseAEIdent(AEIdent node)
+    public void caseAIdIdent(AIdIdent node)
     {
         defaultCase(node);
     }
@@ -629,11 +629,6 @@ public class AnalysisAdapter implements Analysis
     }
 
     public void caseTBlank(TBlank node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseTWhiteSpace(TWhiteSpace node)
     {
         defaultCase(node);
     }
