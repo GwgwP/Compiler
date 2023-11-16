@@ -1,4 +1,6 @@
-# miniPython Grammar Explanation
+# miniPython Grammar 
+
+# Lexical Analysis Explanation
 
 ## Package Declaration
 The grammar is defined under the `minipython` package.
