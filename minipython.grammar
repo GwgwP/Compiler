@@ -1,4 +1,11 @@
 Package minipython;
+/*
+*	Lydia - Christina Wallace 	3200125
+*	Georgia Petsa 				3200155
+*	Dimitrios Rousalis 			3200166
+*	Miltiadis Tsolkas 			3200213
+*
+*/
 
 Helpers
 	digit = ['0' .. '9'];
