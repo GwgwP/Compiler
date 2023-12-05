@@ -55,8 +55,6 @@ public interface Analysis extends Switch
     void caseAMaxExprExpressiono(AMaxExprExpressiono node);
     void caseAMinExprExpressiono(AMinExprExpressiono node);
     void caseASimpleExprExpressiono(ASimpleExprExpressiono node);
-    void caseAPinakasExprExpressiono(APinakasExprExpressiono node);
-    void caseAFuncCallExprExpressiono(AFuncCallExprExpressiono node);
     void caseAPlplSimpleExpression(APlplSimpleExpression node);
     void caseAMinminSimpleExpression(AMinminSimpleExpression node);
     void caseAFacSimpleExpression(AFacSimpleExpression node);
@@ -70,6 +68,8 @@ public interface Analysis extends Switch
     void caseAValuePower(AValuePower node);
     void caseAPowerPower(APowerPower node);
     void caseAValueSubsetValue(AValueSubsetValue node);
+    void caseAPinakasExprValue(APinakasExprValue node);
+    void caseAFuncCallExprValue(AFuncCallExprValue node);
     void caseALenExpValue(ALenExpValue node);
     void caseAParenthesisExprValueValue(AParenthesisExprValueValue node);
     void caseABracketsExprValueValue(ABracketsExprValueValue node);

@@ -5,18 +5,18 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class APinakasExprExpressiono extends PExpressiono
+public final class APinakasExprValue extends PValue
 {
     private TId _id_;
     private TLBr _lBr_;
     private PExpression _expression_;
     private TRBr _rBr_;
 
-    public APinakasExprExpressiono()
+    public APinakasExprValue()
     {
     }
 
-    public APinakasExprExpressiono(
+    public APinakasExprValue(
         TId _id_,
         TLBr _lBr_,
         PExpression _expression_,
@@ -33,7 +33,7 @@ public final class APinakasExprExpressiono extends PExpressiono
     }
     public Object clone()
     {
-        return new APinakasExprExpressiono(
+        return new APinakasExprValue(
             (TId) cloneNode(_id_),
             (TLBr) cloneNode(_lBr_),
             (PExpression) cloneNode(_expression_),
@@ -42,7 +42,7 @@ public final class APinakasExprExpressiono extends PExpressiono
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAPinakasExprExpressiono(this);
+        ((Analysis) sw).caseAPinakasExprValue(this);
     }
 
     public TId getId()

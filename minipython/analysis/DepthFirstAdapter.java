@@ -1302,58 +1302,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outASimpleExprExpressiono(node);
     }
 
-    public void inAPinakasExprExpressiono(APinakasExprExpressiono node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAPinakasExprExpressiono(APinakasExprExpressiono node)
-    {
-        defaultOut(node);
-    }
-
-    public void caseAPinakasExprExpressiono(APinakasExprExpressiono node)
-    {
-        inAPinakasExprExpressiono(node);
-        if(node.getId() != null)
-        {
-            node.getId().apply(this);
-        }
-        if(node.getLBr() != null)
-        {
-            node.getLBr().apply(this);
-        }
-        if(node.getExpression() != null)
-        {
-            node.getExpression().apply(this);
-        }
-        if(node.getRBr() != null)
-        {
-            node.getRBr().apply(this);
-        }
-        outAPinakasExprExpressiono(node);
-    }
-
-    public void inAFuncCallExprExpressiono(AFuncCallExprExpressiono node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAFuncCallExprExpressiono(AFuncCallExprExpressiono node)
-    {
-        defaultOut(node);
-    }
-
-    public void caseAFuncCallExprExpressiono(AFuncCallExprExpressiono node)
-    {
-        inAFuncCallExprExpressiono(node);
-        if(node.getFunctionCall() != null)
-        {
-            node.getFunctionCall().apply(this);
-        }
-        outAFuncCallExprExpressiono(node);
-    }
-
     public void inAPlplSimpleExpression(APlplSimpleExpression node)
     {
         defaultIn(node);
@@ -1660,6 +1608,58 @@ public class DepthFirstAdapter extends AnalysisAdapter
             node.getValueno().apply(this);
         }
         outAValueSubsetValue(node);
+    }
+
+    public void inAPinakasExprValue(APinakasExprValue node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAPinakasExprValue(APinakasExprValue node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAPinakasExprValue(APinakasExprValue node)
+    {
+        inAPinakasExprValue(node);
+        if(node.getId() != null)
+        {
+            node.getId().apply(this);
+        }
+        if(node.getLBr() != null)
+        {
+            node.getLBr().apply(this);
+        }
+        if(node.getExpression() != null)
+        {
+            node.getExpression().apply(this);
+        }
+        if(node.getRBr() != null)
+        {
+            node.getRBr().apply(this);
+        }
+        outAPinakasExprValue(node);
+    }
+
+    public void inAFuncCallExprValue(AFuncCallExprValue node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAFuncCallExprValue(AFuncCallExprValue node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAFuncCallExprValue(AFuncCallExprValue node)
+    {
+        inAFuncCallExprValue(node);
+        if(node.getFunctionCall() != null)
+        {
+            node.getFunctionCall().apply(this);
+        }
+        outAFuncCallExprValue(node);
     }
 
     public void inALenExpValue(ALenExpValue node)

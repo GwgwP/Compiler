@@ -160,9 +160,8 @@ Productions
 	expressiono = 	
 				{max_expr} max l_par value comma_value * r_par |
 				{min_expr} min l_par value comma_value * r_par |
-				{simple_expr} simple_expression |
-				{pinakas_expr} id l_br expression r_br |
-				{func_call_expr} function_call ;
+				{simple_expr} simple_expression ;
+				
 				
 
 
@@ -192,6 +191,8 @@ Productions
 							
 	value =	
 				{value_subset} valueno |
+				{pinakas_expr} id l_br expression r_br |
+				{func_call_expr} function_call |
 				{len_exp} len l_par expression r_par |
 				{parenthesis_expr_value} l_par expression r_par |
 				{brackets_expr_value} l_br expression comma_expression * r_br;
