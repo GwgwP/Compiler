@@ -77,24 +77,24 @@ Ignored Tokens
 
 Productions
   
-	goal = commands *;
+	goal = commands *{-> New goal([commands])};
 
 	commands = 
-				{func} function | 
-				{stat} statement  ;
+				{func} function{-> New commands.func(function)} | 
+				{stat} statement{-> New commands.stat(statement)}  ;
 
 	function = 
-				{def_func} tab * def id l_par argument? r_par semi statement ;
+				{def_func} tab * def id l_par argument? r_par semi statement{-> New function.def_func(id, [argument], statement)} ;
 
 	argument = 
-				{arg} id assign_value ? ciav*;
+				{arg} id assign_value ? ciav*{-> New argument.arg(id, [assign_value], [ciav])};
 
 
 	ciav = 
 				{comma_id_as_v} comma id assign_value ?;
 
-	assign_value = 
-				{as_v} assign value;
+	assign_value{-> statement} = 
+				{as_v} assign valueno{-> statement.assign_statement(id, valueno)};
 
 
 	statement =
@@ -209,3 +209,30 @@ Productions
 
 
 	ident = {id} id;
+
+Abstract Syntax Tree
+	goal = commands *;
+
+	commands = 
+				{func} function | 
+				{stat} statement  ;
+
+	function = 
+				{def_func} id argument* statement;
+
+	statement =
+				{if_statement} comparison statement | 
+				{while_statement} comparison statement |
+				{for_statement} [lid]:id [rid]:id statement |
+				{return_statement} expression | 
+				{print_statement} expression comma_expression * |
+				{assign_statement} id expression |
+				{id_mineq_statement}id expression |
+				{id_pluseq_statement} id  expression |
+				{id_diveq_statement}  id expression |
+				{array_statement} id [lex]:expression  [rex]:expression |
+				{assertion_statement} expression comma_expression? |
+				{func_call_statement} function_call ;
+	
+	
+

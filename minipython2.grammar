@@ -1,0 +1,90 @@
+Package minipython;
+
+Helpers
+	digit = ['0' .. '9'];
+	letter = ['a' .. 'z']|['A' .. 'Z']; 
+	cr = 13; 
+	lf = 10;
+	all = [0..127]; 
+	eol = lf | cr | cr lf ;
+	not_eol = [all - [cr + lf]]; 
+
+Tokens
+	tab = 9;
+	plus = '+';
+	minus = '-';
+	mult = '*';
+	div = '/';
+	def = 'def';
+	eq = '=';
+	l_par = '(';
+	r_par = ')';
+	comma=',';
+	if = 'if';
+	print = 'print';
+	less = '< ';
+	great = '> ';
+	true = 'true';
+	semi = ':';
+	false = 'false';
+	else = 'else';
+	quote = '"';
+	blank = (' ' | lf | cr);
+	line_comment = '#' not_eol* eol; 
+	number = digit+;
+	id = letter (letter | digit)*;
+
+Ignored Tokens
+	blank, line_comment;
+	
+Productions
+	programme 			= commands*{-> New programme( [commands] ) };
+
+	commands 			={stat} statement {-> New commands.stat( statement ) }|
+						{expr}expression{-> New commands.expr(expression ) } |
+						{func}function{-> New commands.func(function)};
+
+	statement			={assign}tab* id eq expression {-> New statement.assign(id, expression) } |
+						{print}tab* print expression{-> New statement.print( expression) };
+	
+	function = 
+				{def_func} tab * def id l_par argument? r_par semi statement{-> New function.def_func(id, [argument], statement)} ;
+
+	argument = 
+				{arg} id assign_value ? ciav*;
+
+	ciav = 
+				{comma_id_as_v} comma id assign_value ?{-> New ciav(id, [assign_value])};
+
+	assign_value = 
+				{as_v} eq something {-> New assign_value.as_v(something)};
+						
+	expression 	= {multiplication} multiplication {->multiplication.expression}|
+						{addition} expression plus multiplication {-> New expression.addition(expression, multiplication.expression)} ;
+	multiplication{->expression}= {something} something{->something.expression} |
+						{multiplication} multiplication mult something {-> New expression.multiplication(multiplication.expression, something.expression)} ;
+	something{->expression}	={number}number{-> New expression.number(number)}|
+						{par} l_par expression r_par{->expression};
+
+Abstract Syntax Tree
+	programme 		= commands*;
+	commands 		={stat} statement|
+					{func} function|
+					{expr}expression;
+
+	statement		={assign}id expression |
+					{print}expression;
+
+	function = 
+				{def_func} id argument* statement;
+
+	argument = {arg} id assign_value* ciav*;
+
+    ciav = {comma_id_as_v} id assign_value*;
+    
+    assign_value = {as_v} something;
+	
+	expression 			= {addition}   [l]:expression [r]:expression
+					| {multiplication}   [l]:expression [r]:expression
+					| {number} number
+					;
