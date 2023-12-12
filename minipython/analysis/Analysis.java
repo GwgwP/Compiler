@@ -33,7 +33,6 @@ public interface Analysis extends Switch
     void caseAFuncCallStatementStatement(AFuncCallStatementStatement node);
     void caseAFuncCallFunctionCall(AFuncCallFunctionCall node);
     void caseAArglistArglist(AArglistArglist node);
-    void caseACommaExprCommaExpression(ACommaExprCommaExpression node);
     void caseAOrComparisons(AOrComparisons node);
     void caseAAndComparisons(AAndComparisons node);
     void caseANotComparisons(ANotComparisons node);
@@ -45,7 +44,6 @@ public interface Analysis extends Switch
     void caseAEqeqComparisons(AEqeqComparisons node);
     void caseALesscComparisons(ALesscComparisons node);
     void caseAGreatcComparisons(AGreatcComparisons node);
-    void caseACvCommaValue(ACvCommaValue node);
     void caseAAdditionExExpression(AAdditionExExpression node);
     void caseASubtractionExExpression(ASubtractionExExpression node);
     void caseAMaxExprExpression(AMaxExprExpression node);

@@ -7,30 +7,30 @@ import minipython.analysis.*;
 
 public final class AMinExprExpression extends PExpression
 {
-    private PExpression _expression_;
-    private final LinkedList _commaValue_ = new TypedLinkedList(new CommaValue_Cast());
+    private PExpression _l_;
+    private final LinkedList _r_ = new TypedLinkedList(new R_Cast());
 
     public AMinExprExpression()
     {
     }
 
     public AMinExprExpression(
-        PExpression _expression_,
-        List _commaValue_)
+        PExpression _l_,
+        List _r_)
     {
-        setExpression(_expression_);
+        setL(_l_);
 
         {
-            this._commaValue_.clear();
-            this._commaValue_.addAll(_commaValue_);
+            this._r_.clear();
+            this._r_.addAll(_r_);
         }
 
     }
     public Object clone()
     {
         return new AMinExprExpression(
-            (PExpression) cloneNode(_expression_),
-            cloneList(_commaValue_));
+            (PExpression) cloneNode(_l_),
+            cloneList(_r_));
     }
 
     public void apply(Switch sw)
@@ -38,16 +38,16 @@ public final class AMinExprExpression extends PExpression
         ((Analysis) sw).caseAMinExprExpression(this);
     }
 
-    public PExpression getExpression()
+    public PExpression getL()
     {
-        return _expression_;
+        return _l_;
     }
 
-    public void setExpression(PExpression node)
+    public void setL(PExpression node)
     {
-        if(_expression_ != null)
+        if(_l_ != null)
         {
-            _expression_.parent(null);
+            _l_.parent(null);
         }
 
         if(node != null)
@@ -60,36 +60,36 @@ public final class AMinExprExpression extends PExpression
             node.parent(this);
         }
 
-        _expression_ = node;
+        _l_ = node;
     }
 
-    public LinkedList getCommaValue()
+    public LinkedList getR()
     {
-        return _commaValue_;
+        return _r_;
     }
 
-    public void setCommaValue(List list)
+    public void setR(List list)
     {
-        _commaValue_.clear();
-        _commaValue_.addAll(list);
+        _r_.clear();
+        _r_.addAll(list);
     }
 
     public String toString()
     {
         return ""
-            + toString(_expression_)
-            + toString(_commaValue_);
+            + toString(_l_)
+            + toString(_r_);
     }
 
     void removeChild(Node child)
     {
-        if(_expression_ == child)
+        if(_l_ == child)
         {
-            _expression_ = null;
+            _l_ = null;
             return;
         }
 
-        if(_commaValue_.remove(child))
+        if(_r_.remove(child))
         {
             return;
         }
@@ -98,13 +98,13 @@ public final class AMinExprExpression extends PExpression
 
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(_expression_ == oldChild)
+        if(_l_ == oldChild)
         {
-            setExpression((PExpression) newChild);
+            setL((PExpression) newChild);
             return;
         }
 
-        for(ListIterator i = _commaValue_.listIterator(); i.hasNext();)
+        for(ListIterator i = _r_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
@@ -123,11 +123,11 @@ public final class AMinExprExpression extends PExpression
 
     }
 
-    private class CommaValue_Cast implements Cast
+    private class R_Cast implements Cast
     {
         public Object cast(Object o)
         {
-            PCommaValue node = (PCommaValue) o;
+            PExpression node = (PExpression) o;
 
             if((node.parent() != null) &&
                 (node.parent() != AMinExprExpression.this))

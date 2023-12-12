@@ -173,11 +173,6 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseACommaExprCommaExpression(ACommaExprCommaExpression node)
-    {
-        defaultCase(node);
-    }
-
     public void caseAOrComparisons(AOrComparisons node)
     {
         defaultCase(node);
@@ -229,11 +224,6 @@ public class AnalysisAdapter implements Analysis
     }
 
     public void caseAGreatcComparisons(AGreatcComparisons node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseACvCommaValue(ACvCommaValue node)
     {
         defaultCase(node);
     }

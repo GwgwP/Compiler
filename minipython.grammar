@@ -101,13 +101,13 @@ Productions
 				{while_statement} tab * while comparison semi statement {-> New statement.while_statement(comparison.comparisons, statement)} |
 				{for_statement} tab * for [lid]:id in [rid]:id semi statement{-> New statement.for_statement(lid, rid, statement)} |
 				{return_statement} tab * return expression{-> New statement.return_statement(expression)} | 
-				{print_statement} tab * print expression comma_expression * {-> New statement.print_statement(expression, [comma_expression])}|
+				{print_statement} tab * print expression comma_expression * {-> New statement.print_statement(expression, [comma_expression.expression])}|
 				{assign_statement} tab * id assign expression{-> New statement.assign_statement(id, expression)} |
 				{id_mineq_statement}tab * id mineq expression {-> New statement.id_mineq_statement(id, expression)}|
 				{id_pluseq_statement}tab * id pluseq expression{-> New statement.id_pluseq_statement(id, expression)} |
 				{id_diveq_statement} tab * id diveq expression{-> New statement.id_diveq_statement(id, expression)} |
 				{array_statement} tab * id l_br [lex]:expression r_br assign [rex]:expression {-> New statement.array_statement(id, lex, rex)}|
-				{assertion_statement} tab * assert expression comma_expression? {-> New statement.assertion_statement(expression, [comma_expression])} |
+				{assertion_statement} tab * assert expression comma_expression? {-> New statement.assertion_statement(expression, [comma_expression.expression])} |
 				{func_call_statement} tab * function_call{-> New statement.func_call_statement(function_call)} ;
 
 
@@ -115,11 +115,11 @@ Productions
 				{func_call} id l_par arglist ? r_par{-> New function_call.func_call(id, [arglist])} ;
 	
 	arglist = 
-				{arglist} expression comma_expression *{-> New arglist.arglist(expression, [comma_expression])};
+				{arglist} expression comma_expression *{-> New arglist.arglist(expression, [comma_expression.expression])};
 
 
-	comma_expression = 
-				{comma_expr} comma expression{-> New comma_expression.comma_expr(expression)};
+	comma_expression{-> expression} = 
+				{comma_expr} comma expression{->expression};
 	
 	comparison{-> comparisons} =
 				{comparison} afteror{-> afteror.comparisons} |
@@ -148,8 +148,8 @@ Productions
 
 
 
-	comma_value =
-				{cv} comma value{-> New comma_value.cv(value.expression)};
+	comma_value{-> expression} =
+				{cv} comma value{-> value.expression};
 
 	expression = 
 				{addition_ex} expression plus expressiono{-> New expression.addition_ex(expression, expressiono.expression)} | 
@@ -157,8 +157,8 @@ Productions
 				{expression_subset} expressiono{-> expressiono.expression};
 
 	expressiono{-> expression} = 	
-				{max_expr} max l_par value comma_value * r_par {-> New expression.max_expr(value.expression, [comma_value])}|
-				{min_expr} min l_par value comma_value * r_par {-> New expression.min_expr(value.expression, [comma_value])}|
+				{max_expr} max l_par value comma_value * r_par {-> New expression.max_expr(value.expression, [comma_value.expression])}|
+				{min_expr} min l_par value comma_value * r_par {-> New expression.min_expr(value.expression, [comma_value.expression])}|
 				{simple_expr} simple_expression{-> simple_expression.expression} ;
 				
 				
@@ -195,7 +195,7 @@ Productions
 				{func_call_expr} function_call{-> New expression.func_call_expr(function_call)} |
 				{len_exp} len l_par expression r_par {-> New expression.len_exp(expression)}|
 				{parenthesis_expr_value} l_par expression r_par{-> New expression.parenthesis_expr_value(expression)} |
-				{brackets_expr_value} l_br expression comma_expression * r_br{-> New expression.brackets_expr_value(expression, [comma_expression])};
+				{brackets_expr_value} l_br expression comma_expression * r_br{-> New expression.brackets_expr_value(expression, [comma_expression.expression])};
 				
 
 	valueno{-> expression} =
@@ -218,6 +218,7 @@ Abstract Syntax Tree
 				{def_func} id argument* statement;
 
 	argument = {arg}id assign_value* ciav*;
+	
 	ciav = {comma_id} id;
 	assign_value = {asvalue} expression;
 	
@@ -226,24 +227,21 @@ Abstract Syntax Tree
 				{while_statement} comparisons statement |
 				{for_statement} [lid]:id [rid]:id statement |
 				{return_statement} expression | 
-				{print_statement} expression comma_expression * |
+				{print_statement} [l]: expression [r]: expression * |
 				{assign_statement} id expression |
 				{id_mineq_statement}id expression |
 				{id_pluseq_statement} id  expression |
 				{id_diveq_statement}  id expression |
 				{array_statement} id [lex]:expression  [rex]:expression |
-				{assertion_statement} expression comma_expression * |
+				{assertion_statement} [r]:expression [l]: expression * |
 				{func_call_statement} function_call ;
 	
 	function_call =
 				{func_call} id arglist* ;
 	
 	arglist = 
-				{arglist} expression comma_expression*;
+				{arglist} [l]: expression [r]:expression*;
 
-
-	comma_expression = 
-				{comma_expr} expression;
 
 	comparisons =
 				{or} [l]:comparisons [r]:comparisons |		
@@ -258,14 +256,12 @@ Abstract Syntax Tree
 				{lessc} [lpar]:expression [rpar]:expression |
 				{greatc}[lpar]:expression [rpar]:expression  ;
 
-	comma_value =
-				{cv} expression;
 
 	expression = 
 				{addition_ex} [l]:expression  [r]:expression | 
 				{subtraction_ex} [l]:expression  [r]:expression|
-				{max_expr}   expression comma_value *  |
-				{min_expr}   expression comma_value *  |
+				{max_expr}   [l]: expression [r]:expression*  |
+				{min_expr}   [l]: expression [r]: expression *  |
 				{plpl} expression |
 	 			{minmin} expression  |
 				{division} [l]:expression [r]:expression |
@@ -276,7 +272,7 @@ Abstract Syntax Tree
 				{func_call_expr} function_call |
 				{len_exp}  expression  |
 				{parenthesis_expr_value}  expression|
-				{brackets_expr_value} expression comma_expression* |
+				{brackets_expr_value} [l]:expression [r]: expression* |
 				{id_dot_func} id  function_call |
 				{identifier} id |
 				{number} number |

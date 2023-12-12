@@ -2078,11 +2078,11 @@ public class Parser
         TypedLinkedList listNode4 = new TypedLinkedList();
         pexpressionNode2 = (PExpression)nodeArrayList2.get(0);
         {
-        PCommaExpression pcommaexpressionNode3;
-        pcommaexpressionNode3 = (PCommaExpression)nodeArrayList3.get(0);
-	if(pcommaexpressionNode3 != null)
+        PExpression pexpressionNode3;
+        pexpressionNode3 = (PExpression)nodeArrayList3.get(0);
+	if(pexpressionNode3 != null)
 	{
-	  listNode4.add(pcommaexpressionNode3);
+	  listNode4.add(pexpressionNode3);
 	}
         }
 
@@ -2108,11 +2108,11 @@ public class Parser
         TypedLinkedList listNode4 = new TypedLinkedList();
         pexpressionNode2 = (PExpression)nodeArrayList3.get(0);
         {
-        PCommaExpression pcommaexpressionNode3;
-        pcommaexpressionNode3 = (PCommaExpression)nodeArrayList4.get(0);
-	if(pcommaexpressionNode3 != null)
+        PExpression pexpressionNode3;
+        pexpressionNode3 = (PExpression)nodeArrayList4.get(0);
+	if(pexpressionNode3 != null)
 	{
-	  listNode4.add(pcommaexpressionNode3);
+	  listNode4.add(pexpressionNode3);
 	}
         }
 
@@ -2269,14 +2269,9 @@ public class Parser
 
         ArrayList nodeArrayList2 = (ArrayList) pop();
         ArrayList nodeArrayList1 = (ArrayList) pop();
-        PCommaExpression pcommaexpressionNode1;
-        {
-        PExpression pexpressionNode2;
-        pexpressionNode2 = (PExpression)nodeArrayList2.get(0);
-
-        pcommaexpressionNode1 = new ACommaExprCommaExpression(pexpressionNode2);
-        }
-	nodeList.add(pcommaexpressionNode1);
+        PExpression pexpressionNode1;
+        pexpressionNode1 = (PExpression)nodeArrayList2.get(0);
+	nodeList.add(pexpressionNode1);
         return nodeList;
     }
 
@@ -2554,14 +2549,9 @@ public class Parser
 
         ArrayList nodeArrayList2 = (ArrayList) pop();
         ArrayList nodeArrayList1 = (ArrayList) pop();
-        PCommaValue pcommavalueNode1;
-        {
-        PExpression pexpressionNode2;
-        pexpressionNode2 = (PExpression)nodeArrayList2.get(0);
-
-        pcommavalueNode1 = new ACvCommaValue(pexpressionNode2);
-        }
-	nodeList.add(pcommavalueNode1);
+        PExpression pexpressionNode1;
+        pexpressionNode1 = (PExpression)nodeArrayList2.get(0);
+	nodeList.add(pexpressionNode1);
         return nodeList;
     }
 
@@ -3371,11 +3361,11 @@ public class Parser
         ArrayList nodeArrayList1 = (ArrayList) pop();
         TypedLinkedList listNode2 = new TypedLinkedList();
         {
-        PCommaExpression pcommaexpressionNode1;
-        pcommaexpressionNode1 = (PCommaExpression)nodeArrayList1.get(0);
-	if(pcommaexpressionNode1 != null)
+        PExpression pexpressionNode1;
+        pexpressionNode1 = (PExpression)nodeArrayList1.get(0);
+	if(pexpressionNode1 != null)
 	{
-	  listNode2.add(pcommaexpressionNode1);
+	  listNode2.add(pexpressionNode1);
 	}
         }
 	nodeList.add(listNode2);
@@ -3393,16 +3383,16 @@ public class Parser
         TypedLinkedList listNode3 = new TypedLinkedList();
         {
         TypedLinkedList listNode1 = new TypedLinkedList();
-        PCommaExpression pcommaexpressionNode2;
+        PExpression pexpressionNode2;
         listNode1 = (TypedLinkedList)nodeArrayList1.get(0);
-        pcommaexpressionNode2 = (PCommaExpression)nodeArrayList2.get(0);
+        pexpressionNode2 = (PExpression)nodeArrayList2.get(0);
 	if(listNode1 != null)
 	{
 	  listNode3.addAll(listNode1);
 	}
-	if(pcommaexpressionNode2 != null)
+	if(pexpressionNode2 != null)
 	{
-	  listNode3.add(pcommaexpressionNode2);
+	  listNode3.add(pexpressionNode2);
 	}
         }
 	nodeList.add(listNode3);
@@ -3418,11 +3408,11 @@ public class Parser
         ArrayList nodeArrayList1 = (ArrayList) pop();
         TypedLinkedList listNode2 = new TypedLinkedList();
         {
-        PCommaValue pcommavalueNode1;
-        pcommavalueNode1 = (PCommaValue)nodeArrayList1.get(0);
-	if(pcommavalueNode1 != null)
+        PExpression pexpressionNode1;
+        pexpressionNode1 = (PExpression)nodeArrayList1.get(0);
+	if(pexpressionNode1 != null)
 	{
-	  listNode2.add(pcommavalueNode1);
+	  listNode2.add(pexpressionNode1);
 	}
         }
 	nodeList.add(listNode2);
@@ -3440,16 +3430,16 @@ public class Parser
         TypedLinkedList listNode3 = new TypedLinkedList();
         {
         TypedLinkedList listNode1 = new TypedLinkedList();
-        PCommaValue pcommavalueNode2;
+        PExpression pexpressionNode2;
         listNode1 = (TypedLinkedList)nodeArrayList1.get(0);
-        pcommavalueNode2 = (PCommaValue)nodeArrayList2.get(0);
+        pexpressionNode2 = (PExpression)nodeArrayList2.get(0);
 	if(listNode1 != null)
 	{
 	  listNode3.addAll(listNode1);
 	}
-	if(pcommavalueNode2 != null)
+	if(pexpressionNode2 != null)
 	{
-	  listNode3.add(pcommavalueNode2);
+	  listNode3.add(pexpressionNode2);
 	}
         }
 	nodeList.add(listNode3);

@@ -310,15 +310,15 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     {
         inAPrintStatementStatement(node);
         {
-            Object temp[] = node.getCommaExpression().toArray();
+            Object temp[] = node.getR().toArray();
             for(int i = temp.length - 1; i >= 0; i--)
             {
-                ((PCommaExpression) temp[i]).apply(this);
+                ((PExpression) temp[i]).apply(this);
             }
         }
-        if(node.getExpression() != null)
+        if(node.getL() != null)
         {
-            node.getExpression().apply(this);
+            node.getL().apply(this);
         }
         outAPrintStatementStatement(node);
     }
@@ -461,15 +461,15 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     {
         inAAssertionStatementStatement(node);
         {
-            Object temp[] = node.getCommaExpression().toArray();
+            Object temp[] = node.getL().toArray();
             for(int i = temp.length - 1; i >= 0; i--)
             {
-                ((PCommaExpression) temp[i]).apply(this);
+                ((PExpression) temp[i]).apply(this);
             }
         }
-        if(node.getExpression() != null)
+        if(node.getR() != null)
         {
-            node.getExpression().apply(this);
+            node.getR().apply(this);
         }
         outAAssertionStatementStatement(node);
     }
@@ -535,37 +535,17 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     {
         inAArglistArglist(node);
         {
-            Object temp[] = node.getCommaExpression().toArray();
+            Object temp[] = node.getR().toArray();
             for(int i = temp.length - 1; i >= 0; i--)
             {
-                ((PCommaExpression) temp[i]).apply(this);
+                ((PExpression) temp[i]).apply(this);
             }
         }
-        if(node.getExpression() != null)
+        if(node.getL() != null)
         {
-            node.getExpression().apply(this);
+            node.getL().apply(this);
         }
         outAArglistArglist(node);
-    }
-
-    public void inACommaExprCommaExpression(ACommaExprCommaExpression node)
-    {
-        defaultIn(node);
-    }
-
-    public void outACommaExprCommaExpression(ACommaExprCommaExpression node)
-    {
-        defaultOut(node);
-    }
-
-    public void caseACommaExprCommaExpression(ACommaExprCommaExpression node)
-    {
-        inACommaExprCommaExpression(node);
-        if(node.getExpression() != null)
-        {
-            node.getExpression().apply(this);
-        }
-        outACommaExprCommaExpression(node);
     }
 
     public void inAOrComparisons(AOrComparisons node)
@@ -812,26 +792,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAGreatcComparisons(node);
     }
 
-    public void inACvCommaValue(ACvCommaValue node)
-    {
-        defaultIn(node);
-    }
-
-    public void outACvCommaValue(ACvCommaValue node)
-    {
-        defaultOut(node);
-    }
-
-    public void caseACvCommaValue(ACvCommaValue node)
-    {
-        inACvCommaValue(node);
-        if(node.getExpression() != null)
-        {
-            node.getExpression().apply(this);
-        }
-        outACvCommaValue(node);
-    }
-
     public void inAAdditionExExpression(AAdditionExExpression node)
     {
         defaultIn(node);
@@ -894,15 +854,15 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     {
         inAMaxExprExpression(node);
         {
-            Object temp[] = node.getCommaValue().toArray();
+            Object temp[] = node.getR().toArray();
             for(int i = temp.length - 1; i >= 0; i--)
             {
-                ((PCommaValue) temp[i]).apply(this);
+                ((PExpression) temp[i]).apply(this);
             }
         }
-        if(node.getExpression() != null)
+        if(node.getL() != null)
         {
-            node.getExpression().apply(this);
+            node.getL().apply(this);
         }
         outAMaxExprExpression(node);
     }
@@ -921,15 +881,15 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     {
         inAMinExprExpression(node);
         {
-            Object temp[] = node.getCommaValue().toArray();
+            Object temp[] = node.getR().toArray();
             for(int i = temp.length - 1; i >= 0; i--)
             {
-                ((PCommaValue) temp[i]).apply(this);
+                ((PExpression) temp[i]).apply(this);
             }
         }
-        if(node.getExpression() != null)
+        if(node.getL() != null)
         {
-            node.getExpression().apply(this);
+            node.getL().apply(this);
         }
         outAMinExprExpression(node);
     }
@@ -1168,15 +1128,15 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     {
         inABracketsExprValueExpression(node);
         {
-            Object temp[] = node.getCommaExpression().toArray();
+            Object temp[] = node.getR().toArray();
             for(int i = temp.length - 1; i >= 0; i--)
             {
-                ((PCommaExpression) temp[i]).apply(this);
+                ((PExpression) temp[i]).apply(this);
             }
         }
-        if(node.getExpression() != null)
+        if(node.getL() != null)
         {
-            node.getExpression().apply(this);
+            node.getL().apply(this);
         }
         outABracketsExprValueExpression(node);
     }
