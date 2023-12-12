@@ -1,3 +1,19 @@
 1) oso pio pisti antigrafi tou bnf 
 2) expressions-> value kai sto px toy front einai something {-> expression} ara ki emeis value{-> expression}?
 3) kathe ksexwristo production gia values, id, kai oti einai stis teleytaies grammes tou bnf
+4) mporoume na exoyme ciav kai assign_value? me ta null ti skeftikame alla kai gt den vgainei 
+5) poia einai i diafora tou in kai tou out ston depth first adapter kai pote xrisimopoieitai o kathenas
+6) pote xreiazetai na valoume -> xwris tpt san orisma
+
+
+- in : MPAINEI TO PARSER STIN ENTOLI K KSEKINAEI ELEGXO
+areia visitor tis java pou kanoun extend to depthfirstadapter
+ta visitors kalountai sto parsertest.java kai pairnoun ena hash table kai kathe fora pou vriskei mia sygkekrimeni entoli poy 
+antistoixei sti methodo pou exoume sto visitor trexei ekeino
+inAFunction 
+key/value->id ws key vaozume olo to node, olo to antikeimeno mesa 
+kapoia 
+
+- out : TOPIKOUS PINAKES OTAN VGAINW APO TON ENTOLI
+
+- case:
