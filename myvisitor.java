@@ -1,15 +1,20 @@
 import minipython.analysis.*;
 import minipython.node.*;
 import java.util.*;
+import java.util.function.Function;
 
 public class myvisitor extends DepthFirstAdapter 
 {
-	private Hashtable symtable;	
 	
+ 	private Hashtable<String, Node> variables;
+	private Hashtable<String, Node> functions;
+	private Hashtable<Node, VARIABLE_TYPES> variableTypes;
+	private List<Function> functionList;
 	/**
 	* All the recognisable potential error types listed
 	*/
 	public static enum ERRORS {
+		DEFINED_FUNCTION,
 		UNDECLARED_VARIABLE, // #1st Error
 		UNDEFINED_FUNCTION,
 		UNORDERED_PARAMS,
@@ -20,11 +25,26 @@ public class myvisitor extends DepthFirstAdapter
 		NONE_OPERATION,
 		IDENTICAL_FUNCTIONS,
 	}
-	
-	myvisitor(Hashtable symtable) 
-	{
-		this.symtable = symtable;
+	/**
+	* 
+	*/
+	public static enum VARIABLE_TYPES {
+		INTEGER,
+		DOUBLE,
+		STRING,
+		NONE,
+		UNKNOWN,
 	}
+	
+	
+	public myvisitor(Hashtable<String, Node> variables, Hashtable<String, Node> functions, 
+			Hashtable<Node, VARIABLE_TYPES> variableTypes) {
+		this.variables = variables;
+		this.functions = functions;
+		this.variableTypes = variableTypes;
+		this.functionList = new ArrayList<>();
+	}
+
 
 	public void inAIdId(AIdId node){
 		int line = ((TIdent) node.getIdent()).getLine();
@@ -34,7 +54,7 @@ public class myvisitor extends DepthFirstAdapter
 
 		// 1) Undeclared variables
 		if (parent instanceof AIdentifierExpression) {
-			if (!symtable.containsKey(name)) {
+			if (!variables.containsKey(name)) {
 				// Print error message
 				printError(node, ERRORS.UNDECLARED_VARIABLE);
 			}
@@ -46,7 +66,7 @@ public class myvisitor extends DepthFirstAdapter
 
 			// Check that the second identifer is an existing variable
 			AIdId id2 = (AIdId) forLoop.getRid();
-			if (name.equals(id2.getIdent().getText()) && !symtable.containsKey(name)) {
+			if (name.equals(id2.getIdent().getText()) && !variables.containsKey(name)) {
 				// Print error message
 				printError(node, ERRORS.UNDECLARED_VARIABLE);
 			}
@@ -63,18 +83,46 @@ public class myvisitor extends DepthFirstAdapter
 	@Override
 	public void inADefFuncFunction(ADefFuncFunction node)
 	{
+		
 		String fName = node.getId().toString();
 		System.out.println(fName);
 		//int line = ((TIdent) node.getId().toString()).getLine();
 		//int line = ((TIdent) node.getId()).getLine();
 	
-		if (symtable.containsKey(fName))
+		if (functions.containsKey(fName))
 		{
-			System.out.println("Line " + 1 + ": " +" Function " + fName +" is already defined");
+			Hashtable<String, Node> functions2 = new Hashtable();
+			functions2 = (Hashtable<String, Node>) functions.clone();
+			
+			int stop = functions2.size();
+			for (int i=0; i<= stop; i++)
+			{
+				ADefFuncFunction func_more = (ADefFuncFunction) functions2.get(fName);
+				
+				if(node.getArgument().size() != func_more.getArgument().size()) //e.g def f(x, y) and def f() is legal
+				{
+					
+					functions.put(fName, node);
+				}
+				else
+				{
+					//((ACommaIdCiav)(((AArgArgument)node.getArgument().get(0)).getCiav())).getAssignValue();
+					System.out.println("f"+((AArgArgument)node.getArgument().get(0)).getCiav());
+					//check if we have same f(x), f(x=1) (default times, opote einai ilegal)
+					System.out.println(node.getArgument().getClass().toString());
+					// for (List item : node.getArgument())
+					// if(node.getArgument().get(i))
+				}
+				
+				
+				printError(null, ERRORS.DEFINED_FUNCTION);
+				//System.out.println("Line " + 1 + ": " +" Function " + fName +" is already defined");
+				functions2.remove(i);
+			}
 		}
 		else
 		{
-			symtable.put(fName, node);
+			functions.put(fName, node);
 		}
 	}
 	@Override
