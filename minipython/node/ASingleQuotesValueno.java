@@ -5,15 +5,15 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class ASingleQuotesExpression extends PExpression
+public final class ASingleQuotesValueno extends PValueno
 {
     private TStringSingleQuotes _stringSingleQuotes_;
 
-    public ASingleQuotesExpression()
+    public ASingleQuotesValueno()
     {
     }
 
-    public ASingleQuotesExpression(
+    public ASingleQuotesValueno(
         TStringSingleQuotes _stringSingleQuotes_)
     {
         setStringSingleQuotes(_stringSingleQuotes_);
@@ -21,13 +21,13 @@ public final class ASingleQuotesExpression extends PExpression
     }
     public Object clone()
     {
-        return new ASingleQuotesExpression(
+        return new ASingleQuotesValueno(
             (TStringSingleQuotes) cloneNode(_stringSingleQuotes_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASingleQuotesExpression(this);
+        ((Analysis) sw).caseASingleQuotesValueno(this);
     }
 
     public TStringSingleQuotes getStringSingleQuotes()

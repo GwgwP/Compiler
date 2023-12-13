@@ -5,17 +5,17 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class AIdDotFuncExpression extends PExpression
+public final class AFuncCallValueValueno extends PValueno
 {
-    private TId _id_;
+    private PId _id_;
     private PFunctionCall _functionCall_;
 
-    public AIdDotFuncExpression()
+    public AFuncCallValueValueno()
     {
     }
 
-    public AIdDotFuncExpression(
-        TId _id_,
+    public AFuncCallValueValueno(
+        PId _id_,
         PFunctionCall _functionCall_)
     {
         setId(_id_);
@@ -25,22 +25,22 @@ public final class AIdDotFuncExpression extends PExpression
     }
     public Object clone()
     {
-        return new AIdDotFuncExpression(
-            (TId) cloneNode(_id_),
+        return new AFuncCallValueValueno(
+            (PId) cloneNode(_id_),
             (PFunctionCall) cloneNode(_functionCall_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAIdDotFuncExpression(this);
+        ((Analysis) sw).caseAFuncCallValueValueno(this);
     }
 
-    public TId getId()
+    public PId getId()
     {
         return _id_;
     }
 
-    public void setId(TId node)
+    public void setId(PId node)
     {
         if(_id_ != null)
         {
@@ -112,7 +112,7 @@ public final class AIdDotFuncExpression extends PExpression
     {
         if(_id_ == oldChild)
         {
-            setId((TId) newChild);
+            setId((PId) newChild);
             return;
         }
 

@@ -7,7 +7,7 @@ import minipython.analysis.*;
 
 public final class ADefFuncFunction extends PFunction
 {
-    private TId _id_;
+    private PId _id_;
     private final LinkedList _argument_ = new TypedLinkedList(new Argument_Cast());
     private PStatement _statement_;
 
@@ -16,7 +16,7 @@ public final class ADefFuncFunction extends PFunction
     }
 
     public ADefFuncFunction(
-        TId _id_,
+        PId _id_,
         List _argument_,
         PStatement _statement_)
     {
@@ -33,7 +33,7 @@ public final class ADefFuncFunction extends PFunction
     public Object clone()
     {
         return new ADefFuncFunction(
-            (TId) cloneNode(_id_),
+            (PId) cloneNode(_id_),
             cloneList(_argument_),
             (PStatement) cloneNode(_statement_));
     }
@@ -43,12 +43,12 @@ public final class ADefFuncFunction extends PFunction
         ((Analysis) sw).caseADefFuncFunction(this);
     }
 
-    public TId getId()
+    public PId getId()
     {
         return _id_;
     }
 
-    public void setId(TId node)
+    public void setId(PId node)
     {
         if(_id_ != null)
         {
@@ -137,7 +137,7 @@ public final class ADefFuncFunction extends PFunction
     {
         if(_id_ == oldChild)
         {
-            setId((TId) newChild);
+            setId((PId) newChild);
             return;
         }
 

@@ -5,41 +5,41 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class ANumberExpression extends PExpression
+public final class AIdId extends PId
 {
-    private TNumber _number_;
+    private TIdent _ident_;
 
-    public ANumberExpression()
+    public AIdId()
     {
     }
 
-    public ANumberExpression(
-        TNumber _number_)
+    public AIdId(
+        TIdent _ident_)
     {
-        setNumber(_number_);
+        setIdent(_ident_);
 
     }
     public Object clone()
     {
-        return new ANumberExpression(
-            (TNumber) cloneNode(_number_));
+        return new AIdId(
+            (TIdent) cloneNode(_ident_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseANumberExpression(this);
+        ((Analysis) sw).caseAIdId(this);
     }
 
-    public TNumber getNumber()
+    public TIdent getIdent()
     {
-        return _number_;
+        return _ident_;
     }
 
-    public void setNumber(TNumber node)
+    public void setIdent(TIdent node)
     {
-        if(_number_ != null)
+        if(_ident_ != null)
         {
-            _number_.parent(null);
+            _ident_.parent(null);
         }
 
         if(node != null)
@@ -52,20 +52,20 @@ public final class ANumberExpression extends PExpression
             node.parent(this);
         }
 
-        _number_ = node;
+        _ident_ = node;
     }
 
     public String toString()
     {
         return ""
-            + toString(_number_);
+            + toString(_ident_);
     }
 
     void removeChild(Node child)
     {
-        if(_number_ == child)
+        if(_ident_ == child)
         {
-            _number_ = null;
+            _ident_ = null;
             return;
         }
 
@@ -73,9 +73,9 @@ public final class ANumberExpression extends PExpression
 
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(_number_ == oldChild)
+        if(_ident_ == oldChild)
         {
-            setNumber((TNumber) newChild);
+            setIdent((TIdent) newChild);
             return;
         }
 

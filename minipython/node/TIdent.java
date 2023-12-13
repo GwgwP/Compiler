@@ -4,14 +4,14 @@ package minipython.node;
 
 import minipython.analysis.*;
 
-public final class TId extends Token
+public final class TIdent extends Token
 {
-    public TId(String text)
+    public TIdent(String text)
     {
         setText(text);
     }
 
-    public TId(String text, int line, int pos)
+    public TIdent(String text, int line, int pos)
     {
         setText(text);
         setLine(line);
@@ -20,11 +20,11 @@ public final class TId extends Token
 
     public Object clone()
     {
-      return new TId(getText(), getLine(), getPos());
+      return new TIdent(getText(), getLine(), getPos());
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTId(this);
+        ((Analysis) sw).caseTIdent(this);
     }
 }

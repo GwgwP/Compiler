@@ -812,7 +812,7 @@ public class Lexer
     Token new46(String text, int line, int pos) { return new TLineComment(text, line, pos); }
     Token new47(String text, int line, int pos) { return new TNumber(text, line, pos); }
     Token new48(int line, int pos) { return new TDot(line, pos); }
-    Token new49(String text, int line, int pos) { return new TId(text, line, pos); }
+    Token new49(String text, int line, int pos) { return new TIdent(text, line, pos); }
     Token new50(String text, int line, int pos) { return new TStringDoubleQuotes(text, line, pos); }
     Token new51(String text, int line, int pos) { return new TStringSingleQuotes(text, line, pos); }
     Token new52(String text, int line, int pos) { return new TEverythingElse(text, line, pos); }

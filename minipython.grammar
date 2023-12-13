@@ -67,7 +67,7 @@ Tokens
 	line_comment = '#' not_eol* eol; 
 	number = digit+;
 	dot = '.';
-	id = letter (letter | digit)*;
+	ident = letter (letter | digit)*;
 	string_double_quotes = '"'not_eol* '"';
 	string_single_quotes = '''not_eol* ''';
 	everything_else = all;
@@ -87,14 +87,14 @@ Productions
 				{def_func} tab * def id l_par argument? r_par semi statement{-> New function.def_func(id, [argument], statement)} ;
 
 	argument = 
-				{arg} id assign_value ? ciav*{-> New argument.arg(id, [assign_value], [ciav])};
+				{arg} id assign_value? ciav*{-> New argument.arg(id, [assign_value], [ciav])};
 
 
 	ciav  = 
-				{comma_id_as_v} comma id assign_value ?{-> New ciav.comma_id(id) };
+				{comma_id_as_v} comma id assign_value? {-> New ciav.comma_id(id, [assign_value]) };
 
 	assign_value = 
-				{as_v} assign valueno{-> New assign_value.asvalue(valueno.expression)};
+				{as_v} assign valueno{-> New assign_value.asvalue(valueno)};
 
 	statement =
 				{if_statement} tab * if comparison semi statement{-> New statement.if_statement(comparison.comparisons, statement)} | 
@@ -190,21 +190,23 @@ Productions
 					
 							
 	value{-> expression} =	
-				{value_subset} valueno{-> valueno.expression}|
+				{value_subset} valueno{->New expression.value(valueno)}|
 				{pinakas_expr} id l_br expression r_br{-> New expression.pinakas_expr(id, expression)} |
 				{func_call_expr} function_call{-> New expression.func_call_expr(function_call)} |
 				{len_exp} len l_par expression r_par {-> New expression.len_exp(expression)}|
 				{parenthesis_expr_value} l_par expression r_par{-> New expression.parenthesis_expr_value(expression)} |
 				{brackets_expr_value} l_br expression comma_expression * r_br{-> New expression.brackets_expr_value(expression, [comma_expression.expression])};
 				
-
-	valueno{-> expression} =
-				{id_dot_func} id dot function_call{-> New expression.id_dot_func(id, function_call)} |
-				{identifier} id {-> New expression.identifier(id)}|
-				{number} number {-> New expression.number(number)} |
-				{double_quotes} string_double_quotes{-> New expression.double_quotes(string_double_quotes)} |
-				{single_quotes} string_single_quotes{-> New expression.single_quotes(string_single_quotes)} |
-				{none_value} none{-> New expression.none_value()} ;
+	valueno =
+				{id_dot_func} id dot function_call{-> New valueno.func_call_value(id, function_call)} |
+				{identifier} id {-> New valueno.id(id) }|
+				{number} num {-> New valueno.number(num)} |
+				{double_quotes} string_double_quotes{-> New valueno.double_quotes(string_double_quotes)} |
+				{single_quotes} string_single_quotes{-> New valueno.single_quotes(string_single_quotes)} |
+				{none_value} none{-> New valueno.none()} ;
+	
+	id = {id} ident {-> New id.id(ident)};
+	num = {numb} number{-> New num.num(number)};
 
 
 Abstract Syntax Tree
@@ -219,8 +221,8 @@ Abstract Syntax Tree
 
 	argument = {arg}id assign_value* ciav*;
 	
-	ciav = {comma_id} id;
-	assign_value = {asvalue} expression;
+	ciav = {comma_id} id assign_value*;
+	assign_value = {asvalue} valueno;
 	
 	statement =
 				{if_statement} comparisons statement | 
@@ -258,6 +260,7 @@ Abstract Syntax Tree
 
 
 	expression = 
+				{value} valueno|
 				{addition_ex} [l]:expression  [r]:expression | 
 				{subtraction_ex} [l]:expression  [r]:expression|
 				{max_expr}   [l]: expression [r]:expression*  |
@@ -273,9 +276,18 @@ Abstract Syntax Tree
 				{len_exp}  expression  |
 				{parenthesis_expr_value}  expression|
 				{brackets_expr_value} [l]:expression [r]: expression* |
-				{id_dot_func} id  function_call |
-				{identifier} id |
-				{number} number |
-				{double_quotes} string_double_quotes |
-				{single_quotes} string_single_quotes |
-				{none_value} ;
+				{identifier} id ;
+
+	
+
+	valueno =
+			{func_call_value} id function_call |
+			{id} id|
+		    {number} num | 
+			{double_quotes} string_double_quotes |
+			{single_quotes} string_single_quotes |
+			{none} ;
+	
+	
+	num = {num} number;
+	id = {id} ident;

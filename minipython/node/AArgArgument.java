@@ -7,7 +7,7 @@ import minipython.analysis.*;
 
 public final class AArgArgument extends PArgument
 {
-    private TId _id_;
+    private PId _id_;
     private final LinkedList _assignValue_ = new TypedLinkedList(new AssignValue_Cast());
     private final LinkedList _ciav_ = new TypedLinkedList(new Ciav_Cast());
 
@@ -16,7 +16,7 @@ public final class AArgArgument extends PArgument
     }
 
     public AArgArgument(
-        TId _id_,
+        PId _id_,
         List _assignValue_,
         List _ciav_)
     {
@@ -36,7 +36,7 @@ public final class AArgArgument extends PArgument
     public Object clone()
     {
         return new AArgArgument(
-            (TId) cloneNode(_id_),
+            (PId) cloneNode(_id_),
             cloneList(_assignValue_),
             cloneList(_ciav_));
     }
@@ -46,12 +46,12 @@ public final class AArgArgument extends PArgument
         ((Analysis) sw).caseAArgArgument(this);
     }
 
-    public TId getId()
+    public PId getId()
     {
         return _id_;
     }
 
-    public void setId(TId node)
+    public void setId(PId node)
     {
         if(_id_ != null)
         {
@@ -125,7 +125,7 @@ public final class AArgArgument extends PArgument
     {
         if(_id_ == oldChild)
         {
-            setId((TId) newChild);
+            setId((PId) newChild);
             return;
         }
 

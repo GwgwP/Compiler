@@ -7,7 +7,7 @@ import minipython.analysis.*;
 
 public final class APinakasExprExpression extends PExpression
 {
-    private TId _id_;
+    private PId _id_;
     private PExpression _expression_;
 
     public APinakasExprExpression()
@@ -15,7 +15,7 @@ public final class APinakasExprExpression extends PExpression
     }
 
     public APinakasExprExpression(
-        TId _id_,
+        PId _id_,
         PExpression _expression_)
     {
         setId(_id_);
@@ -26,7 +26,7 @@ public final class APinakasExprExpression extends PExpression
     public Object clone()
     {
         return new APinakasExprExpression(
-            (TId) cloneNode(_id_),
+            (PId) cloneNode(_id_),
             (PExpression) cloneNode(_expression_));
     }
 
@@ -35,12 +35,12 @@ public final class APinakasExprExpression extends PExpression
         ((Analysis) sw).caseAPinakasExprExpression(this);
     }
 
-    public TId getId()
+    public PId getId()
     {
         return _id_;
     }
 
-    public void setId(TId node)
+    public void setId(PId node)
     {
         if(_id_ != null)
         {
@@ -112,7 +112,7 @@ public final class APinakasExprExpression extends PExpression
     {
         if(_id_ == oldChild)
         {
-            setId((TId) newChild);
+            setId((PId) newChild);
             return;
         }
 

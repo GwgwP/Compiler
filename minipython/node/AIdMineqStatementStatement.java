@@ -7,7 +7,7 @@ import minipython.analysis.*;
 
 public final class AIdMineqStatementStatement extends PStatement
 {
-    private TId _id_;
+    private PId _id_;
     private PExpression _expression_;
 
     public AIdMineqStatementStatement()
@@ -15,7 +15,7 @@ public final class AIdMineqStatementStatement extends PStatement
     }
 
     public AIdMineqStatementStatement(
-        TId _id_,
+        PId _id_,
         PExpression _expression_)
     {
         setId(_id_);
@@ -26,7 +26,7 @@ public final class AIdMineqStatementStatement extends PStatement
     public Object clone()
     {
         return new AIdMineqStatementStatement(
-            (TId) cloneNode(_id_),
+            (PId) cloneNode(_id_),
             (PExpression) cloneNode(_expression_));
     }
 
@@ -35,12 +35,12 @@ public final class AIdMineqStatementStatement extends PStatement
         ((Analysis) sw).caseAIdMineqStatementStatement(this);
     }
 
-    public TId getId()
+    public PId getId()
     {
         return _id_;
     }
 
-    public void setId(TId node)
+    public void setId(PId node)
     {
         if(_id_ != null)
         {
@@ -112,7 +112,7 @@ public final class AIdMineqStatementStatement extends PStatement
     {
         if(_id_ == oldChild)
         {
-            setId((TId) newChild);
+            setId((PId) newChild);
             return;
         }
 

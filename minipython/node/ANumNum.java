@@ -5,41 +5,41 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class AAsvalueAssignValue extends PAssignValue
+public final class ANumNum extends PNum
 {
-    private PValueno _valueno_;
+    private TNumber _number_;
 
-    public AAsvalueAssignValue()
+    public ANumNum()
     {
     }
 
-    public AAsvalueAssignValue(
-        PValueno _valueno_)
+    public ANumNum(
+        TNumber _number_)
     {
-        setValueno(_valueno_);
+        setNumber(_number_);
 
     }
     public Object clone()
     {
-        return new AAsvalueAssignValue(
-            (PValueno) cloneNode(_valueno_));
+        return new ANumNum(
+            (TNumber) cloneNode(_number_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAAsvalueAssignValue(this);
+        ((Analysis) sw).caseANumNum(this);
     }
 
-    public PValueno getValueno()
+    public TNumber getNumber()
     {
-        return _valueno_;
+        return _number_;
     }
 
-    public void setValueno(PValueno node)
+    public void setNumber(TNumber node)
     {
-        if(_valueno_ != null)
+        if(_number_ != null)
         {
-            _valueno_.parent(null);
+            _number_.parent(null);
         }
 
         if(node != null)
@@ -52,20 +52,20 @@ public final class AAsvalueAssignValue extends PAssignValue
             node.parent(this);
         }
 
-        _valueno_ = node;
+        _number_ = node;
     }
 
     public String toString()
     {
         return ""
-            + toString(_valueno_);
+            + toString(_number_);
     }
 
     void removeChild(Node child)
     {
-        if(_valueno_ == child)
+        if(_number_ == child)
         {
-            _valueno_ = null;
+            _number_ = null;
             return;
         }
 
@@ -73,9 +73,9 @@ public final class AAsvalueAssignValue extends PAssignValue
 
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(_valueno_ == oldChild)
+        if(_number_ == oldChild)
         {
-            setValueno((PValueno) newChild);
+            setNumber((TNumber) newChild);
             return;
         }
 

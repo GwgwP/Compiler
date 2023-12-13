@@ -178,6 +178,13 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getId().apply(this);
         }
+        {
+            Object temp[] = node.getAssignValue().toArray();
+            for(int i = 0; i < temp.length; i++)
+            {
+                ((PAssignValue) temp[i]).apply(this);
+            }
+        }
         outACommaIdCiav(node);
     }
 
@@ -194,9 +201,9 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAAsvalueAssignValue(AAsvalueAssignValue node)
     {
         inAAsvalueAssignValue(node);
-        if(node.getExpression() != null)
+        if(node.getValueno() != null)
         {
-            node.getExpression().apply(this);
+            node.getValueno().apply(this);
         }
         outAAsvalueAssignValue(node);
     }
@@ -793,6 +800,26 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outAGreatcComparisons(node);
     }
 
+    public void inAValueExpression(AValueExpression node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAValueExpression(AValueExpression node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAValueExpression(AValueExpression node)
+    {
+        inAValueExpression(node);
+        if(node.getValueno() != null)
+        {
+            node.getValueno().apply(this);
+        }
+        outAValueExpression(node);
+    }
+
     public void inAAdditionExExpression(AAdditionExExpression node)
     {
         defaultIn(node);
@@ -1142,30 +1169,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outABracketsExprValueExpression(node);
     }
 
-    public void inAIdDotFuncExpression(AIdDotFuncExpression node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAIdDotFuncExpression(AIdDotFuncExpression node)
-    {
-        defaultOut(node);
-    }
-
-    public void caseAIdDotFuncExpression(AIdDotFuncExpression node)
-    {
-        inAIdDotFuncExpression(node);
-        if(node.getId() != null)
-        {
-            node.getId().apply(this);
-        }
-        if(node.getFunctionCall() != null)
-        {
-            node.getFunctionCall().apply(this);
-        }
-        outAIdDotFuncExpression(node);
-    }
-
     public void inAIdentifierExpression(AIdentifierExpression node)
     {
         defaultIn(node);
@@ -1186,79 +1189,163 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outAIdentifierExpression(node);
     }
 
-    public void inANumberExpression(ANumberExpression node)
+    public void inAFuncCallValueValueno(AFuncCallValueValueno node)
     {
         defaultIn(node);
     }
 
-    public void outANumberExpression(ANumberExpression node)
+    public void outAFuncCallValueValueno(AFuncCallValueValueno node)
     {
         defaultOut(node);
     }
 
-    public void caseANumberExpression(ANumberExpression node)
+    public void caseAFuncCallValueValueno(AFuncCallValueValueno node)
     {
-        inANumberExpression(node);
-        if(node.getNumber() != null)
+        inAFuncCallValueValueno(node);
+        if(node.getId() != null)
         {
-            node.getNumber().apply(this);
+            node.getId().apply(this);
         }
-        outANumberExpression(node);
+        if(node.getFunctionCall() != null)
+        {
+            node.getFunctionCall().apply(this);
+        }
+        outAFuncCallValueValueno(node);
     }
 
-    public void inADoubleQuotesExpression(ADoubleQuotesExpression node)
+    public void inAIdValueno(AIdValueno node)
     {
         defaultIn(node);
     }
 
-    public void outADoubleQuotesExpression(ADoubleQuotesExpression node)
+    public void outAIdValueno(AIdValueno node)
     {
         defaultOut(node);
     }
 
-    public void caseADoubleQuotesExpression(ADoubleQuotesExpression node)
+    public void caseAIdValueno(AIdValueno node)
     {
-        inADoubleQuotesExpression(node);
+        inAIdValueno(node);
+        if(node.getId() != null)
+        {
+            node.getId().apply(this);
+        }
+        outAIdValueno(node);
+    }
+
+    public void inANumberValueno(ANumberValueno node)
+    {
+        defaultIn(node);
+    }
+
+    public void outANumberValueno(ANumberValueno node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseANumberValueno(ANumberValueno node)
+    {
+        inANumberValueno(node);
+        if(node.getNum() != null)
+        {
+            node.getNum().apply(this);
+        }
+        outANumberValueno(node);
+    }
+
+    public void inADoubleQuotesValueno(ADoubleQuotesValueno node)
+    {
+        defaultIn(node);
+    }
+
+    public void outADoubleQuotesValueno(ADoubleQuotesValueno node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseADoubleQuotesValueno(ADoubleQuotesValueno node)
+    {
+        inADoubleQuotesValueno(node);
         if(node.getStringDoubleQuotes() != null)
         {
             node.getStringDoubleQuotes().apply(this);
         }
-        outADoubleQuotesExpression(node);
+        outADoubleQuotesValueno(node);
     }
 
-    public void inASingleQuotesExpression(ASingleQuotesExpression node)
+    public void inASingleQuotesValueno(ASingleQuotesValueno node)
     {
         defaultIn(node);
     }
 
-    public void outASingleQuotesExpression(ASingleQuotesExpression node)
+    public void outASingleQuotesValueno(ASingleQuotesValueno node)
     {
         defaultOut(node);
     }
 
-    public void caseASingleQuotesExpression(ASingleQuotesExpression node)
+    public void caseASingleQuotesValueno(ASingleQuotesValueno node)
     {
-        inASingleQuotesExpression(node);
+        inASingleQuotesValueno(node);
         if(node.getStringSingleQuotes() != null)
         {
             node.getStringSingleQuotes().apply(this);
         }
-        outASingleQuotesExpression(node);
+        outASingleQuotesValueno(node);
     }
 
-    public void inANoneValueExpression(ANoneValueExpression node)
+    public void inANoneValueno(ANoneValueno node)
     {
         defaultIn(node);
     }
 
-    public void outANoneValueExpression(ANoneValueExpression node)
+    public void outANoneValueno(ANoneValueno node)
     {
         defaultOut(node);
     }
 
-    public void caseANoneValueExpression(ANoneValueExpression node)
+    public void caseANoneValueno(ANoneValueno node)
     {
-        inANoneValueExpression(node);
-        outANoneValueExpression(node);
+        inANoneValueno(node);
+        outANoneValueno(node);
+    }
+
+    public void inANumNum(ANumNum node)
+    {
+        defaultIn(node);
+    }
+
+    public void outANumNum(ANumNum node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseANumNum(ANumNum node)
+    {
+        inANumNum(node);
+        if(node.getNumber() != null)
+        {
+            node.getNumber().apply(this);
+        }
+        outANumNum(node);
+    }
+
+    public void inAIdId(AIdId node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAIdId(AIdId node)
+    {
+        defaultOut(node);
+    }
+
+    public void caseAIdId(AIdId node)
+    {
+        inAIdId(node);
+        if(node.getIdent() != null)
+        {
+            node.getIdent().apply(this);
+        }
+        outAIdId(node);
     }
 }

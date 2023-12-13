@@ -44,6 +44,7 @@ public interface Analysis extends Switch
     void caseAEqeqComparisons(AEqeqComparisons node);
     void caseALesscComparisons(ALesscComparisons node);
     void caseAGreatcComparisons(AGreatcComparisons node);
+    void caseAValueExpression(AValueExpression node);
     void caseAAdditionExExpression(AAdditionExExpression node);
     void caseASubtractionExExpression(ASubtractionExExpression node);
     void caseAMaxExprExpression(AMaxExprExpression node);
@@ -59,12 +60,15 @@ public interface Analysis extends Switch
     void caseALenExpExpression(ALenExpExpression node);
     void caseAParenthesisExprValueExpression(AParenthesisExprValueExpression node);
     void caseABracketsExprValueExpression(ABracketsExprValueExpression node);
-    void caseAIdDotFuncExpression(AIdDotFuncExpression node);
     void caseAIdentifierExpression(AIdentifierExpression node);
-    void caseANumberExpression(ANumberExpression node);
-    void caseADoubleQuotesExpression(ADoubleQuotesExpression node);
-    void caseASingleQuotesExpression(ASingleQuotesExpression node);
-    void caseANoneValueExpression(ANoneValueExpression node);
+    void caseAFuncCallValueValueno(AFuncCallValueValueno node);
+    void caseAIdValueno(AIdValueno node);
+    void caseANumberValueno(ANumberValueno node);
+    void caseADoubleQuotesValueno(ADoubleQuotesValueno node);
+    void caseASingleQuotesValueno(ASingleQuotesValueno node);
+    void caseANoneValueno(ANoneValueno node);
+    void caseANumNum(ANumNum node);
+    void caseAIdId(AIdId node);
 
     void caseTTab(TTab node);
     void caseTPlusplus(TPlusplus node);
@@ -115,7 +119,7 @@ public interface Analysis extends Switch
     void caseTLineComment(TLineComment node);
     void caseTNumber(TNumber node);
     void caseTDot(TDot node);
-    void caseTId(TId node);
+    void caseTIdent(TIdent node);
     void caseTStringDoubleQuotes(TStringDoubleQuotes node);
     void caseTStringSingleQuotes(TStringSingleQuotes node);
     void caseTEverythingElse(TEverythingElse node);

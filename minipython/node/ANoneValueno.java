@@ -5,20 +5,20 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class ANoneValueExpression extends PExpression
+public final class ANoneValueno extends PValueno
 {
 
-    public ANoneValueExpression()
+    public ANoneValueno()
     {
     }
     public Object clone()
     {
-        return new ANoneValueExpression();
+        return new ANoneValueno();
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseANoneValueExpression(this);
+        ((Analysis) sw).caseANoneValueno(this);
     }
 
     public String toString()

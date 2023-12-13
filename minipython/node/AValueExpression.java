@@ -5,15 +5,15 @@ package minipython.node;
 import java.util.*;
 import minipython.analysis.*;
 
-public final class AAsvalueAssignValue extends PAssignValue
+public final class AValueExpression extends PExpression
 {
     private PValueno _valueno_;
 
-    public AAsvalueAssignValue()
+    public AValueExpression()
     {
     }
 
-    public AAsvalueAssignValue(
+    public AValueExpression(
         PValueno _valueno_)
     {
         setValueno(_valueno_);
@@ -21,13 +21,13 @@ public final class AAsvalueAssignValue extends PAssignValue
     }
     public Object clone()
     {
-        return new AAsvalueAssignValue(
+        return new AValueExpression(
             (PValueno) cloneNode(_valueno_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAAsvalueAssignValue(this);
+        ((Analysis) sw).caseAValueExpression(this);
     }
 
     public PValueno getValueno()

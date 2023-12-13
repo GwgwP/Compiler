@@ -7,7 +7,7 @@ import minipython.analysis.*;
 
 public final class AFuncCallFunctionCall extends PFunctionCall
 {
-    private TId _id_;
+    private PId _id_;
     private final LinkedList _arglist_ = new TypedLinkedList(new Arglist_Cast());
 
     public AFuncCallFunctionCall()
@@ -15,7 +15,7 @@ public final class AFuncCallFunctionCall extends PFunctionCall
     }
 
     public AFuncCallFunctionCall(
-        TId _id_,
+        PId _id_,
         List _arglist_)
     {
         setId(_id_);
@@ -29,7 +29,7 @@ public final class AFuncCallFunctionCall extends PFunctionCall
     public Object clone()
     {
         return new AFuncCallFunctionCall(
-            (TId) cloneNode(_id_),
+            (PId) cloneNode(_id_),
             cloneList(_arglist_));
     }
 
@@ -38,12 +38,12 @@ public final class AFuncCallFunctionCall extends PFunctionCall
         ((Analysis) sw).caseAFuncCallFunctionCall(this);
     }
 
-    public TId getId()
+    public PId getId()
     {
         return _id_;
     }
 
-    public void setId(TId node)
+    public void setId(PId node)
     {
         if(_id_ != null)
         {
@@ -100,7 +100,7 @@ public final class AFuncCallFunctionCall extends PFunctionCall
     {
         if(_id_ == oldChild)
         {
-            setId((TId) newChild);
+            setId((PId) newChild);
             return;
         }
 

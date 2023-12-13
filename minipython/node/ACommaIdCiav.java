@@ -7,22 +7,30 @@ import minipython.analysis.*;
 
 public final class ACommaIdCiav extends PCiav
 {
-    private TId _id_;
+    private PId _id_;
+    private final LinkedList _assignValue_ = new TypedLinkedList(new AssignValue_Cast());
 
     public ACommaIdCiav()
     {
     }
 
     public ACommaIdCiav(
-        TId _id_)
+        PId _id_,
+        List _assignValue_)
     {
         setId(_id_);
+
+        {
+            this._assignValue_.clear();
+            this._assignValue_.addAll(_assignValue_);
+        }
 
     }
     public Object clone()
     {
         return new ACommaIdCiav(
-            (TId) cloneNode(_id_));
+            (PId) cloneNode(_id_),
+            cloneList(_assignValue_));
     }
 
     public void apply(Switch sw)
@@ -30,12 +38,12 @@ public final class ACommaIdCiav extends PCiav
         ((Analysis) sw).caseACommaIdCiav(this);
     }
 
-    public TId getId()
+    public PId getId()
     {
         return _id_;
     }
 
-    public void setId(TId node)
+    public void setId(PId node)
     {
         if(_id_ != null)
         {
@@ -55,10 +63,22 @@ public final class ACommaIdCiav extends PCiav
         _id_ = node;
     }
 
+    public LinkedList getAssignValue()
+    {
+        return _assignValue_;
+    }
+
+    public void setAssignValue(List list)
+    {
+        _assignValue_.clear();
+        _assignValue_.addAll(list);
+    }
+
     public String toString()
     {
         return ""
-            + toString(_id_);
+            + toString(_id_)
+            + toString(_assignValue_);
     }
 
     void removeChild(Node child)
@@ -69,15 +89,59 @@ public final class ACommaIdCiav extends PCiav
             return;
         }
 
+        if(_assignValue_.remove(child))
+        {
+            return;
+        }
+
     }
 
     void replaceChild(Node oldChild, Node newChild)
     {
         if(_id_ == oldChild)
         {
-            setId((TId) newChild);
+            setId((PId) newChild);
             return;
         }
 
+        for(ListIterator i = _assignValue_.listIterator(); i.hasNext();)
+        {
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set(newChild);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
+        }
+
+    }
+
+    private class AssignValue_Cast implements Cast
+    {
+        public Object cast(Object o)
+        {
+            PAssignValue node = (PAssignValue) o;
+
+            if((node.parent() != null) &&
+                (node.parent() != ACommaIdCiav.this))
+            {
+                node.parent().removeChild(node);
+            }
+
+            if((node.parent() == null) ||
+                (node.parent() != ACommaIdCiav.this))
+            {
+                node.parent(ACommaIdCiav.this);
+            }
+
+            return node;
+        }
     }
 }

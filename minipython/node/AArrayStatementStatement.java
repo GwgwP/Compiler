@@ -7,7 +7,7 @@ import minipython.analysis.*;
 
 public final class AArrayStatementStatement extends PStatement
 {
-    private TId _id_;
+    private PId _id_;
     private PExpression _lex_;
     private PExpression _rex_;
 
@@ -16,7 +16,7 @@ public final class AArrayStatementStatement extends PStatement
     }
 
     public AArrayStatementStatement(
-        TId _id_,
+        PId _id_,
         PExpression _lex_,
         PExpression _rex_)
     {
@@ -30,7 +30,7 @@ public final class AArrayStatementStatement extends PStatement
     public Object clone()
     {
         return new AArrayStatementStatement(
-            (TId) cloneNode(_id_),
+            (PId) cloneNode(_id_),
             (PExpression) cloneNode(_lex_),
             (PExpression) cloneNode(_rex_));
     }
@@ -40,12 +40,12 @@ public final class AArrayStatementStatement extends PStatement
         ((Analysis) sw).caseAArrayStatementStatement(this);
     }
 
-    public TId getId()
+    public PId getId()
     {
         return _id_;
     }
 
-    public void setId(TId node)
+    public void setId(PId node)
     {
         if(_id_ != null)
         {
@@ -149,7 +149,7 @@ public final class AArrayStatementStatement extends PStatement
     {
         if(_id_ == oldChild)
         {
-            setId((TId) newChild);
+            setId((PId) newChild);
             return;
         }
 

@@ -228,6 +228,11 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
+    public void caseAValueExpression(AValueExpression node)
+    {
+        defaultCase(node);
+    }
+
     public void caseAAdditionExExpression(AAdditionExExpression node)
     {
         defaultCase(node);
@@ -303,32 +308,47 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseAIdDotFuncExpression(AIdDotFuncExpression node)
-    {
-        defaultCase(node);
-    }
-
     public void caseAIdentifierExpression(AIdentifierExpression node)
     {
         defaultCase(node);
     }
 
-    public void caseANumberExpression(ANumberExpression node)
+    public void caseAFuncCallValueValueno(AFuncCallValueValueno node)
     {
         defaultCase(node);
     }
 
-    public void caseADoubleQuotesExpression(ADoubleQuotesExpression node)
+    public void caseAIdValueno(AIdValueno node)
     {
         defaultCase(node);
     }
 
-    public void caseASingleQuotesExpression(ASingleQuotesExpression node)
+    public void caseANumberValueno(ANumberValueno node)
     {
         defaultCase(node);
     }
 
-    public void caseANoneValueExpression(ANoneValueExpression node)
+    public void caseADoubleQuotesValueno(ADoubleQuotesValueno node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseASingleQuotesValueno(ASingleQuotesValueno node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseANoneValueno(ANoneValueno node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseANumNum(ANumNum node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAIdId(AIdId node)
     {
         defaultCase(node);
     }
@@ -578,7 +598,7 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseTId(TId node)
+    public void caseTIdent(TIdent node)
     {
         defaultCase(node);
     }
