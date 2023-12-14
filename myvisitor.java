@@ -9,21 +9,24 @@ public class myvisitor extends DepthFirstAdapter
  	private Hashtable<String, Node> variables;
 	private Hashtable<String, Node> functions;
 	private Hashtable<Node, VARIABLE_TYPES> variableTypes;
+	
 	private List<Function> functionList;
 	/**
 	* All the recognisable potential error types listed
 	*/
 	public static enum ERRORS {
-		DEFINED_FUNCTION,
 		UNDECLARED_VARIABLE, // #1st Error
-		UNDEFINED_FUNCTION,
-		UNORDERED_PARAMS,
-		WRONG_PARAMS,
-		TYPE_MISSMATCH,
-		ADD_TYPE_MISSMATCH,
-		MINUS_TYPE_MISSMATCH,
-		NONE_OPERATION,
-		IDENTICAL_FUNCTIONS,
+		UNDEFINED_FUNCTION,  // #2nd error
+		WRONG_FUNCTION_PARAMETERS,     //3rd error 
+		TYPE_MISSMATCH,      // #4th error
+		NONE,                // #5th error
+		MISUSED_FUNCTION,    // #6th error
+		REDEFINED_FUNCTION,  // #7th error
+		UNDEFINED_ARRAY
+		// UNORDERED_PARAMS,
+		// ADD_TYPE_MISSMATCH,
+		// MINUS_TYPE_MISSMATCH,
+		// IDENTICAL_FUNCTIONS,
 	}
 	/**
 	* 
@@ -48,34 +51,61 @@ public class myvisitor extends DepthFirstAdapter
 
 	public void inAIdId(AIdId node){
 		int line = ((TIdent) node.getIdent()).getLine();
-		
+	
 		String name = node.getIdent().getText();
 		Node parent = node.parent();
-
 		// 1) Undeclared variables
-		if (parent instanceof AIdentifierExpression) {
+		if (parent instanceof AIdentifierExpression || parent instanceof AIdValueno) { //x = y[2] if y is undefined
 			if (!variables.containsKey(name)) {
 				// Print error message
 				printError(node, ERRORS.UNDECLARED_VARIABLE);
 			}
 
-		} 
-		else if (parent instanceof AForStatementStatement) 
+		}
+		else if (parent instanceof AForStatementStatement) // ex for x in y : statement -> x could be not defined but y should be defined
 		{
 			AForStatementStatement forLoop = (AForStatementStatement) parent;
 
 			// Check that the second identifer is an existing variable
 			AIdId id2 = (AIdId) forLoop.getRid();
-			if (name.equals(id2.getIdent().getText()) && !variables.containsKey(name)) {
+			if (name.equals(id2.getIdent().getText()) && !variables.containsKey(id2)) { 
 				// Print error message
 				printError(node, ERRORS.UNDECLARED_VARIABLE);
 			}
 		}
+		else
+		{
+						// Check the parent's type and react accordingly
+			if (parent instanceof AAssignStatementStatement|| parent instanceof AAsvalueAssignValue|| parent instanceof AArgArgument) {
+				// Create a new variable
+				variables.put(name, node);
+				variableTypes.put(node, VAR_TYPES.UNKNOWN);
+			} 
+			else if (parent instanceof AFunction) 
+			{
+			// Create a new function
+			functions.put(name, node);
+			} 
+			else if (parent instanceof AForStatement) 
+			{
+				AForStatement forLoop = (AForStatement) parent;
+				// Create a variable for the first identifier
+				AIdentifier id1 = (AIdentifier) forLoop.getId1();
+				if (name.equals(id1.getId().getText())) 
+				{
+					variables.put(name, node);
+				}
+			}
+
+
+			variables.put(name, node);
+		}
+		
 	}
+
 	private void printError(AIdId node, myvisitor.ERRORS undeclaredVariable) {
 	}
 
-	
 
 	/**
 	 * given example modified to suit our grammar
@@ -83,11 +113,13 @@ public class myvisitor extends DepthFirstAdapter
 	@Override
 	public void inADefFuncFunction(ADefFuncFunction node)
 	{
-		
+		// def f ():
+		// 	yyy
 		String fName = node.getId().toString();
-		System.out.println(fName);
-		//int line = ((TIdent) node.getId().toString()).getLine();
-		//int line = ((TIdent) node.getId()).getLine();
+		node.ge
+
+		(TIdent)node.getId()).getLine();
+		
 	
 		if (functions.containsKey(fName))
 		{
