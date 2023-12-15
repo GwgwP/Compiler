@@ -5,7 +5,16 @@
 #     x = 7    
 #     for j in v:
 #         print (f)
-y=[1,2,3]
-for i in y:
-    print (1)
-x -=7
+
+
+def f(y, x=1):
+    print("1")
+    print (y)
+
+
+def f(x, y):
+    print("2")
+    print(y+2)
+
+
+f(11, 1)

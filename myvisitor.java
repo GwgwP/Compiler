@@ -72,33 +72,57 @@ public class myvisitor extends DepthFirstAdapter
 				// Print error message
 				printError(node, ERRORS.UNDECLARED_VARIABLE);
 			}
+			else{
+				variables.put(id2.getIdent().getText(), id2);
+			}
 		}
-		else
+		
+	}
+		
+	public void outAIdId(AIdId node)
+	{
+		Node parent = node.parent();
+		String name = node.getIdent().getText();
+			// Check the parent's type and react accordingly
+		if (parent instanceof AAssignStatementStatement|| parent instanceof AAsvalueAssignValue|| parent instanceof AArgArgument) {
+			// Create a new variable
+			variables.put(name, node);
+			variableTypes.put(node, VARIABLE_TYPES.UNKNOWN);
+		} 
+		else if (parent instanceof ADefFuncFunction) 
 		{
-						// Check the parent's type and react accordingly
-			if (parent instanceof AAssignStatementStatement|| parent instanceof AAsvalueAssignValue|| parent instanceof AArgArgument) {
-				// Create a new variable
-				variables.put(name, node);
-				variableTypes.put(node, VAR_TYPES.UNKNOWN);
-			} 
-			else if (parent instanceof AFunction) 
-			{
 			// Create a new function
 			functions.put(name, node);
-			} 
-			else if (parent instanceof AForStatement) 
+		} 
+		else if (parent instanceof AForStatementStatement)  //name == id1
+		{
+			AForStatementStatement forLoop = (AForStatementStatement) parent;
+			//Create a variable for the first identifier
+			AIdId id1 = (AIdId) forLoop.getLid();
+			AIdId id2 = (AIdId) forLoop.getRid();
+			// for x in y: and y=[1,2,3] x should be integer, if y =[1.2, 1.3] y should be double etc
+			
+			String variableType = variableTypes.get(id2).name();
+			if (variableType.equals("INTEGER")) 
 			{
-				AForStatement forLoop = (AForStatement) parent;
-				// Create a variable for the first identifier
-				AIdentifier id1 = (AIdentifier) forLoop.getId1();
-				if (name.equals(id1.getId().getText())) 
-				{
-					variables.put(name, node);
-				}
+				variableTypes.put(id1, VARIABLE_TYPES.INTEGER);
 			}
-
-
-			variables.put(name, node);
+			else if (variableType.equals("DOUBLE"))
+			{
+				variableTypes.put(id1, VARIABLE_TYPES.DOUBLE);
+			} 
+			else if (variableType.equals("STRING")) 
+			{
+				variableTypes.put(id1, VARIABLE_TYPES.STRING);
+			} else if (variableType.equals("NONE")) 
+			{
+				variableTypes.put(id1, VARIABLE_TYPES.NONE);
+			} 
+			else if (variableType.equals("UNKNOWN")) 
+			{
+				variableTypes.put(id1, VARIABLE_TYPES.UNKNOWN);
+			}
+			variables.put(name, node); 
 		}
 		
 	}
@@ -113,12 +137,7 @@ public class myvisitor extends DepthFirstAdapter
 	@Override
 	public void inADefFuncFunction(ADefFuncFunction node)
 	{
-		// def f ():
-		// 	yyy
 		String fName = node.getId().toString();
-		node.ge
-
-		(TIdent)node.getId()).getLine();
 		
 	
 		if (functions.containsKey(fName))
@@ -129,33 +148,110 @@ public class myvisitor extends DepthFirstAdapter
 			int stop = functions2.size();
 			for (int i=0; i<= stop; i++)
 			{
-				ADefFuncFunction func_more = (ADefFuncFunction) functions2.get(fName);
-				
-				if(node.getArgument().size() != func_more.getArgument().size()) //e.g def f(x, y) and def f() is legal
+				if(functions2.get(fName)!= null) // if functions2.get(i) == fname
 				{
+					ADefFuncFunction func_more = (ADefFuncFunction) functions2.get(fName);
 					
-					functions.put(fName, node);
-				}
-				else
-				{
-					//((ACommaIdCiav)(((AArgArgument)node.getArgument().get(0)).getCiav())).getAssignValue();
-					System.out.println("f"+((AArgArgument)node.getArgument().get(0)).getCiav());
-					//check if we have same f(x), f(x=1) (default times, opote einai ilegal)
-					System.out.println(node.getArgument().getClass().toString());
-					// for (List item : node.getArgument())
-					// if(node.getArgument().get(i))
-				}
-				
+					if(node.getArgument().size() == func_more.getArgument().size() && node.getArgument().size() == 0) //e.g def f() and def f() is Elegal
+					{
+						
+						printError(node, ERRORS.REDEFINED_FUNCTION);
+					}
+					else
+					{
+						// calculation of same name function's arguments and assignements
+						int count_total_vars = 0;
+						int count_default_vars = 0;
+						AArgArgument argument = ((AArgArgument) (func_more.getArgument().get(0)));
+						if (argument.getAssignValue()!=null) //TODO: CHECK IF IT WORKS
+						{
+							count_total_vars++;
+							count_default_vars++;
+
+						}
+						else
+						{
+							count_total_vars++;
+						}
+						LinkedList ciav = argument.getCiav();
+						if(ciav!=null)
+						{
+							for ( int k = 0; k < ciav.size();k++)
+							{
+								ACommaIdCiav c = (ACommaIdCiav) ciav.get(k);
+								if (c.getAssignValue()!=null) //TODO: CHECK IF IT WORKS
+								{
+									count_total_vars++;
+									count_default_vars++;
+
+								}
+								else
+								{
+									count_total_vars++;
+								}
+							}
+						}
+						//
+						// calculation of initial name function's arguments and assignements
+						int count_total_vars_new = 0;
+						int count_default_vars_new = 0;
+						AArgArgument argument_n = ((AArgArgument) (node.getArgument().get(0)));
+						if (argument.getAssignValue()!=null) //TODO: CHECK IF IT WORKS
+						{
+							count_total_vars_new++;
+							count_default_vars_new++;
+
+						}
+						else
+						{
+							count_total_vars++;
+						}
+						LinkedList ciav_n = argument_n.getCiav();
+						if(ciav!=null)
+						{
+							for ( int k = 0; k < ciav_n.size();k++)
+							{
+								ACommaIdCiav c = (ACommaIdCiav) ciav_n.get(k);
+								if (c.getAssignValue()!=null) //TODO: CHECK IF IT WORKS
+								{
+									count_total_vars_new++;
+									count_default_vars_new++;
+
+								}
+								else
+								{
+									count_total_vars_new++;
+								}
+							}
+						}
+						
+						if(count_total_vars - count_default_vars == count_total_vars_new - count_default_vars_new)
+						{
+							printError(node, nul);
+						}
+						
+
+					}
+					functions2.remove(i);
+				}				
 				
 				printError(null, ERRORS.DEFINED_FUNCTION);
 				//System.out.println("Line " + 1 + ": " +" Function " + fName +" is already defined");
-				functions2.remove(i);
+				
 			}
 		}
 		else
 		{
 			functions.put(fName, node);
 		}
+	}
+	private void printError(ADefFuncFunction node, myvisitor.ERRORS redefinedFunction) {
+	}
+
+
+	public void outADefFuncFunction(ADefFuncFunction node)
+	{
+
 	}
 	@Override
 	public void inAIdentifierExpression(AIdentifierExpression node)
