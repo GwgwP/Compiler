@@ -7,10 +7,12 @@ public class myvisitor extends DepthFirstAdapter
 {
 	
  	private Hashtable<String, Node> variables;
-	private Hashtable<String, Node> functions;
+	//private Hashtable<String, Node> functions;
+	private Hashtable<String, LinkedList<Node>> functions = new Hashtable<>();
+
 	private Hashtable<Node, VARIABLE_TYPES> variableTypes;
 	
-	private List<Function> functionL;
+	//private List<Function> functionL;
 	/**
 	* All the recognisable potential error types listed
 	*/
@@ -41,12 +43,12 @@ public class myvisitor extends DepthFirstAdapter
 	}
 	
 	
-	public myvisitor(Hashtable<String, Node> variables, Hashtable<String, Node> functions, 
+	public myvisitor(Hashtable<String, Node> variables, Hashtable<String, LinkedList<Node>> functions, 
 			Hashtable<Node, VARIABLE_TYPES> variableTypes) {
 		this.variables = variables;
 		this.functions = functions;
 		this.variableTypes = variableTypes;
-		this.functionL = new ArrayList<>();
+		//this.functionL = new ArrayList<>();
 	}
 
 
@@ -152,8 +154,17 @@ public class myvisitor extends DepthFirstAdapter
 		} 
 		else if (parent instanceof ADefFuncFunction) 
 		{
-			// Create a new function
-			functions.put(name, node);
+			// // Create a new function
+			// if (functions.containsKey(name)) {
+			// 	System.out.println("irtha edw");
+			// 	// If it exists, add the node to the existing list of nodes
+			// 	functions.get(name).add(node);
+			// } else {
+			// 	// If it doesn't exist, create a new list with the node and associate it with the function name
+			// 	LinkedList<Node> nodeList = new LinkedList<>();
+			// 	nodeList.add(node);
+			// 	functions.put(name, nodeList);
+			// }		
 		} 
 		else if (parent instanceof AForStatementStatement)  //name == id1
 		{
@@ -210,111 +221,109 @@ public class myvisitor extends DepthFirstAdapter
 	@Override
 	public void inADefFuncFunction(ADefFuncFunction node)
 	{ 
-		boolean flag = false;
+
+		//boolean flag = true;
 		String fName = node.getId().toString();
 
 		if (functions.containsKey(fName)) //if function exists check that number of parameters is different
 		{
-			
-			Hashtable<String, Node> functions2 = new Hashtable();
-			functions2 = (Hashtable<String, Node>) functions.clone();
-			
-			
-			for (int i=0; i< functions2.size(); i++)
+			LinkedList<Node> nodeList = functions.get(fName);
+
+			for (Node n:nodeList)
 			{
-				System.out.println("size1:" + functions2.size());
-				functions2.remove(fName);
-				System.out.println("size2:" + functions2.size());
+				ADefFuncFunction func_more = (ADefFuncFunction) n;
+			
+				// calculation of same name function's arguments and assignements
+				int count_total_vars = 0;
+				int count_default_vars = 0;
 
+				int count_total_vars_new = 0;
+				int count_default_vars_new = 0;
 
-				if(functions2.get(fName)!= null) // if functions2.get(i) == fname
+				if (func_more.getArgument() == null)//there are no arguments f()
 				{
-					ADefFuncFunction func_more = (ADefFuncFunction) functions2.get(fName);
-				
-					// calculation of same name function's arguments and assignements
-					int count_total_vars = 0;
-					int count_default_vars = 0;
+					count_total_vars = 0;
 
-					int count_total_vars_new = 0;
-					int count_default_vars_new = 0;
-
-					if (func_more.getArgument() == null)//there are no arguments
+					if(node.getArgument() == null)
 					{
-						count_total_vars = 0;
-
-						if(node.getArgument() == null)
-						{
-							count_total_vars_new = 0;
-						}
-						
+						count_total_vars_new = 0;
 					}
-					else //(func_more.getArgument().get(0)!=null) //there are arguments
-					{
 					
-						AArgArgument argument = ((AArgArgument) (func_more.getArgument().get(0)));
-						
-						if (argument.getId()!=null) //TODO: CHECK IF IT WORKS
+				}
+				else //(func_more.getArgument().get(0)!=null) //there are arguments f(x1,x2,...)
+				{
+				
+					AArgArgument argument = ((AArgArgument) (func_more.getArgument().get(0)));
+					
+					if (argument.getId()!=null) //TODO: CHECK IF IT WORKS
+					{
+						count_total_vars++;
+						if(argument.getAssignValue()!=null)
 						{
+							count_default_vars++;
+						}																																				
+					}
+					LinkedList ciav = argument.getCiav();
+					for ( int k = 0; k < ciav.size();k++)
+					{
+						ACommaIdCiav c = (ACommaIdCiav) ciav.get(k);
+						if (c.getAssignValue().get(0) == null) //TODO: CHECK IF IT WORKS
+						{
+							System.out.println("exwerthei");
 							count_total_vars++;
-							if(argument.getAssignValue()!=null)
-							{
-								count_default_vars++;
-							}																																				
-						}
-						LinkedList ciav = argument.getCiav();
-						for ( int k = 0; k < ciav.size();k++)
-						{
-							ACommaIdCiav c = (ACommaIdCiav) ciav.get(k);
-							if (c.getAssignValue() == null) //TODO: CHECK IF IT WORKS
-							{
-								count_total_vars++;
 
-							}
-							else
-							{
-								count_default_vars++;
-								count_total_vars++;
-							}
 						}
-						
+						else
+						{
+							count_default_vars++;
+							count_total_vars++;
+						}
 					}
-					//
-					// calculation of initial name function's arguments and assignements
-					if(node.getArgument()== null) //there are no arguments
+					
+				}
+				//
+				// calculation of initial name function's arguments and assignements
+				if(node.getArgument()== null) //there are no arguments
+				{
+					count_default_vars_new = 0;
+				}
+				else //(node.getArgument().get(0)!=null) //there are arguments
+				{
+					AArgArgument argument_n = ((AArgArgument) (node.getArgument().get(0)));
+					if (argument_n.getId()!=null) //TODO: CHECK IF IT WORKS
 					{
-						count_default_vars_new = 0;
+						count_total_vars_new++;
+						if(argument_n.getAssignValue()!=null)
+						{
+
+							count_default_vars_new++;
+						}																																				
 					}
-					else //(node.getArgument().get(0)!=null) //there are arguments
+					LinkedList ciav_n = argument_n.getCiav();
+					for ( int k = 0; k < ciav_n.size();k++)
 					{
-						AArgArgument argument_n = ((AArgArgument) (node.getArgument().get(0)));
-						if (argument_n.getId()!=null) //TODO: CHECK IF IT WORKS
+						ACommaIdCiav c_n = (ACommaIdCiav) ciav_n.get(k);
+						if (c_n.getAssignValue()==null) //TODO: CHECK IF IT WORKS
 						{
 							count_total_vars_new++;
-							if(argument_n.getAssignValue()!=null)
-							{
 
-								count_default_vars_new++;
-							}																																				
 						}
-						LinkedList ciav_n = argument_n.getCiav();
-						for ( int k = 0; k < ciav_n.size();k++)
+						else
 						{
-							ACommaIdCiav c_n = (ACommaIdCiav) ciav_n.get(k);
-							if (c_n.getAssignValue()==null) //TODO: CHECK IF IT WORKS
-							{
-								count_total_vars_new++;
-
-							}
-							else
-							{
-								count_default_vars_new++;
-								count_total_vars_new++;
-							}
+							count_default_vars_new++;
+							count_total_vars_new++;
 						}
-						
 					}
 					
-					if(count_total_vars == count_total_vars_new && !flag ||count_total_vars - count_default_vars == count_total_vars_new - count_default_vars_new && !flag)
+				}
+			
+					System.out.println("total vars:"+count_total_vars);
+					System.out.println("def vars:"+count_default_vars);
+					System.out.println("total vars new :"+count_total_vars_new);
+					System.out.println("def vars new:"+count_default_vars_new);
+
+					
+					if(count_total_vars == count_total_vars_new ||count_total_vars - count_default_vars == count_total_vars_new - count_default_vars_new )
 					{
 						
 						System.out.println("total vars:"+count_total_vars);
@@ -324,14 +333,20 @@ public class myvisitor extends DepthFirstAdapter
 
 
 						printError(node, ERRORS.REDEFINED_FUNCTION);
-						flag = true;
+						//flag = true;
 					}
-					
-				}		
+				}
 				
-
-			}
-		}
+			}		
+		
+		// for (String key : functions.keySet()) {
+        //     LinkedList<Node> nodeList = functions.get(key);
+        //     System.out.println("Function: " + key + ", Nodes:");
+        //     // Iterate over the linked list and print nodes
+        //     for (Node node1 : nodeList) {
+        //         System.out.println("  " + node1.toString());
+        //     }
+        // }
 		
 	}
 	
@@ -339,8 +354,18 @@ public class myvisitor extends DepthFirstAdapter
 
 	public void outADefFuncFunction(ADefFuncFunction node)
 	{
-		String fName = node.getId().toString();
-		functions.put(fName, node);
+		String name = node.getId().toString();
+		// functions.put(fName, node);
+		// Create a new function
+		if (functions.containsKey(name)) {
+			// If it exists, add the node to the existing list of nodes
+			functions.get(name).add(node);
+		} else {
+			// If it doesn't exist, create a new list with the node and associate it with the function name
+			LinkedList<Node> nodeList = new LinkedList<>();
+			nodeList.add(node);
+			functions.put(name, nodeList);
+		}
 	}
 	@Override
 	public void inAIdentifierExpression(AIdentifierExpression node)
