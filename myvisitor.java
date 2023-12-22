@@ -248,6 +248,12 @@ public class myvisitor extends DepthFirstAdapter
 					{
 						count_total_vars_new = 0;
 					}
+					System.out.println("---------------GRAMMH 251------------------");
+					System.out.println("total vars:"+count_total_vars);
+					System.out.println("def vars:"+count_default_vars);
+					System.out.println("total vars new :"+count_total_vars_new);
+					System.out.println("def vars new:"+count_default_vars_new);
+					System.out.println("------------------------------------------");
 					
 				}
 				else //(func_more.getArgument().get(0)!=null) //there are arguments f(x1,x2,...)
@@ -257,17 +263,38 @@ public class myvisitor extends DepthFirstAdapter
 					
 					if (argument.getId()!=null) //TODO: CHECK IF IT WORKS
 					{
+						
+						System.out.println("---------------GRAMMH 267------------------");
+						System.out.println("total vars:"+count_total_vars);
+						System.out.println("def vars:"+count_default_vars);
+						System.out.println("total vars new :"+count_total_vars_new);
+						System.out.println("def vars new:"+count_default_vars_new);	
+						System.out.println("--------------------------------------------");
 						count_total_vars++;
-						if(argument.getAssignValue()!=null)
+						if(node.getArgument().getFirst()== null)
 						{
+							System.out.println("assignvalue "+argument.getAssignValue().toString());
 							count_default_vars++;
-						}																																				
+						}					
+						
+						System.out.println("---------------GRAMMH 272------------------");
+						System.out.println("total vars:"+count_total_vars);
+						System.out.println("def vars:"+count_default_vars);
+						System.out.println("total vars new :"+count_total_vars_new);
+						System.out.println("def vars new:"+count_default_vars_new);	
+						System.out.println("--------------------------------------------");																														
 					}
 					LinkedList ciav = argument.getCiav();
+					
+					System.out.println("ciav: "+ciav.toString());
+					System.out.println("ciav 1 :"+ciav.get(1).toString());
+					ACommaIdCiav l = (ACommaIdCiav) ciav.get(0);
+					System.out.println("ciav getassignvalue size: " + l.getAssignValue().size());
 					for ( int k = 0; k < ciav.size();k++)
 					{
 						ACommaIdCiav c = (ACommaIdCiav) ciav.get(k);
-						if (c.getAssignValue().get(0) == null) //TODO: CHECK IF IT WORKS
+						System.out.println(ciav.size());
+						if (c.getAssignValue().size()== 0) //TODO: CHECK IF IT WORKS
 						{
 							System.out.println("exwerthei");
 							count_total_vars++;
@@ -278,12 +305,19 @@ public class myvisitor extends DepthFirstAdapter
 							count_default_vars++;
 							count_total_vars++;
 						}
+						
+						System.out.println("---------------GRAMMH 295------------------");
+						System.out.println("total vars:"+count_total_vars);
+						System.out.println("def vars:"+count_default_vars);
+						System.out.println("total vars new :"+count_total_vars_new);
+						System.out.println("def vars new:"+count_default_vars_new);
+						System.out.println("------------------------------------------");
 					}
 					
 				}
 				//
 				// calculation of initial name function's arguments and assignements
-				if(node.getArgument()== null) //there are no arguments
+				if(node.getArgument().size()==0) //there are no arguments
 				{
 					count_default_vars_new = 0;
 				}
@@ -293,17 +327,24 @@ public class myvisitor extends DepthFirstAdapter
 					if (argument_n.getId()!=null) //TODO: CHECK IF IT WORKS
 					{
 						count_total_vars_new++;
-						if(argument_n.getAssignValue()!=null)
+						if(argument_n.getAssignValue().size()!=0)
 						{
 
 							count_default_vars_new++;
-						}																																				
+						}	
+							
+					    System.out.println("---------------GRAMMH 322------------------");
+						System.out.println("total vars:"+count_total_vars);
+						System.out.println("def vars:"+count_default_vars);
+						System.out.println("total vars new :"+count_total_vars_new);
+						System.out.println("def vars new:"+count_default_vars_new);	
+						System.out.println("---------------------------------------");																																		
 					}
 					LinkedList ciav_n = argument_n.getCiav();
 					for ( int k = 0; k < ciav_n.size();k++)
 					{
 						ACommaIdCiav c_n = (ACommaIdCiav) ciav_n.get(k);
-						if (c_n.getAssignValue()==null) //TODO: CHECK IF IT WORKS
+						if (c_n.getAssignValue().size()==0) //TODO: CHECK IF IT WORKS
 						{
 							count_total_vars_new++;
 
@@ -313,10 +354,16 @@ public class myvisitor extends DepthFirstAdapter
 							count_default_vars_new++;
 							count_total_vars_new++;
 						}
+						
+						System.out.println("---------------GRAMMH 344------------------");
+						System.out.println("total vars:"+count_total_vars);
+						System.out.println("def vars:"+count_default_vars);
+						System.out.println("total vars new :"+count_total_vars_new);
+						System.out.println("def vars new:"+count_default_vars_new);
 					}
 					
 				}
-			
+					System.out.println("---------------GRAMMH 351------------------");
 					System.out.println("total vars:"+count_total_vars);
 					System.out.println("def vars:"+count_default_vars);
 					System.out.println("total vars new :"+count_total_vars_new);

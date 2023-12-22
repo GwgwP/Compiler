@@ -1,10 +1,10 @@
 
-def f(y, x=1):
+def f(y, w, x=2, u=2):
     print("1")
 
 
 
-def f(x, y, t=1):
+def f(x, y, t):
     print("3")
 
 
