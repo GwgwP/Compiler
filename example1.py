@@ -1,11 +1,11 @@
 
-def f(y, w, x=2, u=2):
-    print("1")
+
+def f(x=1):
+    print "1"
+    k=1
+    return k
 
 
-
-def f(x, y, t):
-    print("3")
-
-
+def f(x,y,z):
+    print "4"
 
