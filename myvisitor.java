@@ -6,7 +6,7 @@ public class myvisitor extends DepthFirstAdapter
 {
 	
  	private Hashtable<String, Node> variables;
-	//private Hashtable<String, Node> functions;
+	
 	private Hashtable<String, LinkedList<Node>> functions = new Hashtable<>();
 
 	private Hashtable<Node, VARIABLE_TYPES> variableTypes;
@@ -228,7 +228,6 @@ public class myvisitor extends DepthFirstAdapter
 	public void inADefFuncFunction(ADefFuncFunction node)
 	{ 
 
-		//boolean flag = true;
 		String fName = node.getId().toString();
 
 		if (functions.containsKey(fName)) //if function exists check that number of parameters is different
@@ -252,7 +251,7 @@ public class myvisitor extends DepthFirstAdapter
 
 					count_total_vars = 0;
 
-					if(node.getArgument() == null)
+					if(node.getArgument().size()==0)
 					{
 						count_total_vars_new = 0;
 					}
@@ -270,29 +269,29 @@ public class myvisitor extends DepthFirstAdapter
 
 					AArgArgument argument = ((AArgArgument) (func_more.getArgument().get(0)));
 					
-					if (argument.getId()!=null) //TODO: CHECK IF IT WORKS
+				// if (argument.getId()!=null) //TODO: CHECK IF IT WORKS
+				// {
+					
+					// System.out.println("---------------GRAMMH 267------------------");
+					// System.out.println("total vars:"+count_total_vars);
+					// System.out.println("def vars:"+count_default_vars);
+					// System.out.println("total vars new :"+count_total_vars_new);
+					// System.out.println("def vars new:"+count_default_vars_new);	
+					// System.out.println("--------------------------------------------");
+					count_total_vars++;
+					if(argument.getAssignValue().size()!=0)
 					{
-						
-						// System.out.println("---------------GRAMMH 267------------------");
-						// System.out.println("total vars:"+count_total_vars);
-						// System.out.println("def vars:"+count_default_vars);
-						// System.out.println("total vars new :"+count_total_vars_new);
-						// System.out.println("def vars new:"+count_default_vars_new);	
-						// System.out.println("--------------------------------------------");
-						count_total_vars++;
-						if(node.getArgument().getFirst()== null)
-						{
-							//System.out.println("assignvalue "+argument.getAssignValue().toString());
-							count_default_vars++;
-						}					
-						
-						// System.out.println("---------------GRAMMH 272------------------");
-						// System.out.println("total vars:"+count_total_vars);
-						// System.out.println("def vars:"+count_default_vars);
-						// System.out.println("total vars new :"+count_total_vars_new);
-						// System.out.println("def vars new:"+count_default_vars_new);	
-						// System.out.println("--------------------------------------------");																														
-					}
+						//System.out.println("assignvalue "+argument.getAssignValue().toString());
+						count_default_vars++;
+					}					
+					
+					// System.out.println("---------------GRAMMH 272------------------");
+					// System.out.println("total vars:"+count_total_vars);
+					// System.out.println("def vars:"+count_default_vars);
+					// System.out.println("total vars new :"+count_total_vars_new);
+					// System.out.println("def vars new:"+count_default_vars_new);	
+					// System.out.println("--------------------------------------------");																														
+					//}
 					LinkedList ciav = argument.getCiav();
 					
 					// System.out.println("ciav: "+ciav.toString());
@@ -308,7 +307,7 @@ public class myvisitor extends DepthFirstAdapter
 					{
 						ACommaIdCiav c = (ACommaIdCiav) ciav.get(k);
 						
-						if (c.getAssignValue().size()== 0) //TODO: CHECK IF IT WORKS
+						if (c.getAssignValue().size()== 0) 
 						{
 							count_total_vars++;
 
@@ -383,7 +382,7 @@ public class myvisitor extends DepthFirstAdapter
 					// System.out.println("def vars new:"+count_default_vars_new);
 
 					
-					if(count_total_vars == count_total_vars_new ||count_total_vars - count_default_vars == count_total_vars_new - count_default_vars_new||count_total_vars-count_default_vars==count_total_vars_new||count_total_vars_new-count_default_vars_new==count_total_vars )
+					if(count_total_vars == count_total_vars_new ||count_total_vars - count_default_vars == count_total_vars_new - count_default_vars_new||count_total_vars-count_default_vars==count_total_vars_new||count_total_vars_new-count_default_vars_new==count_total_vars|| (count_total_vars_new>count_total_vars && count_total_vars_new-count_default_vars_new <= count_total_vars||count_total_vars>count_total_vars_new && count_total_vars-count_default_vars <= count_total_vars_new ) )//total1>total2 &&total1-def1<=total2
 					{
 						
 						System.out.println("total vars:"+count_total_vars);
@@ -391,9 +390,7 @@ public class myvisitor extends DepthFirstAdapter
 						System.out.println("total vars new :"+count_total_vars_new);
 						System.out.println("def vars new:"+count_default_vars_new);
 
-
 						printError(node, ERRORS.REDEFINED_FUNCTION);
-						//flag = true;
 					}
 				}
 				
@@ -410,7 +407,6 @@ public class myvisitor extends DepthFirstAdapter
 		
 	}
 	
-
 
 	public void outADefFuncFunction(ADefFuncFunction node)
 	{
