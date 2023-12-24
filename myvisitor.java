@@ -33,8 +33,7 @@ public class myvisitor extends DepthFirstAdapter
 	* 
 	*/
 	public static enum VARIABLE_TYPES {
-		INTEGER,
-		DOUBLE,
+		NUMBER,
 		STRING,
 		NONE,
 		UNKNOWN,
@@ -76,22 +75,15 @@ public class myvisitor extends DepthFirstAdapter
 			}
 			
 			String variableType = variableTypes.get(id2).name();
-			if(variables.contains(name))
+			if(variables.containsKey(name)) //TODO: CHECK
 			{
-				if (variableType.equals("INTEGER")) 
+				if (variableType.equals("NUMBER")) 
 				{
-					if(!variableTypes.get(name).name().equals("INTEGER"))
+					if(!variableTypes.get(name).name().equals("NUMBER"))
 					{
 						printError(node, ERRORS.TYPE_MISSMATCH);
 					}
 				}
-				else if (variableType.equals("DOUBLE"))
-				{
-					if(!variableTypes.get(name).name().equals("DOUBLE"))
-					{
-						printError(node, ERRORS.TYPE_MISSMATCH);
-					}
-				} 
 				else if (variableType.equals("STRING")) 
 				{
 					if(!variableTypes.get(name).name().equals("STRING"))
@@ -115,14 +107,10 @@ public class myvisitor extends DepthFirstAdapter
 			}
 			else
 			{
-				if (variableType.equals("INTEGER")) 
+				if (variableType.equals("NUMBER")) 
 				{
-					variableTypes.put(node, VARIABLE_TYPES.INTEGER);
+					variableTypes.put(node, VARIABLE_TYPES.NUMBER);
 				}
-				else if (variableType.equals("DOUBLE"))
-				{
-					variableTypes.put(node, VARIABLE_TYPES.DOUBLE);
-				} 
 				else if (variableType.equals("STRING")) 
 				{
 					variableTypes.put(node, VARIABLE_TYPES.STRING);
@@ -148,20 +136,6 @@ public class myvisitor extends DepthFirstAdapter
 			// Create a new variable
 			variables.put(name, node);
 			variableTypes.put(node, VARIABLE_TYPES.UNKNOWN);
-		} 
-		else if (parent instanceof ADefFuncFunction) 
-		{
-			// // Create a new function
-			// if (functions.containsKey(name)) {
-			// 	System.out.println("irtha edw");
-			// 	// If it exists, add the node to the existing list of nodes
-			// 	functions.get(name).add(node);
-			// } else {
-			// 	// If it doesn't exist, create a new list with the node and associate it with the function name
-			// 	LinkedList<Node> nodeList = new LinkedList<>();
-			// 	nodeList.add(node);
-			// 	functions.put(name, nodeList);
-			// }		
 		} 
 		else if (parent instanceof AForStatementStatement)  //name == id1
 		{
@@ -406,6 +380,7 @@ public class myvisitor extends DepthFirstAdapter
         // }
 		
 	}
+
 	
 
 	public void outADefFuncFunction(ADefFuncFunction node)
@@ -429,5 +404,11 @@ public class myvisitor extends DepthFirstAdapter
 		//String name = node.getId().getText();
 		//String name =node.getId().toString();
 	}
+
+	@Override
+	public void outANumNum(ANumNum node) {
+		variableTypes.put(node, VARIABLE_TYPES.NUMBER);
+	}
+
 
 }
