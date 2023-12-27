@@ -28,7 +28,7 @@ public class Function {
     Function(int dv, int tv, String name)
     {
         this.def_vars=dv;
-        this.total_vars=total_vars;
+        this.total_vars=tv;
         this.name = name;
     }
     

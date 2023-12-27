@@ -1,7 +1,6 @@
 import minipython.analysis.*;
 import minipython.node.*;
 import java.util.*;
-import java.util.function.Function;
 
 public class myvisitor extends DepthFirstAdapter 
 {
@@ -11,7 +10,7 @@ public class myvisitor extends DepthFirstAdapter
 	private Hashtable<String, LinkedList<Node>> functions = new Hashtable<>();
 
 	private Hashtable<Node, VARIABLE_TYPES> variableTypes;
-	private ArrayList<Function> func_list = new ArrayList();
+	private LinkedList<Function> func_list = new LinkedList<>();
 	
 
 	/**
@@ -198,14 +197,16 @@ public class myvisitor extends DepthFirstAdapter
 		}
 		else
 		{	
+			
 			//counting how many arguments are given and compare it with the ones saved.
 			
-			AArglistArglist args =  (AArglistArglist)node.getArglist().get(0);
+			
 			
 			if(node.getArglist().size()!= 0)
 			{
+				AArglistArglist args =  (AArglistArglist)node.getArglist().get(0);
 				x++;
-				LinkedList more = args.getR();
+				LinkedList<PExpression> more = (LinkedList<PExpression> )args.getR();
 
 				for(int i =0 ; i< more.size();i++)
 				{
@@ -221,13 +222,13 @@ public class myvisitor extends DepthFirstAdapter
 			int counter = 0;
 			for(int i =0; i< func_list.size();i++)
 			{
-				if(func_list.get[i].getName().equals(id))
+				if(func_list.get(i).getName().equals(id))
 				{
-					
-					if(!(func_list.get[i].getTotal_vars() - func_list.get[i].getDef_vars() <= x && x <= func_list.get[i].getTotal_vars()))
+					//System.out.println("i: "+i+" x:"+x);
+					if(!(func_list.get(i).getTotal_vars() - func_list.get(i).getDef_vars() <= x && x <= func_list.get(i).getTotal_vars()))
 					{
+						//System.out.println("METABLITES "+"TOTAL: "+func_list.get(i).getTotal_vars()+"\nDEF: "+func_list.get(i).getDef_vars() +"\nX: "+ x);
 						counter++;
-						
 					}
 					else
 					{
@@ -235,12 +236,14 @@ public class myvisitor extends DepthFirstAdapter
 					}
 				}
 			}
+			if(counter>0)
+			{
+				//System.out.println("counter"+counter);
+				printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
+			}
 
 		}
-		if(counter!=0)
-		{
-			printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
-		}
+		
 		
 		
 	}
@@ -274,10 +277,10 @@ public class myvisitor extends DepthFirstAdapter
 				LinkedList<Integer> cont1 = countVars(func_more);
 				count_total_vars = cont1.get(0);
 				count_default_vars = cont1.get(1); 
-				System.out.println("total vars:"+count_total_vars);
-				System.out.println("def vars:"+count_default_vars);
-				System.out.println("total vars new :"+count_total_vars_new);
-				System.out.println("def vars new:"+count_default_vars_new);
+				// System.out.println("total vars:"+count_total_vars);
+				// System.out.println("def vars:"+count_default_vars);
+				// System.out.println("total vars new :"+count_total_vars_new);
+				// System.out.println("def vars new:"+count_default_vars_new);
 					
 					
 				if(count_total_vars == count_total_vars_new ||count_total_vars - count_default_vars == count_total_vars_new - count_default_vars_new||count_total_vars-count_default_vars==count_total_vars_new||count_total_vars_new-count_default_vars_new==count_total_vars|| (count_total_vars_new>count_total_vars && count_total_vars_new-count_default_vars_new <= count_total_vars||count_total_vars>count_total_vars_new && count_total_vars-count_default_vars <= count_total_vars_new ) )
@@ -365,12 +368,12 @@ public class myvisitor extends DepthFirstAdapter
 			// If it exists, add the node to the existing list of nodes
 			functions.get(name).add(node);
 
-			Function f = new Function(name,countVars(node).get(1),countVars(node).get(0));
+			Function f = new Function(countVars(node).get(1), countVars(node).get(0),name);
 			func_list.add(f);
 
 		} else {
 			
-			Function f = new Function(name,countVars(node).get(1),countVars(node).get(0));
+			Function f = new Function(countVars(node).get(1),countVars(node).get(0),name);
 			func_list.add(f);
 			// If it doesn't exist, create a new list with the node and associate it with the function name
 			LinkedList<Node> nodeList = new LinkedList<>();
