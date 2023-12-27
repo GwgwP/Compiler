@@ -1,6 +1,7 @@
 import minipython.analysis.*;
 import minipython.node.*;
 import java.util.*;
+import java.util.function.Function;
 
 public class myvisitor extends DepthFirstAdapter 
 {
@@ -10,7 +11,9 @@ public class myvisitor extends DepthFirstAdapter
 	private Hashtable<String, LinkedList<Node>> functions = new Hashtable<>();
 
 	private Hashtable<Node, VARIABLE_TYPES> variableTypes;
+	private LinkedList<Function> func_list = new LinkedList<>();
 	
+
 	/**
 	* All the recognisable potential error types listed
 	*/
@@ -193,6 +196,21 @@ public class myvisitor extends DepthFirstAdapter
 		{
 			printError(node, ERRORS.UNDEFINED_FUNCTION);
 		}
+		//counting how many arguments are given and compare it with the ones saved.
+		AArglistArglist args =  node.getArglist();
+
+
+
+		for(int i =0; i< func_list.size())
+		{
+			if(func_list.get(i).getName().equals(id))
+			{
+				int x = countCommas();
+				if(func_list.get(i).getTotal_vars() - func_list.get(i).getDef_vars() <= x && x <= func_list.get(i).getTotal_vars())
+			}
+		}
+
+		
 		
 	}
 	/**
@@ -207,7 +225,13 @@ public class myvisitor extends DepthFirstAdapter
 		if (functions.containsKey(fName)) //if function exists check that number of parameters is different
 		{
 			LinkedList<Node> nodeList = functions.get(fName);
+			int count_total_vars_new = 0;
+			int count_default_vars_new = 0;
 
+			LinkedList<Integer> cont = countVars(node);
+			count_total_vars_new = cont.get(0); //0 returns the total variables
+			count_default_vars_new = cont.get(1); //1 returns default variables.
+			
 			for (Node n:nodeList)
 			{				
 
@@ -216,169 +240,87 @@ public class myvisitor extends DepthFirstAdapter
 				// calculation of same name function's arguments and assignements
 				int count_total_vars = 0;
 				int count_default_vars = 0;
-
-				int count_total_vars_new = 0;
-				int count_default_vars_new = 0;
-				
-				if (func_more.getArgument().size() == 0)//there are no arguments f()
+				LinkedList<Integer> cont1 = countVars(func_more);
+				count_total_vars = cont1.get(0);
+				count_default_vars = cont1.get(1); 
+				System.out.println("total vars:"+count_total_vars);
+				System.out.println("def vars:"+count_default_vars);
+				System.out.println("total vars new :"+count_total_vars_new);
+				System.out.println("def vars new:"+count_default_vars_new);
+					
+					
+				if(count_total_vars == count_total_vars_new ||count_total_vars - count_default_vars == count_total_vars_new - count_default_vars_new||count_total_vars-count_default_vars==count_total_vars_new||count_total_vars_new-count_default_vars_new==count_total_vars|| (count_total_vars_new>count_total_vars && count_total_vars_new-count_default_vars_new <= count_total_vars||count_total_vars>count_total_vars_new && count_total_vars-count_default_vars <= count_total_vars_new ) )
 				{
-
-					count_total_vars = 0;
-
-					if(node.getArgument().size()==0)
-					{
-						count_total_vars_new = 0;
-					}
-					// System.out.println("---------------GRAMMH 251------------------");
+					
 					// System.out.println("total vars:"+count_total_vars);
 					// System.out.println("def vars:"+count_default_vars);
 					// System.out.println("total vars new :"+count_total_vars_new);
 					// System.out.println("def vars new:"+count_default_vars_new);
-					// System.out.println("------------------------------------------");
-					
-				}
-				else //(func_more.getArgument().get(0)!=null) //there are arguments f(x1,x2,...)
-				{
-				
 
-					AArgArgument argument = ((AArgArgument) (func_more.getArgument().get(0)));
-					
-				// if (argument.getId()!=null) //TODO: CHECK IF IT WORKS
-				// {
-					
-					// System.out.println("---------------GRAMMH 267------------------");
-					// System.out.println("total vars:"+count_total_vars);
-					// System.out.println("def vars:"+count_default_vars);
-					// System.out.println("total vars new :"+count_total_vars_new);
-					// System.out.println("def vars new:"+count_default_vars_new);	
-					// System.out.println("--------------------------------------------");
+					printError(node, ERRORS.REDEFINED_FUNCTION);
+				}
+				
+			}
+		}		
+		
+	}
+
+	private LinkedList<Integer> countVars(ADefFuncFunction node)
+	{
+		int count_total_vars = 0;
+		int count_default_vars =0;
+		LinkedList<Integer> vars = new LinkedList<>();
+		
+		if (node.getArgument().size() == 0)//there are no arguments f()
+		{
+			
+		}
+		else //(func_more.getArgument().get(0)!=null) //there are arguments f(x1,x2,...)
+		{
+		
+
+			AArgArgument argument = ((AArgArgument) (node.getArgument().get(0)));
+			
+			count_total_vars++;
+			if(argument.getAssignValue().size()!=0)
+			{
+				
+				count_default_vars++;
+			}					
+			
+			
+			LinkedList ciav = argument.getCiav();
+			
+			
+			if (ciav.size()!=0)
+			{
+				ACommaIdCiav l = (ACommaIdCiav) ciav.get(0);
+
+			}
+			
+			
+			for ( int k = 0; k < ciav.size();k++)
+			{
+				ACommaIdCiav c = (ACommaIdCiav) ciav.get(k);
+				
+				if (c.getAssignValue().size()== 0) 
+				{
 					count_total_vars++;
-					if(argument.getAssignValue().size()!=0)
-					{
-						//System.out.println("assignvalue "+argument.getAssignValue().toString());
-						count_default_vars++;
-					}					
-					
-					// System.out.println("---------------GRAMMH 272------------------");
-					// System.out.println("total vars:"+count_total_vars);
-					// System.out.println("def vars:"+count_default_vars);
-					// System.out.println("total vars new :"+count_total_vars_new);
-					// System.out.println("def vars new:"+count_default_vars_new);	
-					// System.out.println("--------------------------------------------");																														
-					//}
-					LinkedList ciav = argument.getCiav();
-					
-					// System.out.println("ciav: "+ciav.toString());
-					// System.out.println("ciav 1 :"+ciav.get(1).toString());
-					if (ciav.size()!=0)
-					{
-						ACommaIdCiav l = (ACommaIdCiav) ciav.get(0);
 
-					}
-					
-					//System.out.println("ciav getassignvalue size: " + l.getAssignValue().size());
-					for ( int k = 0; k < ciav.size();k++)
-					{
-						ACommaIdCiav c = (ACommaIdCiav) ciav.get(k);
-						
-						if (c.getAssignValue().size()== 0) 
-						{
-							count_total_vars++;
-
-						}
-						else
-						{
-							count_default_vars++;
-							count_total_vars++;
-						}
-						
-						// System.out.println("---------------GRAMMH 295------------------");
-						// System.out.println("total vars:"+count_total_vars);
-						// System.out.println("def vars:"+count_default_vars);
-						// System.out.println("total vars new :"+count_total_vars_new);
-						// System.out.println("def vars new:"+count_default_vars_new);
-						// System.out.println("------------------------------------------");
-					}
-					
 				}
-				//
-				// calculation of initial name function's arguments and assignements
-				if(node.getArgument().size()==0) //there are no arguments
+				else
 				{
-					count_default_vars_new = 0;
-				}
-				else //(node.getArgument().get(0)!=null) //there are arguments
-				{
-					AArgArgument argument_n = ((AArgArgument) (node.getArgument().get(0)));
-					if (argument_n.getId()!=null) //TODO: CHECK IF IT WORKS
-					{
-						count_total_vars_new++;
-						if(argument_n.getAssignValue().size()!=0)
-						{
-
-							count_default_vars_new++;
-						}	
-							
-					    // System.out.println("---------------GRAMMH 322------------------");
-						// System.out.println("total vars:"+count_total_vars);
-						// System.out.println("def vars:"+count_default_vars);
-						// System.out.println("total vars new :"+count_total_vars_new);
-						// System.out.println("def vars new:"+count_default_vars_new);	
-						// System.out.println("---------------------------------------");																																		
-					}
-					LinkedList ciav_n = argument_n.getCiav();
-					for ( int k = 0; k < ciav_n.size();k++)
-					{
-						ACommaIdCiav c_n = (ACommaIdCiav) ciav_n.get(k);
-						if (c_n.getAssignValue().size()==0) //TODO: CHECK IF IT WORKS
-						{
-							count_total_vars_new++;
-
-						}
-						else
-						{
-							count_default_vars_new++;
-							count_total_vars_new++;
-						}
-						
-						// System.out.println("---------------GRAMMH 344------------------");
-						// System.out.println("total vars:"+count_total_vars);
-						// System.out.println("def vars:"+count_default_vars);
-						// System.out.println("total vars new :"+count_total_vars_new);
-						// System.out.println("def vars new:"+count_default_vars_new);
-					}
-					
-				}
-					// System.out.println("---------------GRAMMH 351------------------");
-					// System.out.println("total vars:"+count_total_vars);
-					// System.out.println("def vars:"+count_default_vars);
-					// System.out.println("total vars new :"+count_total_vars_new);
-					// System.out.println("def vars new:"+count_default_vars_new);
-
-					
-					if(count_total_vars == count_total_vars_new ||count_total_vars - count_default_vars == count_total_vars_new - count_default_vars_new||count_total_vars-count_default_vars==count_total_vars_new||count_total_vars_new-count_default_vars_new==count_total_vars|| (count_total_vars_new>count_total_vars && count_total_vars_new-count_default_vars_new <= count_total_vars||count_total_vars>count_total_vars_new && count_total_vars-count_default_vars <= count_total_vars_new ) )//total1>total2 &&total1-def1<=total2
-					{
-						
-						System.out.println("total vars:"+count_total_vars);
-						System.out.println("def vars:"+count_default_vars);
-						System.out.println("total vars new :"+count_total_vars_new);
-						System.out.println("def vars new:"+count_default_vars_new);
-
-						printError(node, ERRORS.REDEFINED_FUNCTION);
-					}
+					count_default_vars++;
+					count_total_vars++;
 				}
 				
-			}		
-		
-		// for (String key : functions.keySet()) {
-        //     LinkedList<Node> nodeList = functions.get(key);
-        //     System.out.println("Function: " + key + ", Nodes:");
-        //     // Iterate over the linked list and print nodes
-        //     for (Node node1 : nodeList) {
-        //         System.out.println("  " + node1.toString());
-        //     }
-        // }
-		
+			
+			}
+			
+		}
+		vars.add(count_total_vars);
+		vars.add(count_default_vars);
+		return vars;
 	}
 
 	
@@ -391,7 +333,14 @@ public class myvisitor extends DepthFirstAdapter
 		if (functions.containsKey(name)) {
 			// If it exists, add the node to the existing list of nodes
 			functions.get(name).add(node);
+
+			Function f = new Function(name,countVars(node).get(1),countVars(node).get(0));
+			func_list.add(f);
+
 		} else {
+			
+			Function f = new Function(name,countVars(node).get(1),countVars(node).get(0));
+			func_list.add(f);
 			// If it doesn't exist, create a new list with the node and associate it with the function name
 			LinkedList<Node> nodeList = new LinkedList<>();
 			nodeList.add(node);
