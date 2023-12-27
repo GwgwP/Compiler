@@ -1,5 +1,8 @@
 import minipython.analysis.*;
 import minipython.node.*;
+
+import java.beans.Expression;
+import java.security.PublicKey;
 import java.util.*;
 
 public class myvisitor extends DepthFirstAdapter 
@@ -9,7 +12,7 @@ public class myvisitor extends DepthFirstAdapter
 	
 	private Hashtable<String, LinkedList<Node>> functions = new Hashtable<>();
 
-	private Hashtable<Node, VARIABLE_TYPES> variableTypes;
+	private Hashtable<String, VARIABLE_TYPES> variableTypes;
 	private LinkedList<Function> func_list = new LinkedList<>();
 	
 
@@ -19,7 +22,7 @@ public class myvisitor extends DepthFirstAdapter
 	public static enum ERRORS {
 		UNDECLARED_VARIABLE, // #1st Error
 		UNDEFINED_FUNCTION,  // #2nd error
-		WRONG_FUNCTION_PARAMETERS,     //3rd error 
+		WRONG_FUNCTION_PARAMETERS,     // #3rd error 
 		TYPE_MISSMATCH,      // #4th error
 		NONE,                // #5th error
 		MISUSED_FUNCTION,    // #6th error
@@ -43,7 +46,7 @@ public class myvisitor extends DepthFirstAdapter
 	
 	
 	public myvisitor(Hashtable<String, Node> variables, Hashtable<String, LinkedList<Node>> functions, 
-			Hashtable<Node, VARIABLE_TYPES> variableTypes) {
+			Hashtable<String, VARIABLE_TYPES> variableTypes) {
 		this.variables = variables;
 		this.functions = functions;
 		this.variableTypes = variableTypes;
@@ -59,6 +62,7 @@ public class myvisitor extends DepthFirstAdapter
 		if (parent instanceof AIdentifierExpression || parent instanceof AIdValueno) { //x = y[2] if y is undefined
 			if (!variables.containsKey(name)) {
 				// Print error message
+				System.out.println("mpoai");;
 				printError(node, ERRORS.UNDECLARED_VARIABLE);
 			}
 
@@ -69,16 +73,23 @@ public class myvisitor extends DepthFirstAdapter
 
 			// Check that the second identifer is an existing variable
 			AIdId id2 = (AIdId) forLoop.getRid(); // for x in x is ilegal because x is global var
-			if (name.equals(id2.getIdent().getText()) ) { 
+			String id2s = id2.toString();
+			
+	
+			if (name.equals(id2.getIdent().getText()) ) { //TODO: TIFASI
 				printError(node, ERRORS.REDIFINED_VARIABLE);
 			}
-			else if(!variables.containsKey(id2.getIdent().getText())){
+			
+			else if(!variableTypes.containsKey(id2s)){
 				printError(node, ERRORS.UNDECLARED_VARIABLE);
 			}
 			
-			String variableType = variableTypes.get(id2).name();
-			if(variables.containsKey(name)) //TODO: CHECK
+			//System.out.println("MPRO");
+			String variableType = variableTypes.get(id2s).name();
+			
+			if(variableTypes.containsKey(name)) //TODO: CHECK
 			{
+				System.out.println("mpiak");
 				if (variableType.equals("NUMBER")) 
 				{
 					if(!variableTypes.get(name).name().equals("NUMBER"))
@@ -111,35 +122,160 @@ public class myvisitor extends DepthFirstAdapter
 			{
 				if (variableType.equals("NUMBER")) 
 				{
-					variableTypes.put(node, VARIABLE_TYPES.NUMBER);
+					variableTypes.put(name, VARIABLE_TYPES.NUMBER);
 				}
 				else if (variableType.equals("STRING")) 
 				{
-					variableTypes.put(node, VARIABLE_TYPES.STRING);
+					variableTypes.put(name, VARIABLE_TYPES.STRING);
 				} else if (variableType.equals("NONE")) 
 				{
-					variableTypes.put(node, VARIABLE_TYPES.NONE);
+					variableTypes.put(name, VARIABLE_TYPES.NONE);
 				} 
 				else if (variableType.equals("UNKNOWN")) 
 				{
-					variableTypes.put(node, VARIABLE_TYPES.UNKNOWN);
+					variableTypes.put(name, VARIABLE_TYPES.UNKNOWN);
 				}
 			} 
 			
 		}
 		
 	} 
+	
+	public void outADoubleQuotesValueno(ADoubleQuotesValueno node)
+	{
+		
+		Node grandpa = node.parent().parent();
+		Node parent = node.parent();
+		String id = null;
+
+		System.out.println(parent.getClass());
+		if(grandpa instanceof AAssignStatementStatement)
+		{
+			id = ((AAssignStatementStatement)grandpa).getId().toString();
+			
+		}
+		if(grandpa instanceof ACommaIdCiav)
+		{
+			id = ((ACommaIdCiav)grandpa).getId().toString();
+		}
+		else if(grandpa instanceof AArgArgument)
+		{
+			id = ((AArgArgument)grandpa).getId().toString();
+		}
+		if(id!=null)
+		{
+			if(variableTypes.containsKey(id))
+			{
+				variableTypes.remove(id);
+				
+			}
+			variableTypes.put(id, VARIABLE_TYPES.STRING);
+		}		
+	}
+	@Override
+	public void outASingleQuotesValueno(ASingleQuotesValueno node)
+	{
+		System.out.println("edw erxomai");
+		Node grandpa = node.parent().parent();
+		Node parent = node.parent();
+		String id = null;
+
+		System.out.println(parent.getClass());
+		if(grandpa instanceof AAssignStatementStatement)
+		{
+			id = ((AAssignStatementStatement)grandpa).getId().toString();
+			
+		}
+		if(grandpa instanceof ACommaIdCiav)
+		{
+			id = ((ACommaIdCiav)grandpa).getId().toString();
+		}
+		else if(grandpa instanceof AArgArgument)
+		{
+			id = ((AArgArgument)grandpa).getId().toString();
+		}
+		if(id!=null)
+		{
+			if(variableTypes.containsKey(id))
+			{
+				variableTypes.remove(id);
+				
+			}
+			variableTypes.put(id, VARIABLE_TYPES.STRING);
+		}	
+		
+	}
+	public void outANumNum(ANumNum node)
+	{
+		Node grandpa = node.parent().parent().parent();
+		Node parent = node.parent().parent();
+		String id = null;
+
+		if(grandpa instanceof AAssignStatementStatement)
+		{
+			id = ((AAssignStatementStatement)grandpa).getId().toString();
+			
+		}
+		if(grandpa instanceof ACommaIdCiav)
+		{
+			id = ((ACommaIdCiav)grandpa).getId().toString();
+		}
+		else if(grandpa instanceof AArgArgument)
+		{
+			id = ((AArgArgument)grandpa).getId().toString();
+		}
+		
+		if(id!=null)
+		{
+			if(variableTypes.containsKey(id)) //TODO: CHECK
+			{
+				variableTypes.remove(id);
+				
+			}
+			variableTypes.put(id, VARIABLE_TYPES.NUMBER);
+		}	
+
+	}
+	@Override
+	public void outANoneValueno(ANoneValueno node)
+	{
+		Node grandpa = node.parent().parent();
+		Node parent = node.parent();
+		String id = null;
+
+		if(grandpa instanceof AAssignStatementStatement)
+		{
+			id = ((AAssignStatementStatement)grandpa).getId().toString();
+			
+		}
+		if(grandpa instanceof ACommaIdCiav)
+		{
+			id = ((ACommaIdCiav)grandpa).getId().toString();
+		}
+		else if(grandpa instanceof AArgArgument)
+		{
+			id = ((AArgArgument)grandpa).getId().toString();
+		}
+		if(id!=null)
+		{
+			if(variableTypes.containsKey(id)) //TODO: CHECK
+			{
+				variableTypes.remove(id);
+				
+			}
+			variableTypes.put(id, VARIABLE_TYPES.NONE);
+		}	
+
+	}
+	
+
 	public void outAIdId(AIdId node)
 	{
 		Node parent = node.parent();
 		String name = node.getIdent().getText();
 			// Check the parent's type and react accordingly
-		if (parent instanceof AAssignStatementStatement|| parent instanceof AAsvalueAssignValue|| parent instanceof AArgArgument) {
-			// Create a new variable
-			variables.put(name, node);
-			variableTypes.put(node, VARIABLE_TYPES.UNKNOWN);
-		} 
-		else if (parent instanceof AForStatementStatement)  //name == id1
+		
+		if (parent instanceof AForStatementStatement)  //name == id1
 		{
 			AForStatementStatement forLoop = (AForStatementStatement) parent;
 			//Create a variable for the first identifier
@@ -147,7 +283,10 @@ public class myvisitor extends DepthFirstAdapter
 			AIdId id2 = (AIdId) forLoop.getRid();
 			// for x in y: and y=[1,2,3] x should be integer, if y =[1.2, 1.3] y should be double etc
 			
-			String variableType = variableTypes.get(id2).name();
+			VARIABLE_TYPES variableType = variableTypes.get(id2.toString());
+			
+			variableTypes.put(name, variableType);
+
 			variables.put(id1.getIdent().getText(), node);
 		}	
 	}
@@ -178,6 +317,10 @@ public class myvisitor extends DepthFirstAdapter
             case UNDEFINED_ARRAY:
                 System.out.println("Error at Node " + node + ": Undefined array");
                 break;
+			case REDIFINED_VARIABLE:
+				System.out.println("Error at Node " + node + ": Redifined variable");
+                break;
+
             // Add cases for other error types as needed
 
             default:
@@ -277,20 +420,9 @@ public class myvisitor extends DepthFirstAdapter
 				LinkedList<Integer> cont1 = countVars(func_more);
 				count_total_vars = cont1.get(0);
 				count_default_vars = cont1.get(1); 
-				// System.out.println("total vars:"+count_total_vars);
-				// System.out.println("def vars:"+count_default_vars);
-				// System.out.println("total vars new :"+count_total_vars_new);
-				// System.out.println("def vars new:"+count_default_vars_new);
-					
 					
 				if(count_total_vars == count_total_vars_new ||count_total_vars - count_default_vars == count_total_vars_new - count_default_vars_new||count_total_vars-count_default_vars==count_total_vars_new||count_total_vars_new-count_default_vars_new==count_total_vars|| (count_total_vars_new>count_total_vars && count_total_vars_new-count_default_vars_new <= count_total_vars||count_total_vars>count_total_vars_new && count_total_vars-count_default_vars <= count_total_vars_new ) )
 				{
-					
-					// System.out.println("total vars:"+count_total_vars);
-					// System.out.println("def vars:"+count_default_vars);
-					// System.out.println("total vars new :"+count_total_vars_new);
-					// System.out.println("def vars new:"+count_default_vars_new);
-
 					printError(node, ERRORS.REDEFINED_FUNCTION);
 				}
 				
@@ -357,7 +489,41 @@ public class myvisitor extends DepthFirstAdapter
 		return vars;
 	}
 
-	
+	@Override
+	public void outAArgArgument(AArgArgument node) {
+		
+		String id = node.getId().toString();
+		if (node.getAssignValue().size()==0)
+		{
+			if(variableTypes.containsKey(id))
+			{
+				variableTypes.remove(id);
+			}
+			variableTypes.put(id, VARIABLE_TYPES.UNKNOWN);
+		}
+		
+	}
+	@Override
+	public void outACommaIdCiav(ACommaIdCiav node) {
+		String id = node.getId().toString();
+		if (node.getAssignValue().size()==0)
+		{
+			if(variableTypes.containsKey(id))
+			{
+				variableTypes.remove(id);
+			}
+			variableTypes.put(id, VARIABLE_TYPES.UNKNOWN);
+		}
+	}
+	@Override
+	public void outAPrintStatementStatement(APrintStatementStatement node)
+	{
+		for (Map.Entry<String, VARIABLE_TYPES> entry : variableTypes.entrySet()) {
+            String key = entry.getKey();
+            VARIABLE_TYPES value = entry.getValue();
+            System.out.println("Key: " + key + ", Value: " + value);
+        }
+	}
 
 	public void outADefFuncFunction(ADefFuncFunction node)
 	{
@@ -388,10 +554,72 @@ public class myvisitor extends DepthFirstAdapter
 		//String name =node.getId().toString();
 	}
 
-	@Override
-	public void outANumNum(ANumNum node) {
-		variableTypes.put(node, VARIABLE_TYPES.NUMBER);
-	}
+	// @Override
+	// public void outANumNum(ANumNum node) {
+	// 	variableTypes.put(node, VARIABLE_TYPES.NUMBER);
+	// }
+	
+	// @Override
+	// public void outANoneValueno(ANoneValueno node) {
+	// 	variableTypes.put(node, VARIABLE_TYPES.NONE);
+	// }
 
+	// public void outALenExpExpression(ALenExpExpression node) {
+	// 	variableTypes.put(node, VARIABLE_TYPES.NUMBER);
+	// }
 
+	// @Override
+	// public void outAMaxExprExpression(AMaxExprExpression node) {
+	// 	variableTypes.put(node, VARIABLE_TYPES.NUMBER);
+	// }
+
+	// @Override
+	// public void outAMinExprExpression(AMinExprExpression node) {
+	// 	variableTypes.put(node, VARIABLE_TYPES.NUMBER);
+	// }
+	// @Override
+	// public void outAAdditionExExpression(AAdditionExExpression node) {
+	// 	// Find the class type of left and right children
+	// 	Class<?> lClass = node.getL().getClass();
+	// 	Class<?> rClass = node.getR().getClass();
+	// 	VARIABLE_TYPES lType = variableTypes.get(lClass.cast(node.getL()));
+	// 	VARIABLE_TYPES rType = variableTypes.get(rClass.cast(node.getR()));
+
+	// 	System.out.println(lType);
+	// 	System.out.println(rType);
+	// 	// AIdentifierArithmetics inserts Aidentifier node and not itself
+	// 	// Hence, the AIdentifier's type should be retrieved
+	// 	if (node.getL() instanceof AIdentifierExpression) {
+	// 		lType = findVariableType(
+	// 				((AIdId) ((AIdentifierExpression) node.getL()).getId()).getIdent().getText());
+	// 	}
+
+	// 	if (node.getR() instanceof AIdentifierExpression) {
+	// 		rType = findVariableType(
+	// 				((AIdId) ((AIdentifierExpression) node.getR()).getId()).getIdent().getText());
+	// 	}
+
+	// 	// All children must return a number for the expression to be valid
+	// 	if (rType == VARIABLE_TYPES.NONE || lType == VARIABLE_TYPES.NONE) {
+	// 		printError(node, ERRORS.NONE);
+	// 	} else if (lType == VARIABLE_TYPES.UNKNOWN || rType == VARIABLE_TYPES.UNKNOWN) {
+	// 		variableTypes.put(node, VARIABLE_TYPES.UNKNOWN);
+	// 	} else if (lType == VARIABLE_TYPES.NUMBER && rType == VARIABLE_TYPES.NUMBER) {
+	// 		variableTypes.put(node, VARIABLE_TYPES.NUMBER);
+	// 	} else {
+	// 		printError(node.getR(), ERRORS.TYPE_MISSMATCH);
+	// 	}
+	// }
+
+	// private VARIABLE_TYPES findVariableType(String token) {
+	// 	for (Node node : variableTypes.keySet()) {
+	// 		if (node instanceof AIdId) {
+	// 			if (token.trim().equals(((AIdId) node).getIdent().getText().trim())) {
+	// 				return variableTypes.get(node);
+	// 			}
+	// 		}
+	// 	}
+
+	// 	return null;
+	// }
 }
