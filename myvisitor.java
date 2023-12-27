@@ -11,7 +11,7 @@ public class myvisitor extends DepthFirstAdapter
 	private Hashtable<String, LinkedList<Node>> functions = new Hashtable<>();
 
 	private Hashtable<Node, VARIABLE_TYPES> variableTypes;
-	private LinkedList<Function> func_list = new LinkedList<>();
+	private ArrayList<Function> func_list = new ArrayList();
 	
 
 	/**
@@ -190,26 +190,57 @@ public class myvisitor extends DepthFirstAdapter
 	
 	@Override
 	public void inAFuncCallFunctionCall(AFuncCallFunctionCall node) {
-		
+		int x = 0;
 		String id = node.getId().toString();
 		if(!functions.containsKey(id))
 		{
 			printError(node, ERRORS.UNDEFINED_FUNCTION);
 		}
-		//counting how many arguments are given and compare it with the ones saved.
-		AArglistArglist args =  node.getArglist();
-
-
-
-		for(int i =0; i< func_list.size())
-		{
-			if(func_list.get(i).getName().equals(id))
+		else
+		{	
+			//counting how many arguments are given and compare it with the ones saved.
+			
+			AArglistArglist args =  (AArglistArglist)node.getArglist().get(0);
+			
+			if(node.getArglist().size()!= 0)
 			{
-				int x = countCommas();
-				if(func_list.get(i).getTotal_vars() - func_list.get(i).getDef_vars() <= x && x <= func_list.get(i).getTotal_vars())
-			}
-		}
+				x++;
+				LinkedList more = args.getR();
 
+				for(int i =0 ; i< more.size();i++)
+				{
+					x++;
+				}
+
+			}
+			else
+			{
+				x = 0;
+			}
+
+			int counter = 0;
+			for(int i =0; i< func_list.size();i++)
+			{
+				if(func_list.get[i].getName().equals(id))
+				{
+					
+					if(!(func_list.get[i].getTotal_vars() - func_list.get[i].getDef_vars() <= x && x <= func_list.get[i].getTotal_vars()))
+					{
+						counter++;
+						
+					}
+					else
+					{
+						counter--;
+					}
+				}
+			}
+
+		}
+		if(counter!=0)
+		{
+			printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
+		}
 		
 		
 	}

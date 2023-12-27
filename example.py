@@ -10,7 +10,7 @@ def f():
     if x>y :
         print (x+y+5+3+2)++, "geia soy", 'adiosS'
     	x -= 5
-    				a /= 4
+    	a /= 4
         
 		assert x[len(1)]
         
