@@ -1,8 +1,5 @@
 import minipython.analysis.*;
 import minipython.node.*;
-
-import java.beans.Expression;
-import java.security.PublicKey;
 import java.util.*;
 
 public class myvisitor extends DepthFirstAdapter 
@@ -55,14 +52,12 @@ public class myvisitor extends DepthFirstAdapter
 
 	public void inAIdId(AIdId node){
 		int line = ((TIdent) node.getIdent()).getLine();
-	
-		String name = node.getIdent().getText();
+		String name = node.getIdent().getText().trim();
 		Node parent = node.parent();
 		// 1) Undeclared variables
 		if (parent instanceof AIdentifierExpression || parent instanceof AIdValueno) { //x = y[2] if y is undefined
-			if (!variables.containsKey(name)) {
+			if (!variableTypes.containsKey(name)) {
 				// Print error message
-				System.out.println("mpoai");;
 				printError(node, ERRORS.UNDECLARED_VARIABLE);
 			}
 
@@ -70,75 +65,25 @@ public class myvisitor extends DepthFirstAdapter
 		else if (parent instanceof AForStatementStatement) // ex for x in y : statement -> x could be not defined but y should be defined
 		{
 			AForStatementStatement forLoop = (AForStatementStatement) parent;
-
-			// Check that the second identifer is an existing variable
+			AIdId id1 = (AIdId) forLoop.getLid(); 
 			AIdId id2 = (AIdId) forLoop.getRid(); // for x in x is ilegal because x is global var
-			String id2s = id2.toString();
-			
-	
-			if (name.equals(id2.getIdent().getText()) ) { //TODO: TIFASI
-				printError(node, ERRORS.REDIFINED_VARIABLE);
-			}
-			
-			else if(!variableTypes.containsKey(id2s)){
-				printError(node, ERRORS.UNDECLARED_VARIABLE);
-			}
-			
-			//System.out.println("MPRO");
-			String variableType = variableTypes.get(id2s).name();
-			
-			if(variableTypes.containsKey(name)) //TODO: CHECK
+			String id2s = id2.toString().trim();
+			// Check that the second identifer is an existing variable
+			if(node == forLoop.getLid() )
 			{
-				System.out.println("mpiak");
-				if (variableType.equals("NUMBER")) 
-				{
-					if(!variableTypes.get(name).name().equals("NUMBER"))
-					{
-						printError(node, ERRORS.TYPE_MISSMATCH);
-					}
+
+				if (name.equals(id2s) ) 
+				{ 
+					printError(node, ERRORS.REDIFINED_VARIABLE);
 				}
-				else if (variableType.equals("STRING")) 
+				else if(!variableTypes.containsKey(id2s)) //right id is not defined
 				{
-					if(!variableTypes.get(name).name().equals("STRING"))
-					{
-						printError(node, ERRORS.TYPE_MISSMATCH);
-					}
-				} else if (variableType.equals("NONE")) 
-				{
-					if(!variableTypes.get(name).name().equals("NONE"))
-					{
-						printError(node, ERRORS.TYPE_MISSMATCH);
-					}
-				} 
-				else if (variableType.equals("UNKNOWN")) 
-				{
-					if(!variableTypes.get(name).name().equals("UNKNOWN"))
-					{
-						printError(node, ERRORS.TYPE_MISSMATCH);
-					}
+					printError(id2, ERRORS.UNDECLARED_VARIABLE);
 				}
-			}
-			else
-			{
-				if (variableType.equals("NUMBER")) 
-				{
-					variableTypes.put(name, VARIABLE_TYPES.NUMBER);
-				}
-				else if (variableType.equals("STRING")) 
-				{
-					variableTypes.put(name, VARIABLE_TYPES.STRING);
-				} else if (variableType.equals("NONE")) 
-				{
-					variableTypes.put(name, VARIABLE_TYPES.NONE);
-				} 
-				else if (variableType.equals("UNKNOWN")) 
-				{
-					variableTypes.put(name, VARIABLE_TYPES.UNKNOWN);
-				}
-			} 
-			
+
+			}			
 		}
-		
+	
 	} 
 	
 	public void outADoubleQuotesValueno(ADoubleQuotesValueno node)
@@ -148,51 +93,55 @@ public class myvisitor extends DepthFirstAdapter
 		Node parent = node.parent();
 		String id = null;
 
-		System.out.println(parent.getClass());
 		if(grandpa instanceof AAssignStatementStatement)
 		{
-			id = ((AAssignStatementStatement)grandpa).getId().toString();
+			id = ((AAssignStatementStatement)grandpa).getId().toString().trim();
 			
 		}
-		if(grandpa instanceof ACommaIdCiav)
+		else if(grandpa instanceof ACommaIdCiav)
 		{
-			id = ((ACommaIdCiav)grandpa).getId().toString();
+			id = ((ACommaIdCiav)grandpa).getId().toString().trim();
 		}
 		else if(grandpa instanceof AArgArgument)
 		{
-			id = ((AArgArgument)grandpa).getId().toString();
+			id = ((AArgArgument)grandpa).getId().toString().trim();
 		}
 		if(id!=null)
 		{
+			
 			if(variableTypes.containsKey(id))
 			{
-				variableTypes.remove(id);
-				
+				variableTypes.remove(id);	
 			}
 			variableTypes.put(id, VARIABLE_TYPES.STRING);
-		}		
+		}	
+		//Checking error 4
+		if(grandpa instanceof AAdditionExExpression || grandpa instanceof ASubtractionExExpression || grandpa instanceof AMultiplicationExpression || grandpa instanceof APowerExpression || grandpa instanceof APlplExpression || grandpa instanceof AMinminExpression || grandpa instanceof ADivisionExpression || grandpa instanceof AModuloExpression || )	
+		{
+			printError(node, ERRORS.TYPE_MISSMATCH);
+		}
 	}
 	@Override
 	public void outASingleQuotesValueno(ASingleQuotesValueno node)
 	{
-		System.out.println("edw erxomai");
+		//System.out.println("edw erxomai");
 		Node grandpa = node.parent().parent();
 		Node parent = node.parent();
 		String id = null;
 
-		System.out.println(parent.getClass());
+		//System.out.println(parent.getClass());
 		if(grandpa instanceof AAssignStatementStatement)
 		{
-			id = ((AAssignStatementStatement)grandpa).getId().toString();
+			id = ((AAssignStatementStatement)grandpa).getId().toString().trim();
 			
 		}
 		if(grandpa instanceof ACommaIdCiav)
 		{
-			id = ((ACommaIdCiav)grandpa).getId().toString();
+			id = ((ACommaIdCiav)grandpa).getId().toString().trim();
 		}
 		else if(grandpa instanceof AArgArgument)
 		{
-			id = ((AArgArgument)grandpa).getId().toString();
+			id = ((AArgArgument)grandpa).getId().toString().trim();
 		}
 		if(id!=null)
 		{
@@ -213,16 +162,16 @@ public class myvisitor extends DepthFirstAdapter
 
 		if(grandpa instanceof AAssignStatementStatement)
 		{
-			id = ((AAssignStatementStatement)grandpa).getId().toString();
+			id = ((AAssignStatementStatement)grandpa).getId().toString().trim();
 			
 		}
 		if(grandpa instanceof ACommaIdCiav)
 		{
-			id = ((ACommaIdCiav)grandpa).getId().toString();
+			id = ((ACommaIdCiav)grandpa).getId().toString().trim();
 		}
 		else if(grandpa instanceof AArgArgument)
 		{
-			id = ((AArgArgument)grandpa).getId().toString();
+			id = ((AArgArgument)grandpa).getId().toString().trim();
 		}
 		
 		if(id!=null)
@@ -245,16 +194,16 @@ public class myvisitor extends DepthFirstAdapter
 
 		if(grandpa instanceof AAssignStatementStatement)
 		{
-			id = ((AAssignStatementStatement)grandpa).getId().toString();
+			id = ((AAssignStatementStatement)grandpa).getId().toString().trim();
 			
 		}
 		if(grandpa instanceof ACommaIdCiav)
 		{
-			id = ((ACommaIdCiav)grandpa).getId().toString();
+			id = ((ACommaIdCiav)grandpa).getId().toString().trim();
 		}
 		else if(grandpa instanceof AArgArgument)
 		{
-			id = ((AArgArgument)grandpa).getId().toString();
+			id = ((AArgArgument)grandpa).getId().toString().trim();
 		}
 		if(id!=null)
 		{
@@ -272,7 +221,7 @@ public class myvisitor extends DepthFirstAdapter
 	public void outAIdId(AIdId node)
 	{
 		Node parent = node.parent();
-		String name = node.getIdent().getText();
+		String name = node.getIdent().getText().trim();
 			// Check the parent's type and react accordingly
 		
 		if (parent instanceof AForStatementStatement)  //name == id1
@@ -282,12 +231,9 @@ public class myvisitor extends DepthFirstAdapter
 			AIdId id1 = (AIdId) forLoop.getLid();
 			AIdId id2 = (AIdId) forLoop.getRid();
 			// for x in y: and y=[1,2,3] x should be integer, if y =[1.2, 1.3] y should be double etc
-			
-			VARIABLE_TYPES variableType = variableTypes.get(id2.toString());
-			
+			VARIABLE_TYPES variableType = variableTypes.get(id2.getIdent().getText().trim());
 			variableTypes.put(name, variableType);
-
-			variables.put(id1.getIdent().getText(), node);
+			variables.put(id1.toString(), node);
 		}	
 	}
 
@@ -518,11 +464,13 @@ public class myvisitor extends DepthFirstAdapter
 	@Override
 	public void outAPrintStatementStatement(APrintStatementStatement node)
 	{
+		System.out.println("-------------------------------KLHSH THS PRINT-------------------------");
 		for (Map.Entry<String, VARIABLE_TYPES> entry : variableTypes.entrySet()) {
             String key = entry.getKey();
             VARIABLE_TYPES value = entry.getValue();
             System.out.println("Key: " + key + ", Value: " + value);
         }
+		System.out.println("------------------------TELOS KLHSH THS PRINT-------------------------");
 	}
 
 	public void outADefFuncFunction(ADefFuncFunction node)
