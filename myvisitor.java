@@ -4,6 +4,7 @@ import java.util.*;
 
 public class myvisitor extends DepthFirstAdapter 
 {
+	Function current_function = null;
 	
  	private Hashtable<String, Node> variables;
 	
@@ -49,14 +50,15 @@ public class myvisitor extends DepthFirstAdapter
 		this.variableTypes = variableTypes;
 	}
 
-
-	public void inAIdId(AIdId node){
+	@Override
+	public void outAIdId(AIdId node){
 		int line = ((TIdent) node.getIdent()).getLine();
 		String name = node.getIdent().getText().trim();
 		Node parent = node.parent();
 		// 1) Undeclared variables
 		if (parent instanceof AIdentifierExpression || parent instanceof AIdValueno) { //x = y[2] if y is undefined
-			if (!variableTypes.containsKey(name)) {
+			if (!variableTypes.containsKey(name)) 
+			{
 				// Print error message
 				printError(node, ERRORS.UNDECLARED_VARIABLE);
 			}
@@ -83,10 +85,23 @@ public class myvisitor extends DepthFirstAdapter
 
 			}			
 		}
+			// Check the parent's type and react accordingly
+		
+		if (parent instanceof AForStatementStatement)  //name == id1
+		{
+			AForStatementStatement forLoop = (AForStatementStatement) parent;
+			//Create a variable for the first identifier
+			AIdId id1 = (AIdId) forLoop.getLid();
+			AIdId id2 = (AIdId) forLoop.getRid();
+			// for x in y: and y=[1,2,3] x should be integer, if y =[1.2, 1.3] y should be double etc
+			VARIABLE_TYPES variableType = variableTypes.get(id2.getIdent().getText().trim());
+			variableTypes.put(name, variableType);
+			variables.put(id1.toString().trim(), node);
+		}	
 	
 	} 
 	
-	public void outADoubleQuotesValueno(ADoubleQuotesValueno node)
+	public void inADoubleQuotesValueno(ADoubleQuotesValueno node)
 	{
 		
 		Node grandpa = node.parent().parent();
@@ -100,11 +115,37 @@ public class myvisitor extends DepthFirstAdapter
 		}
 		else if(grandpa instanceof ACommaIdCiav)
 		{
+
 			id = ((ACommaIdCiav)grandpa).getId().toString().trim();
+
+			AArgArgument g = (AArgArgument)grandpa.parent();
+
+			ADefFuncFunction gp = (ADefFuncFunction) g.parent();
+				
+			String func_name = gp.getId().toString().trim();
+			
+			current_function.addVar_type("STRING");
+			// for(int i =0; i< func_list.size();i++)
+			// {
+			// 	if(func_list.get(i).getName().equals(func_name))
+			// 	{
+			// 		func_list.get(i).addVar_type("STRING");
+			// 	}
+			// }
 		}
 		else if(grandpa instanceof AArgArgument)
 		{
 			id = ((AArgArgument)grandpa).getId().toString().trim();
+			ADefFuncFunction gp = (ADefFuncFunction)grandpa.parent();
+
+			String func_name = gp.getId().toString().trim();
+			for(int i =0; i< func_list.size();i++)
+			{
+				if(func_list.get(i).getName().toString().trim().equals(func_name))
+				{
+					func_list.get(i).addVar_type("STRING");
+				}
+			}
 		}
 		if(id!=null)
 		{
@@ -116,15 +157,25 @@ public class myvisitor extends DepthFirstAdapter
 			variableTypes.put(id, VARIABLE_TYPES.STRING);
 		}	
 		//Checking error 4
-		if(grandpa instanceof AAdditionExExpression || grandpa instanceof ASubtractionExExpression || grandpa instanceof AMultiplicationExpression || grandpa instanceof APowerExpression || grandpa instanceof APlplExpression || grandpa instanceof AMinminExpression || grandpa instanceof ADivisionExpression || grandpa instanceof AModuloExpression || )	
+		if(grandpa instanceof AAdditionExExpression || grandpa instanceof ASubtractionExExpression || grandpa instanceof AMultiplicationExpression || grandpa instanceof APowerExpression || grandpa instanceof APlplExpression || grandpa instanceof AMinminExpression || grandpa instanceof ADivisionExpression || grandpa instanceof AModuloExpression  )	
 		{
 			printError(node, ERRORS.TYPE_MISSMATCH);
 		}
 	}
 	@Override
-	public void outASingleQuotesValueno(ASingleQuotesValueno node)
+    public void inAAssignStatementStatement(AAssignStatementStatement node) // in every assign statement we put the variable as unknown and if it has a value like string, number etc it will be replaced in the other outASingleQuotesValueno etc
+    {
+        String id = node.getId().toString().trim();
+        if (variableTypes.containsKey(id))
+        {	
+            variableTypes.remove(id);
+        }
+        variableTypes.put(id, VARIABLE_TYPES.UNKNOWN);
+
+    }
+	@Override
+	public void inASingleQuotesValueno(ASingleQuotesValueno node)
 	{
-		//System.out.println("edw erxomai");
 		Node grandpa = node.parent().parent();
 		Node parent = node.parent();
 		String id = null;
@@ -138,10 +189,38 @@ public class myvisitor extends DepthFirstAdapter
 		if(grandpa instanceof ACommaIdCiav)
 		{
 			id = ((ACommaIdCiav)grandpa).getId().toString().trim();
+
+
+			AArgArgument g = (AArgArgument)grandpa.parent();
+						System.out.println("200");
+
+			ADefFuncFunction gp = (ADefFuncFunction) g.parent();
+						System.out.println("202");
+
+			String func_name = gp.getId().toString().trim();
+			
+			current_function.addVar_type("STRING");
+			// for(int i =0; i< func_list.size();i++)
+			// {
+			// 	if(func_list.get(i).getName().equals(func_name))
+			// 	{
+			// 		func_list.get(i).addVar_type("STRING");
+			// 	}
+			// }
 		}
 		else if(grandpa instanceof AArgArgument)
 		{
 			id = ((AArgArgument)grandpa).getId().toString().trim();
+			ADefFuncFunction gp = (ADefFuncFunction)grandpa.parent();
+
+			String func_name = gp.getId().toString().trim();
+			for(int i =0; i< func_list.size();i++)
+			{
+				if(func_list.get(i).getName().toString().trim().equals(func_name))
+				{
+					func_list.get(i).addVar_type("STRING");
+				}
+			}
 		}
 		if(id!=null)
 		{
@@ -154,7 +233,7 @@ public class myvisitor extends DepthFirstAdapter
 		}	
 		
 	}
-	public void outANumNum(ANumNum node)
+	public void inANumNum(ANumNum node)
 	{
 		Node grandpa = node.parent().parent().parent();
 		Node parent = node.parent().parent();
@@ -168,10 +247,35 @@ public class myvisitor extends DepthFirstAdapter
 		if(grandpa instanceof ACommaIdCiav)
 		{
 			id = ((ACommaIdCiav)grandpa).getId().toString().trim();
+			AArgArgument g = (AArgArgument)grandpa.parent();
+			ADefFuncFunction gp = (ADefFuncFunction) g.parent();
+			String func_name = gp.getId().toString().trim();
+
+
+			current_function.addVar_type("NUMBER");
+			// for(int i =0; i< func_list.size();i++)
+			// {
+			// 	if(func_list.get(i).getName().equals(func_name))
+			// 	{
+			// 		func_list.get(i).addVar_type("NUMBER");
+			// 	}
+			// }
+
 		}
 		else if(grandpa instanceof AArgArgument)
 		{
 			id = ((AArgArgument)grandpa).getId().toString().trim();
+			ADefFuncFunction gp = (ADefFuncFunction)grandpa.parent();
+			String func_name = gp.getId().toString().trim();
+			for(int i =0; i< func_list.size();i++)
+			{
+				if(func_list.get(i).getName().toString().trim().equals(func_name))
+				{
+					func_list.get(i).addVar_type("NUMBER");
+				}
+			}
+
+
 		}
 		
 		if(id!=null)
@@ -186,7 +290,7 @@ public class myvisitor extends DepthFirstAdapter
 
 	}
 	@Override
-	public void outANoneValueno(ANoneValueno node)
+	public void inANoneValueno(ANoneValueno node)
 	{
 		Node grandpa = node.parent().parent();
 		Node parent = node.parent();
@@ -200,10 +304,35 @@ public class myvisitor extends DepthFirstAdapter
 		if(grandpa instanceof ACommaIdCiav)
 		{
 			id = ((ACommaIdCiav)grandpa).getId().toString().trim();
+
+			AArgArgument g = (AArgArgument)grandpa.parent();
+
+			ADefFuncFunction gp = (ADefFuncFunction) g.parent();
+			String func_name = gp.getId().toString().trim();
+			
+			current_function.addVar_type("NONE");
+			// for(int i =0; i< func_list.size();i++)
+			// {
+			// 	if(func_list.get(i).getName().equals(func_name))
+			// 	{
+			// 		func_list.get(i).addVar_type("NONE");
+			// 	}
+			// }
+
 		}
 		else if(grandpa instanceof AArgArgument)
 		{
 			id = ((AArgArgument)grandpa).getId().toString().trim();
+			ADefFuncFunction gp = (ADefFuncFunction)grandpa.parent();
+
+			String func_name = gp.getId().toString().trim();
+			for(int i =0; i< func_list.size();i++)
+			{
+				if(func_list.get(i).getName().toString().trim().equals(func_name))
+				{
+					func_list.get(i).addVar_type("NONE");
+				}
+			}
 		}
 		if(id!=null)
 		{
@@ -212,30 +341,19 @@ public class myvisitor extends DepthFirstAdapter
 				variableTypes.remove(id);
 				
 			}
+
 			variableTypes.put(id, VARIABLE_TYPES.NONE);
+			
 		}	
 
 	}
 	
 
-	public void outAIdId(AIdId node)
-	{
-		Node parent = node.parent();
-		String name = node.getIdent().getText().trim();
-			// Check the parent's type and react accordingly
+	// public void outAIdId(AIdId node)
+	// {
 		
-		if (parent instanceof AForStatementStatement)  //name == id1
-		{
-			AForStatementStatement forLoop = (AForStatementStatement) parent;
-			//Create a variable for the first identifier
-			AIdId id1 = (AIdId) forLoop.getLid();
-			AIdId id2 = (AIdId) forLoop.getRid();
-			// for x in y: and y=[1,2,3] x should be integer, if y =[1.2, 1.3] y should be double etc
-			VARIABLE_TYPES variableType = variableTypes.get(id2.getIdent().getText().trim());
-			variableTypes.put(name, variableType);
-			variables.put(id1.toString(), node);
-		}	
-	}
+		
+	// }
 
 	private void printError(Node node, myvisitor.ERRORS error) {
 		switch (error) {
@@ -279,7 +397,7 @@ public class myvisitor extends DepthFirstAdapter
 	@Override
 	public void inAFuncCallFunctionCall(AFuncCallFunctionCall node) {
 		int x = 0;
-		String id = node.getId().toString();
+		String id = node.getId().toString().trim();
 		if(!functions.containsKey(id))
 		{
 			printError(node, ERRORS.UNDEFINED_FUNCTION);
@@ -343,7 +461,8 @@ public class myvisitor extends DepthFirstAdapter
 	public void inADefFuncFunction(ADefFuncFunction node)
 	{ 
 
-		String fName = node.getId().toString();
+		String fName = node.getId().toString().trim();
+
 
 		if (functions.containsKey(fName)) //if function exists check that number of parameters is different
 		{
@@ -373,7 +492,33 @@ public class myvisitor extends DepthFirstAdapter
 				}
 				
 			}
-		}		
+		}	
+		String name = node.getId().toString().trim();
+		// functions.put(fName, node);
+		// Create a new function
+		if (functions.containsKey(name)) {
+			// If it exists, add the node to the existing list of nodes
+			functions.get(name).add(node);
+
+			Function f = new Function(countVars(node).get(1), countVars(node).get(0),name);
+			func_list.add(f);
+			current_function = f;
+
+		} else {
+			
+			Function f = new Function(countVars(node).get(1),countVars(node).get(0),name);
+			func_list.add(f);
+
+		
+			current_function = f;
+			
+			
+			// If it doesn't exist, create a new list with the node and associate it with the function name
+			LinkedList<Node> nodeList = new LinkedList<>();
+			nodeList.add(node);
+			functions.put(name, nodeList);
+
+		}	
 		
 	}
 
@@ -436,22 +581,41 @@ public class myvisitor extends DepthFirstAdapter
 	}
 
 	@Override
-	public void outAArgArgument(AArgArgument node) {
+	public void inAArgArgument(AArgArgument node) {
+		ADefFuncFunction parent = (ADefFuncFunction) node.parent();
 		
-		String id = node.getId().toString();
+		String func_name = parent.getId().toString().trim();
+		
+		String id = node.getId().toString().trim();
 		if (node.getAssignValue().size()==0)
 		{
 			if(variableTypes.containsKey(id))
 			{
 				variableTypes.remove(id);
 			}
+
 			variableTypes.put(id, VARIABLE_TYPES.UNKNOWN);
+			current_function.addVar_type("UNKNOWN");
+			// for(int i =0; i< func_list.size();i++)
+			// {
+			// 	if(func_list.get(i).getName().equals(func_name) && current_function.equals() )
+			// 	{
+			// 		func_list.get(i).addVar_type("UNKNOWN");
+			// 	}
+			// }
 		}
+
 		
 	}
 	@Override
-	public void outACommaIdCiav(ACommaIdCiav node) {
-		String id = node.getId().toString();
+	public void inACommaIdCiav(ACommaIdCiav node) {
+		AArgArgument parent = (AArgArgument) node.parent();
+		ADefFuncFunction parentp = (ADefFuncFunction) parent.parent();
+
+		String id = node.getId().toString().trim();
+		
+		String func_name = parentp.getId().toString().trim();
+
 		if (node.getAssignValue().size()==0)
 		{
 			if(variableTypes.containsKey(id))
@@ -459,42 +623,50 @@ public class myvisitor extends DepthFirstAdapter
 				variableTypes.remove(id);
 			}
 			variableTypes.put(id, VARIABLE_TYPES.UNKNOWN);
+
+			current_function.addVar_type("UNKNOWN");
+
+			// for(int i =0; i< func_list.size();i++)
+			// {
+			// 	if(func_list.get(i).getName().equals(func_name))
+			// 	{
+			// 		func_list.get(i).addVar_type("UNKNOWN");
+			// 	}
+			// }
 		}
 	}
 	@Override
 	public void outAPrintStatementStatement(APrintStatementStatement node)
 	{
-		System.out.println("-------------------------------KLHSH THS PRINT-------------------------");
-		for (Map.Entry<String, VARIABLE_TYPES> entry : variableTypes.entrySet()) {
-            String key = entry.getKey();
-            VARIABLE_TYPES value = entry.getValue();
-            System.out.println("Key: " + key + ", Value: " + value);
+		// System.out.println("-------------------------------KLHSH THS PRINT-------------------------");
+		// for (Map.Entry<String, VARIABLE_TYPES> entry : variableTypes.entrySet()) {
+        //     String key = entry.getKey();
+        //     VARIABLE_TYPES value = entry.getValue();
+        //     System.out.println("Key: " + key + ", Value: " + value);
+        // }
+		// System.out.println("------------------------TELOS KLHSH THS PRINT-------------------------");
+		// System.out.println();
+		// System.out.println("-------------------------------KLHSH THS VAR_TYPES-------------------------");
+		// System.out.println(func_list.size());
+		// LinkedList ll = func_list.get(0).gettVar_types();
+		// System.out.println("-------------------------------TELOS KLHSH THS VAR_TYPES-------------------------");
+	
+		// System.out.println("-------------------------------KLHSH THS VAR_TYPES-------------------------");
+		// System.out.println(func_list.size());
+		// ll = func_list.get(1).gettVar_types();
+		// System.out.println("-------------------------------TELOS KLHSH THS VAR_TYPES-------------------------");
+		for (Function element : func_list) {
+            System.out.println("func: "+element.getName());
+			for(String type : element.gettVar_types()){
+				System.out.println("type: "+type);
+			}
         }
-		System.out.println("------------------------TELOS KLHSH THS PRINT-------------------------");
 	}
 
-	public void outADefFuncFunction(ADefFuncFunction node)
-	{
-		String name = node.getId().toString();
-		// functions.put(fName, node);
-		// Create a new function
-		if (functions.containsKey(name)) {
-			// If it exists, add the node to the existing list of nodes
-			functions.get(name).add(node);
-
-			Function f = new Function(countVars(node).get(1), countVars(node).get(0),name);
-			func_list.add(f);
-
-		} else {
-			
-			Function f = new Function(countVars(node).get(1),countVars(node).get(0),name);
-			func_list.add(f);
-			// If it doesn't exist, create a new list with the node and associate it with the function name
-			LinkedList<Node> nodeList = new LinkedList<>();
-			nodeList.add(node);
-			functions.put(name, nodeList);
-		}
-	}
+	// public void inADefFuncFunction(ADefFuncFunction node)
+	// {
+		
+	// }
 	@Override
 	public void inAIdentifierExpression(AIdentifierExpression node)
     {
