@@ -1,10 +1,11 @@
 import minipython.analysis.*;
 import minipython.node.*;
 import java.util.*;
-
 public class myvisitor extends DepthFirstAdapter 
 {
-	Function current_function = null;
+	private Function current_function = null;
+    private LinkedList<LinkedList<String>> function_argument_list = new LinkedList<>();
+
 	
  	private Hashtable<String, Node> variables;
 	
@@ -274,7 +275,10 @@ public class myvisitor extends DepthFirstAdapter
 					func_list.get(i).addVar_type("NUMBER");
 				}
 			}
-
+		}
+		else if(grandpa instanceof AArglistArglist) //checking parameters for function call types so they match
+		{
+			System.out.println("mpikaaaa");
 
 		}
 		
@@ -404,11 +408,7 @@ public class myvisitor extends DepthFirstAdapter
 		}
 		else
 		{	
-			
 			//counting how many arguments are given and compare it with the ones saved.
-			
-			
-			
 			if(node.getArglist().size()!= 0)
 			{
 				AArglistArglist args =  (AArglistArglist)node.getArglist().get(0);
@@ -431,10 +431,8 @@ public class myvisitor extends DepthFirstAdapter
 			{
 				if(func_list.get(i).getName().equals(id))
 				{
-					//System.out.println("i: "+i+" x:"+x);
 					if(!(func_list.get(i).getTotal_vars() - func_list.get(i).getDef_vars() <= x && x <= func_list.get(i).getTotal_vars()))
 					{
-						//System.out.println("METABLITES "+"TOTAL: "+func_list.get(i).getTotal_vars()+"\nDEF: "+func_list.get(i).getDef_vars() +"\nX: "+ x);
 						counter++;
 					}
 					else
@@ -445,18 +443,12 @@ public class myvisitor extends DepthFirstAdapter
 			}
 			if(counter>0)
 			{
-				//System.out.println("counter"+counter);
 				printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
 			}
 
 		}
-		
-		
-		
 	}
-	/**
-	 * given example modified to suit our grammar
-	 */
+
 	@Override
 	public void inADefFuncFunction(ADefFuncFunction node)
 	{ 
@@ -663,10 +655,39 @@ public class myvisitor extends DepthFirstAdapter
         }
 	}
 
-	// public void inADefFuncFunction(ADefFuncFunction node)
+	// @Override
+	// public void inAFuncCallFunctionCall(AFuncCallFunctionCall node)
 	// {
+	// 	// int counter = 0;
+		// LinkedList<String> args = new LinkedList<>(); 
+		// AArglistArglist argumentlist = node.getArglist();
 		
+
+		
+		
+		// if(argumentlist.size()!=0)
+		// {
+		// 	PExpression ex = argumentlist.getL();
+		// 	PExpression ex2 = argumentlist.getR();
+
+	
+		// }
+
+		// String func_name = node.getId().toString().trim();
+		// for(Function element:func_list)
+		// {
+		// 	if(element.getName().equals(func_name))
+		// 	{
+		// 		counter++;
+
+
+
+		// 	}
+		// }
 	// }
+
+
+
 	@Override
 	public void inAIdentifierExpression(AIdentifierExpression node)
     {
