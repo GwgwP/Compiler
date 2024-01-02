@@ -7,9 +7,9 @@ public class Function {
     private int def_vars =0;
     private int total_vars =0;
     private LinkedList<String> var_types ;
+    private String returnType;
     
     public LinkedList<String> gettVar_types() {
-        
         return var_types;
     }
 
@@ -25,7 +25,13 @@ public class Function {
         this.total_vars = total_vars;
     }
 
- 
+    public void setReturnType(String type){
+        this.returnType = type;
+    }
+
+    public String getReturnType(){
+        return this.returnType;
+    }
     
     public int getDef_vars() {
         return def_vars;
@@ -45,6 +51,7 @@ public class Function {
         this.total_vars=tv;
         this.name = name;
         this.var_types = new LinkedList<String>();
+        this.returnType = "UNKNOWN";
     }
     
 }

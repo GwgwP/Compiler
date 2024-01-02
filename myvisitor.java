@@ -43,7 +43,6 @@ public class myvisitor extends DepthFirstAdapter
 		UNKNOWN,
 	}
 	
-	
 	public myvisitor(Hashtable<String, Node> variables, Hashtable<String, LinkedList<Node>> functions, 
 			Hashtable<String, VARIABLE_TYPES> variableTypes) {
 		this.variables = variables;
@@ -63,7 +62,6 @@ public class myvisitor extends DepthFirstAdapter
 				// Print error message
 				printError(node, ERRORS.UNDECLARED_VARIABLE);
 			}
-
 		}
 		else if (parent instanceof AForStatementStatement) // ex for x in y : statement -> x could be not defined but y should be defined
 		{
@@ -87,7 +85,6 @@ public class myvisitor extends DepthFirstAdapter
 			}			
 		}
 			// Check the parent's type and react accordingly
-		
 		if (parent instanceof AForStatementStatement)  //name == id1
 		{
 			AForStatementStatement forLoop = (AForStatementStatement) parent;
@@ -98,7 +95,24 @@ public class myvisitor extends DepthFirstAdapter
 			VARIABLE_TYPES variableType = variableTypes.get(id2.getIdent().getText().trim());
 			variableTypes.put(name, variableType);
 			variables.put(id1.toString().trim(), node);
-		}	
+		}
+		Node greatGrandpa = node.parent().parent().parent();
+		if(greatGrandpa instanceof AReturnStatementStatement){ 
+			//if it is a return "something" save that the function returns type STRING
+			if (!variableTypes.containsKey(name)) 
+			{
+				// Print error message
+				printError(node, ERRORS.UNDECLARED_VARIABLE);
+			}
+			else 
+			{
+				current_function.setReturnType(variableTypes.get(name).toString());
+			}
+		}
+		// if(node.parent() instance of AFuncCallValueValueno){
+		// 	System.out.println("mpiiiiiiiiiiiiiiiikaaaaaaaa");
+		// }
+
 	
 	} 
 	
@@ -150,7 +164,6 @@ public class myvisitor extends DepthFirstAdapter
 		}
 		if(id!=null)
 		{
-			
 			if(variableTypes.containsKey(id))
 			{
 				variableTypes.remove(id);	
@@ -161,6 +174,10 @@ public class myvisitor extends DepthFirstAdapter
 		if(grandpa instanceof AAdditionExExpression || grandpa instanceof ASubtractionExExpression || grandpa instanceof AMultiplicationExpression || grandpa instanceof APowerExpression || grandpa instanceof APlplExpression || grandpa instanceof AMinminExpression || grandpa instanceof ADivisionExpression || grandpa instanceof AModuloExpression  )	
 		{
 			printError(node, ERRORS.TYPE_MISSMATCH);
+		}
+		if(grandpa instanceof AReturnStatementStatement){ 
+			//if it is a return "something" save that the function returns type STRING
+			current_function.setReturnType("STRING");
 		}
 	}
 	@Override
@@ -231,6 +248,10 @@ public class myvisitor extends DepthFirstAdapter
 				
 			}
 			variableTypes.put(id, VARIABLE_TYPES.STRING);
+		}
+		if(grandpa instanceof AReturnStatementStatement){
+			//if it is a return 'something' save that the function returns type STRING
+			current_function.setReturnType("STRING");
 		}	
 		
 	}
@@ -291,6 +312,10 @@ public class myvisitor extends DepthFirstAdapter
 			}
 			variableTypes.put(id, VARIABLE_TYPES.NUMBER);
 		}	
+		if(grandpa instanceof AReturnStatementStatement){
+			//if it is a return number save that the function returns type STRING
+			current_function.setReturnType("NUMBER");
+		}
 
 	}
 	@Override
@@ -349,6 +374,10 @@ public class myvisitor extends DepthFirstAdapter
 			variableTypes.put(id, VARIABLE_TYPES.NONE);
 			
 		}	
+		if(grandpa instanceof AReturnStatementStatement){ 
+			//if it is a return "something" save that the function returns type STRING
+			current_function.setReturnType("NONE");
+		}
 
 	}
 	
@@ -649,10 +678,12 @@ public class myvisitor extends DepthFirstAdapter
 		// System.out.println("-------------------------------TELOS KLHSH THS VAR_TYPES-------------------------");
 		for (Function element : func_list) {
             System.out.println("func: "+element.getName());
+			System.out.println("function's return type: "+element.getReturnType() );
 			for(String type : element.gettVar_types()){
 				System.out.println("type: "+type);
 			}
         }
+
 	}
 
 	// @Override
@@ -686,6 +717,10 @@ public class myvisitor extends DepthFirstAdapter
 		// }
 	// }
 
+	// @Override
+	// public void inAReturnStatementStatement(AReturnStatementStatement node){
+
+	// }
 
 
 	@Override
