@@ -4,7 +4,7 @@ import java.util.*;
 public class myvisitor extends DepthFirstAdapter 
 {
 	private Function current_function = null;
-    private LinkedList<LinkedList<String>> function_argument_list = new LinkedList<>();
+    private LinkedList<String> function_argument_list = new LinkedList<>();
 
 	
  	private Hashtable<String, Node> variables;
@@ -179,6 +179,9 @@ public class myvisitor extends DepthFirstAdapter
 			//if it is a return "something" save that the function returns type STRING
 			current_function.setReturnType("STRING");
 		}
+		if(grandpa instanceof AArglistArglist){
+			function_argument_list.add("STRING");
+		}
 	}
 	@Override
     public void inAAssignStatementStatement(AAssignStatementStatement node) // in every assign statement we put the variable as unknown and if it has a value like string, number etc it will be replaced in the other outASingleQuotesValueno etc
@@ -253,7 +256,9 @@ public class myvisitor extends DepthFirstAdapter
 			//if it is a return 'something' save that the function returns type STRING
 			current_function.setReturnType("STRING");
 		}	
-		
+		if(grandpa instanceof AArglistArglist){
+			function_argument_list.add("STRING");
+		}
 	}
 	public void inANumNum(ANumNum node)
 	{
@@ -316,7 +321,9 @@ public class myvisitor extends DepthFirstAdapter
 			//if it is a return number save that the function returns type STRING
 			current_function.setReturnType("NUMBER");
 		}
-
+		if(grandpa instanceof AArglistArglist){
+			function_argument_list.add("NUMBER");
+		}
 	}
 	@Override
 	public void inANoneValueno(ANoneValueno node)
@@ -378,8 +385,13 @@ public class myvisitor extends DepthFirstAdapter
 			//if it is a return "something" save that the function returns type STRING
 			current_function.setReturnType("NONE");
 		}
-
+		if(grandpa instanceof AArglistArglist){
+			function_argument_list.add("NONE");
+			
+		}
 	}
+
+		
 	
 
 	// public void outAIdId(AIdId node)
@@ -476,6 +488,8 @@ public class myvisitor extends DepthFirstAdapter
 			}
 
 		}
+		function_argument_list = new LinkedList<String>();
+		function_argument_list.add(id);
 	}
 
 	@Override
@@ -684,6 +698,63 @@ public class myvisitor extends DepthFirstAdapter
 			}
         }
 
+	}
+
+	@Override
+	public void inAAdditionExExpression(AAdditionExExpression node){
+		if(node.parent() instanceof AReturnStatementStatement){ 
+			current_function.setReturnType("NUMBER");
+		}
+	}
+
+	@Override
+	public void inSubstractionExExpression(ASubtractionExExpression node){
+		if(node.parent() instanceof AReturnStatementStatement){
+			current_function.setReturnType("NUMBER");
+		}
+	}
+
+	// @Override
+	// public void inAPlplExpression(APlplExpression node){
+	// 	if(node.parent() instanceof AReturnStatementStatement){
+	// 		current_function.setReturnType("NUMBER");
+	// 	}
+	// }
+
+	// @Override
+	// public void inAMinminExpression(AMinminExpression node){
+	// 	if(node.parent() instanceof AReturnStatementStatement){
+	// 		current_function.setReturnType("NUMBER");
+	// 	}
+	// }
+
+	
+	@Override
+	public void inADivisionExpression(ADivisionExpression node){
+		if(node.parent() instanceof AReturnStatementStatement){
+			current_function.setReturnType("NUMBER");
+		}
+	}
+
+	@Override
+	public void inAModuloExpression(AModuloExpression node){
+		if(node.parent() instanceof AReturnStatementStatement){
+			current_function.setReturnType("NUMBER");
+		}
+	}
+	
+	@Override
+	public void inMultiplicationExpression(AMultiplicationExpression node){
+		if(node.parent() instanceof AReturnStatementStatement){
+			current_function.setReturnType("NUMBER");
+		}
+	}
+
+	@Override
+	public void inAPowerExpression(APowerExpression node){
+		if(node.parent() instanceof AReturnStatementStatement){
+			current_function.setReturnType("NUMBER");
+		}
 	}
 
 	// @Override
