@@ -28,12 +28,8 @@ public class myvisitor extends DepthFirstAdapter
 		NONE,                // #5th error
 		MISUSED_FUNCTION,    // #6th error
 		REDEFINED_FUNCTION,  // #7th error
-		UNDEFINED_ARRAY,
-		REDIFINED_VARIABLE
-		// UNORDERED_PARAMS,
-		// ADD_TYPE_MISSMATCH,
-		// MINUS_TYPE_MISSMATCH,
-		// IDENTICAL_FUNCTIONS,
+		REDIFINED_VARIABLE,
+		NO_ERROR //DEBUG
 	}
 	/**
 	* 
@@ -131,13 +127,7 @@ public class myvisitor extends DepthFirstAdapter
 			}
 		}
 
-		// System.out.println(name);
-		// System.out.println(node.parent().getClass());
-		// System.out.println(node.parent().parent().getClass());
-		// System.out.println(node.parent().parent().parent().getClass());
-		// if(node.parent().parent().parent().parent() !=null){
-		// 	System.out.println(node.parent().parent().parent().parent().getClass());
-		// }
+	
 		if(node.parent().parent().parent() instanceof AArglistArglist){
 			function_argument_list.add(variableTypes.get(name).toString());
 			System.out.println("----------another argument-----------");
@@ -147,6 +137,7 @@ public class myvisitor extends DepthFirstAdapter
 					System.out.println(f.gettVar_types().get(function_argument_list.size()-2)+" and "+function_argument_list.get(function_argument_list.size()-1));
 					if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
 					{
+						System.out.println("139");
 						printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
 					}
 					for(int j:f.getVarOfSameType())
@@ -164,6 +155,8 @@ public class myvisitor extends DepthFirstAdapter
 							{
 								if(!curr_type_add_sub.equals(variableTypes.get(name).toString()))
 								{
+															System.out.println("158");
+
 									printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
 								}
 							}
@@ -250,7 +243,8 @@ public class myvisitor extends DepthFirstAdapter
 				{
 					System.out.println(f.gettVar_types().get(function_argument_list.size()-2)+" and "+function_argument_list.get(function_argument_list.size()-1));
 					if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
-					{
+					{						System.out.println("246");
+
 						printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
 					}
 					for(int j:f.getVarOfSameType())
@@ -265,6 +259,8 @@ public class myvisitor extends DepthFirstAdapter
 							{
 								if(!curr_type_add_sub.equals("STRING"))
 								{
+															System.out.println("261");
+
 									printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
 								}
 							}
@@ -358,6 +354,8 @@ public class myvisitor extends DepthFirstAdapter
 					System.out.println(f.gettVar_types().get(function_argument_list.size()-2)+" and "+function_argument_list.get(function_argument_list.size()-1));
 					if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
 					{
+												System.out.println("357");
+
 						printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
 					}
 					for(int j:f.getVarOfSameType())
@@ -372,6 +370,8 @@ public class myvisitor extends DepthFirstAdapter
 							{
 								if(!curr_type_add_sub.equals("STRING"))
 								{
+															System.out.println("372");
+
 									printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
 								}
 							}
@@ -449,6 +449,8 @@ public class myvisitor extends DepthFirstAdapter
 					System.out.println(f.gettVar_types().get(function_argument_list.size()-2)+" and "+function_argument_list.get(function_argument_list.size()-1));
 					if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
 					{
+												System.out.println("451");
+
 						printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
 					}
 					for(int j:f.getVarOfSameType())
@@ -463,6 +465,8 @@ public class myvisitor extends DepthFirstAdapter
 							{
 								if(!curr_type_add_sub.equals("NUMBER"))
 								{
+															System.out.println("467");
+
 									printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
 								}
 							}
@@ -543,12 +547,16 @@ public class myvisitor extends DepthFirstAdapter
 					System.out.println(f.gettVar_types().get(function_argument_list.size()-2)+" and "+function_argument_list.get(function_argument_list.size()-1));
 					if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
 					{
+						System.out.println("549");
+
 						printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
 					}
 					for(int j:f.getVarOfSameType())
 					{
 						if(j+1==function_argument_list.size())
 						{
+													System.out.println("557");
+
 							//We can't have addition/substraction with none
 							printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
 						}
@@ -558,15 +566,6 @@ public class myvisitor extends DepthFirstAdapter
 			}
 		}
 	}
-
-		
-	
-
-	// public void outAIdId(AIdId node)
-	// {
-		
-		
-	// }
 
 	private void printError(Node node, myvisitor.ERRORS error) {
 		this.total_errors++;
@@ -593,22 +592,32 @@ public class myvisitor extends DepthFirstAdapter
             case REDEFINED_FUNCTION:
                 System.out.println("Error at Node " + node + ": Redefined function");
                 break;
-            case UNDEFINED_ARRAY:
-                System.out.println("Error at Node " + node + ": Undefined array");
-                break;
 			case REDIFINED_VARIABLE:
 				System.out.println("Error at Node " + node + ": Redifined variable");
                 break;
 
             // Add cases for other error types as needed
+			case NO_ERROR:
+				break;
 
             default:
                 System.out.println("Unknown error at Node " + node);
         }
-		//System.out.println("Total errors: "+this.total_errors);
+		if (node instanceof AGoal) {
+			this.total_errors-=1;
+			System.err.println("total errors: "+ this.total_errors);
+			//System.out.println(error_messages);
+			System.exit(-1);
+		}
+		
 		
 
 	}
+	@Override 
+	public void outAGoal(AGoal node)
+	{
+		printError(node, ERRORS.NO_ERROR);
+	} 
 	
 	@Override
 	public void inAFuncCallFunctionCall(AFuncCallFunctionCall node) {
@@ -939,118 +948,6 @@ public class myvisitor extends DepthFirstAdapter
 		}
 	}
 
-	// @Override
-	// public void inAFuncCallFunctionCall(AFuncCallFunctionCall node)
-	// {
-	// 	// int counter = 0;
-		// LinkedList<String> args = new LinkedList<>(); 
-		// AArglistArglist argumentlist = node.getArglist();
-		
-
-		
-		
-		// if(argumentlist.size()!=0)
-		// {
-		// 	PExpression ex = argumentlist.getL();
-		// 	PExpression ex2 = argumentlist.getR();
-
-	
-		// }
-
-		// String func_name = node.getId().toString().trim();
-		// for(Function element:func_list)
-		// {
-		// 	if(element.getName().equals(func_name))
-		// 	{
-		// 		counter++;
-
-
-
-		// 	}
-		// }
-	// }
-
-	// @Override
-	// public void inAReturnStatementStatement(AReturnStatementStatement node){
-
-	// }
-
-
-	@Override
-	public void inAIdentifierExpression(AIdentifierExpression node)
-    {
-		//String name = node.getId().getText();
-		//String name =node.getId().toString();
-	}
-
-	// @Override
-	// public void outANumNum(ANumNum node) {
-	// 	variableTypes.put(node, VARIABLE_TYPES.NUMBER);
-	// }
-	
-	// @Override
-	// public void outANoneValueno(ANoneValueno node) {
-	// 	variableTypes.put(node, VARIABLE_TYPES.NONE);
-	// }
-
-	// public void outALenExpExpression(ALenExpExpression node) {
-	// 	variableTypes.put(node, VARIABLE_TYPES.NUMBER);
-	// }
-
-	// @Override
-	// public void outAMaxExprExpression(AMaxExprExpression node) {
-	// 	variableTypes.put(node, VARIABLE_TYPES.NUMBER);
-	// }
-
-	// @Override
-	// public void outAMinExprExpression(AMinExprExpression node) {
-	// 	variableTypes.put(node, VARIABLE_TYPES.NUMBER);
-	// }
-	// @Override
-	// public void outAAdditionExExpression(AAdditionExExpression node) {
-	// 	// Find the class type of left and right children
-	// 	Class<?> lClass = node.getL().getClass();
-	// 	Class<?> rClass = node.getR().getClass();
-	// 	VARIABLE_TYPES lType = variableTypes.get(lClass.cast(node.getL()));
-	// 	VARIABLE_TYPES rType = variableTypes.get(rClass.cast(node.getR()));
-
-	// 	System.out.println(lType);
-	// 	System.out.println(rType);
-	// 	// AIdentifierArithmetics inserts Aidentifier node and not itself
-	// 	// Hence, the AIdentifier's type should be retrieved
-	// 	if (node.getL() instanceof AIdentifierExpression) {
-	// 		lType = findVariableType(
-	// 				((AIdId) ((AIdentifierExpression) node.getL()).getId()).getIdent().getText());
-	// 	}
-
-	// 	if (node.getR() instanceof AIdentifierExpression) {
-	// 		rType = findVariableType(
-	// 				((AIdId) ((AIdentifierExpression) node.getR()).getId()).getIdent().getText());
-	// 	}
-
-	// 	// All children must return a number for the expression to be valid
-	// 	if (rType == VARIABLE_TYPES.NONE || lType == VARIABLE_TYPES.NONE) {
-	// 		printError(node, ERRORS.NONE);
-	// 	} else if (lType == VARIABLE_TYPES.UNKNOWN || rType == VARIABLE_TYPES.UNKNOWN) {
-	// 		variableTypes.put(node, VARIABLE_TYPES.UNKNOWN);
-	// 	} else if (lType == VARIABLE_TYPES.NUMBER && rType == VARIABLE_TYPES.NUMBER) {
-	// 		variableTypes.put(node, VARIABLE_TYPES.NUMBER);
-	// 	} else {
-	// 		printError(node.getR(), ERRORS.TYPE_MISSMATCH);
-	// 	}
-	// }
-
-	// private VARIABLE_TYPES findVariableType(String token) {
-	// 	for (Node node : variableTypes.keySet()) {
-	// 		if (node instanceof AIdId) {
-	// 			if (token.trim().equals(((AIdId) node).getIdent().getText().trim())) {
-	// 				return variableTypes.get(node);
-	// 			}
-	// 		}
-	// 	}
-
-	// 	return null;
-	// }}
 	public int findIndex(LinkedList<String> list, String target) 
 	{
 			ListIterator<String> iterator = list.listIterator();
