@@ -3,6 +3,7 @@ import minipython.node.*;
 import java.util.*;
 public class myvisitor extends DepthFirstAdapter 
 {
+	private int total_errors=0;
 	private Function current_function = null;
 	private String curr_type_add_sub = "null"; //type of the arguments that will be used in an addition/subbr=traction together and so must be same type
     private LinkedList<String> function_argument_list = new LinkedList<>();
@@ -568,6 +569,8 @@ public class myvisitor extends DepthFirstAdapter
 	// }
 
 	private void printError(Node node, myvisitor.ERRORS error) {
+		this.total_errors++;
+
 		switch (error) {
             case UNDECLARED_VARIABLE:
                 System.out.println("Error at Node " + node + ": Undeclared variable");
@@ -602,7 +605,8 @@ public class myvisitor extends DepthFirstAdapter
             default:
                 System.out.println("Unknown error at Node " + node);
         }
-		System.exit(-1);
+		//System.out.println("Total errors: "+this.total_errors);
+		
 
 	}
 	
