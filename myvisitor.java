@@ -111,7 +111,6 @@ public class myvisitor extends DepthFirstAdapter
 					int index = findIndex(current_function.getVars(), name);
 					if(current_function.gettVar_types().get(index).equals("UNKNOWN"))
 					{
-						System.out.println("args: "+name);
 						current_function.gettVar_types().set(index,"NUMBER");
 					} 
 					current_function.setReturnType("NUMBER");
@@ -130,34 +129,32 @@ public class myvisitor extends DepthFirstAdapter
 	
 		if(node.parent().parent().parent() instanceof AArglistArglist){
 			function_argument_list.add(variableTypes.get(name).toString());
-			System.out.println("----------another argument-----------");
 			for (Function f: func_list){
 				if(f.getName().equals(function_argument_list.get(0)))
 				{
-					System.out.println(f.gettVar_types().get(function_argument_list.size()-2)+" and "+function_argument_list.get(function_argument_list.size()-1));
-					if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
+					if((function_argument_list.size()-f.gettVar_types().size())<2)
 					{
-						System.out.println("139");
-						printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
-					}
-					for(int j:f.getVarOfSameType())
-					{
-						if(j==function_argument_list.size()-2)
+						if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
 						{
-							if(curr_type_add_sub.equals("null"))
+							printError(node, ERRORS.TYPE_MISSMATCH);
+						}
+						for(int j:f.getVarOfSameType())
+						{
+							if(j==function_argument_list.size()-2)
 							{
-								if(!variableTypes.get(name).toString().equals("UNKNOWN"))
+								if(curr_type_add_sub.equals("null"))
 								{
-									curr_type_add_sub = variableTypes.get(name).toString();
+									if(!variableTypes.get(name).toString().equals("UNKNOWN"))
+									{
+										curr_type_add_sub = variableTypes.get(name).toString();
+									}
 								}
-							}
-							else
-							{
-								if(!curr_type_add_sub.equals(variableTypes.get(name).toString()))
+								else
 								{
-															System.out.println("158");
-
-									printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
+									if(!curr_type_add_sub.equals(variableTypes.get(name).toString()))
+									{
+										printError(node, ERRORS.TYPE_MISSMATCH);
+									}
 								}
 							}
 						}
@@ -237,31 +234,29 @@ public class myvisitor extends DepthFirstAdapter
 		}
 		if(grandpa instanceof AArglistArglist){
 			function_argument_list.add("STRING");
-			System.out.println("----------another argument-----------");
 			for (Function f: func_list){
 				if(f.getName().equals(function_argument_list.get(0)))
 				{
-					System.out.println(f.gettVar_types().get(function_argument_list.size()-2)+" and "+function_argument_list.get(function_argument_list.size()-1));
-					if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
-					{						System.out.println("246");
-
-						printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
-					}
-					for(int j:f.getVarOfSameType())
+					if((function_argument_list.size()-f.gettVar_types().size())<2)
 					{
-						if(j==function_argument_list.size()-2)
+						if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
+						{					
+							printError(node, ERRORS.TYPE_MISSMATCH);
+						}
+						for(int j:f.getVarOfSameType())
 						{
-							if(curr_type_add_sub.equals("null"))
+							if(j==function_argument_list.size()-2)
 							{
-								curr_type_add_sub = "STRING";
-							}
-							else
-							{
-								if(!curr_type_add_sub.equals("STRING"))
+								if(curr_type_add_sub.equals("null"))
 								{
-															System.out.println("261");
-
-									printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
+									curr_type_add_sub = "STRING";
+								}
+								else
+								{
+									if(!curr_type_add_sub.equals("STRING"))
+									{
+										printError(node, ERRORS.TYPE_MISSMATCH);
+									}
 								}
 							}
 						}
@@ -288,7 +283,7 @@ public class myvisitor extends DepthFirstAdapter
 		Node parent = node.parent();
 		String id = null;
 
-		//System.out.println(parent.getClass());
+		;
 		if(grandpa instanceof AAssignStatementStatement)
 		{
 			id = ((AAssignStatementStatement)grandpa).getId().toString().trim();
@@ -300,10 +295,8 @@ public class myvisitor extends DepthFirstAdapter
 
 
 			AArgArgument g = (AArgArgument)grandpa.parent();
-						System.out.println("200");
 
 			ADefFuncFunction gp = (ADefFuncFunction) g.parent();
-						System.out.println("202");
 
 			String func_name = gp.getId().toString().trim();
 			
@@ -347,32 +340,30 @@ public class myvisitor extends DepthFirstAdapter
 		}	
 		if(grandpa instanceof AArglistArglist){
 			function_argument_list.add("STRING");
-			System.out.println("----------another argument-----------");
 			for (Function f: func_list){
 				if(f.getName().equals(function_argument_list.get(0)))
 				{
-					System.out.println(f.gettVar_types().get(function_argument_list.size()-2)+" and "+function_argument_list.get(function_argument_list.size()-1));
-					if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
+					if((function_argument_list.size()-f.gettVar_types().size())<2)
 					{
-												System.out.println("357");
-
-						printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
-					}
-					for(int j:f.getVarOfSameType())
-					{
-						if(j==function_argument_list.size()-2)
+						if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
 						{
-							if(curr_type_add_sub.equals("null"))
-							{
-								curr_type_add_sub = "STRING";
-							}
-							else
-							{
-								if(!curr_type_add_sub.equals("STRING"))
-								{
-															System.out.println("372");
 
-									printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
+							printError(node, ERRORS.TYPE_MISSMATCH);
+						}
+						for(int j:f.getVarOfSameType())
+						{
+							if(j==function_argument_list.size()-2)
+							{
+								if(curr_type_add_sub.equals("null"))
+								{
+									curr_type_add_sub = "STRING";
+								}
+								else
+								{
+									if(!curr_type_add_sub.equals("STRING"))
+									{
+										printError(node, ERRORS.TYPE_MISSMATCH);
+									}
 								}
 							}
 						}
@@ -442,35 +433,35 @@ public class myvisitor extends DepthFirstAdapter
 		}
 		if(grandpa instanceof AArglistArglist){
 			function_argument_list.add("NUMBER");
-			System.out.println("----------another argument-----------");
 			for (Function f: func_list){
 				if(f.getName().equals(function_argument_list.get(0)))
 				{
-					System.out.println(f.gettVar_types().get(function_argument_list.size()-2)+" and "+function_argument_list.get(function_argument_list.size()-1));
-					if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
+					if((function_argument_list.size()-f.gettVar_types().size())<2)
 					{
-												System.out.println("451");
-
-						printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
-					}
-					for(int j:f.getVarOfSameType())
-					{
-						if(j==function_argument_list.size()-2)
+						if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
 						{
-							if(curr_type_add_sub.equals("null"))
-							{
-								curr_type_add_sub = "NUMBER";
-							}
-							else
-							{
-								if(!curr_type_add_sub.equals("NUMBER"))
-								{
-															System.out.println("467");
 
-									printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
+							printError(node, ERRORS.TYPE_MISSMATCH);
+						}
+						for(int j:f.getVarOfSameType())
+						{
+							if(j==function_argument_list.size()-2)
+							{
+								if(curr_type_add_sub.equals("null"))
+								{
+									curr_type_add_sub = "NUMBER";
+								}
+								else
+								{
+									if(!curr_type_add_sub.equals("NUMBER"))
+									{
+
+										printError(node, ERRORS.TYPE_MISSMATCH);
+									}
 								}
 							}
 						}
+
 					}
 				}
 			}
@@ -540,25 +531,22 @@ public class myvisitor extends DepthFirstAdapter
 		}
 		if(grandpa instanceof AArglistArglist){
 			function_argument_list.add("NONE");
-			System.out.println("----------another argument-----------");
 			for (Function f: func_list){
 				if(f.getName().equals(function_argument_list.get(0)))
 				{
-					System.out.println(f.gettVar_types().get(function_argument_list.size()-2)+" and "+function_argument_list.get(function_argument_list.size()-1));
-					if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
+					if((function_argument_list.size()-f.gettVar_types().size())<2)
 					{
-						System.out.println("549");
-
-						printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
-					}
-					for(int j:f.getVarOfSameType())
-					{
-						if(j+1==function_argument_list.size())
+						if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
 						{
-													System.out.println("557");
-
-							//We can't have addition/substraction with none
-							printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
+							printError(node, ERRORS.TYPE_MISSMATCH);
+						}
+						for(int j:f.getVarOfSameType())
+						{
+							if(j==function_argument_list.size()-2)
+							{
+								//We can't have addition/substraction with none
+								printError(node, ERRORS.TYPE_MISSMATCH);
+							}
 						}
 					}
 				}
@@ -665,7 +653,6 @@ public class myvisitor extends DepthFirstAdapter
 			}
 			if(counter>0)
 			{
-				System.out.println("619");
 				printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
 			}
 
@@ -877,9 +864,11 @@ public class myvisitor extends DepthFirstAdapter
 		for (Function element : func_list) {
             System.out.println("func: "+element.getName());
 			System.out.println("function's return type: "+element.getReturnType() );
+			System.out.println("functon's variable types:");
 			for(String type : element.gettVar_types()){
 				System.out.println("type: "+type);
 			}
+			System.out.println("functon's variable names:");
 			for(String var : element.getVars()){
 				System.out.println("variable: "+var);
 			}
