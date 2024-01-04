@@ -694,34 +694,28 @@ public class MyVisitor extends DepthFirstAdapter
 				{
 					printError(node, ERRORS.REDEFINED_FUNCTION);
 				}
-				
 			}
 		}	
 		String name = node.getId().toString().trim();
-		// functions.put(fName, node);
 		// Create a new function
-		if (functions.containsKey(name)) {
-			// If it exists, add the node to the existing list of nodes
+		if (functions.containsKey(name)) { // If it exists, add the node to the existing list of nodes
+			
 			functions.get(name).add(node);
 
 			Function f = new Function(countVars(node).get(1), countVars(node).get(0),name);
 			func_list.add(f);
 			current_function = f;
 
-		} else {
-			
+		} 
+		else 
+		{
 			Function f = new Function(countVars(node).get(1),countVars(node).get(0),name);
 			func_list.add(f);
-
-		
 			current_function = f;
-			
-			
 			// If it doesn't exist, create a new list with the node and associate it with the function name
 			LinkedList<Node> nodeList = new LinkedList<>();
 			nodeList.add(node);
 			functions.put(name, nodeList);
-
 		}	
 		
 	}
@@ -732,14 +726,8 @@ public class MyVisitor extends DepthFirstAdapter
 		int count_default_vars =0;
 		LinkedList<Integer> vars = new LinkedList<>();
 		
-		if (node.getArgument().size() == 0)//there are no arguments f()
+		if(node.getArgument().size()!=0) //there are arguments f(x1,x2,...)
 		{
-			
-		}
-		else //(func_more.getArgument().get(0)!=null) //there are arguments f(x1,x2,...)
-		{
-		
-
 			AArgArgument argument = ((AArgArgument) (node.getArgument().get(0)));
 			
 			count_total_vars++;
@@ -747,19 +735,12 @@ public class MyVisitor extends DepthFirstAdapter
 			{
 				
 				count_default_vars++;
-			}					
-			
-			
+			}	
 			LinkedList ciav = argument.getCiav();
-			
-			
 			if (ciav.size()!=0)
 			{
 				ACommaIdCiav l = (ACommaIdCiav) ciav.get(0);
-
 			}
-			
-			
 			for ( int k = 0; k < ciav.size();k++)
 			{
 				ACommaIdCiav c = (ACommaIdCiav) ciav.get(k);
@@ -774,10 +755,7 @@ public class MyVisitor extends DepthFirstAdapter
 					count_default_vars++;
 					count_total_vars++;
 				}
-				
-			
 			}
-			
 		}
 		vars.add(count_total_vars);
 		vars.add(count_default_vars);
