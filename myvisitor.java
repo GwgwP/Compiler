@@ -1,7 +1,7 @@
 import minipython.analysis.*;
 import minipython.node.*;
 import java.util.*;
-public class myvisitor extends DepthFirstAdapter 
+public class Myvisitor extends DepthFirstAdapter 
 {
 	private int total_errors=0;
 	private Function current_function = null;
@@ -14,8 +14,18 @@ public class myvisitor extends DepthFirstAdapter
 	private Hashtable<String, LinkedList<Node>> functions = new Hashtable<>();
 
 	private Hashtable<String, VARIABLE_TYPES> variableTypes;
+	
+	
+
 	private LinkedList<Function> func_list = new LinkedList<>();
 	
+
+	public LinkedList<Function> getFunc_list() {
+		return func_list;
+	}
+	public Hashtable<String, LinkedList<Node>> getFunctions() {
+		return functions;
+	}
 
 	/**
 	* All the recognisable potential error types listed
@@ -41,7 +51,7 @@ public class myvisitor extends DepthFirstAdapter
 		UNKNOWN,
 	}
 	
-	public myvisitor(Hashtable<String, Node> variables, Hashtable<String, LinkedList<Node>> functions, 
+	public Myvisitor(Hashtable<String, Node> variables, Hashtable<String, LinkedList<Node>> functions, 
 			Hashtable<String, VARIABLE_TYPES> variableTypes) {
 		this.variables = variables;
 		this.functions = functions;
@@ -211,13 +221,7 @@ public class myvisitor extends DepthFirstAdapter
 			
 			current_function.addVar_type("STRING");
 			current_function.addVar(id);
-			// for(int i =0; i< func_list.size();i++)
-			// {
-			// 	if(func_list.get(i).getName().equals(func_name))
-			// 	{
-			// 		func_list.get(i).addVar_type("STRING");
-			// 	}
-			// }
+		
 		}
 		else if(grandpa instanceof AArgArgument)
 		{
@@ -321,13 +325,7 @@ public class myvisitor extends DepthFirstAdapter
 			
 			current_function.addVar_type("STRING");
 			current_function.addVar(id);
-			// for(int i =0; i< func_list.size();i++)
-			// {
-			// 	if(func_list.get(i).getName().equals(func_name))
-			// 	{
-			// 		func_list.get(i).addVar_type("STRING");
-			// 	}
-			// }
+			
 		}
 		else if(grandpa instanceof AArgArgument)
 		{
@@ -413,13 +411,7 @@ public class myvisitor extends DepthFirstAdapter
 
 			current_function.addVar_type("NUMBER");
 			current_function.addVar(id);
-			// for(int i =0; i< func_list.size();i++)
-			// {
-			// 	if(func_list.get(i).getName().equals(func_name))
-			// 	{
-			// 		func_list.get(i).addVar_type("NUMBER");
-			// 	}
-			// }
+		
 
 		}
 		else if(grandpa instanceof AArgArgument)
@@ -509,13 +501,7 @@ public class myvisitor extends DepthFirstAdapter
 			
 			current_function.addVar_type("NONE");
 			current_function.addVar(id);
-			// for(int i =0; i< func_list.size();i++)
-			// {
-			// 	if(func_list.get(i).getName().equals(func_name))
-			// 	{
-			// 		func_list.get(i).addVar_type("NONE");
-			// 	}
-			// }
+		
 
 		}
 		else if(grandpa instanceof AArgArgument)
@@ -579,7 +565,7 @@ public class myvisitor extends DepthFirstAdapter
 		}
 	}
 
-	private void printError(Node node, myvisitor.ERRORS error) {
+	private void printError(Node node, Myvisitor.ERRORS error) {
 		this.total_errors++;
 
 		switch (error) {
@@ -825,13 +811,7 @@ public class myvisitor extends DepthFirstAdapter
 			variableTypes.put(id, VARIABLE_TYPES.UNKNOWN);
 			current_function.addVar_type("UNKNOWN");
 			current_function.addVar(id);
-			// for(int i =0; i< func_list.size();i++)
-			// {
-			// 	if(func_list.get(i).getName().equals(func_name) && current_function.equals() )
-			// 	{
-			// 		func_list.get(i).addVar_type("UNKNOWN");
-			// 	}
-			// }
+		
 		}
 
 		
@@ -856,13 +836,6 @@ public class myvisitor extends DepthFirstAdapter
 			current_function.addVar_type("UNKNOWN");
 			current_function.addVar(id);
 
-			// for(int i =0; i< func_list.size();i++)
-			// {
-			// 	if(func_list.get(i).getName().equals(func_name))
-			// 	{
-			// 		func_list.get(i).addVar_type("UNKNOWN");
-			// 	}
-			// }
 		}
 	}
 	@Override

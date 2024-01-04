@@ -1,2 +1,6 @@
-y = None
-x = 8*8**3-7+1/3+y
+def f(x,y):
+    return 2
+f(1,2)
+g(1,2)
+def g(a,b):
+    return 1
