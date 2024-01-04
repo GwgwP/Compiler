@@ -1,4 +1,2 @@
-def add(x,y):
-   return x + y
-k="hello world"
-print add(2,2,2,2)
+y = None
+print y+2

@@ -1,6 +1,8 @@
 import minipython.analysis.*;
 import minipython.node.*;
 import java.util.*;
+
+
 public class myvisitor extends DepthFirstAdapter 
 {
 	private int total_errors=0;
@@ -565,6 +567,11 @@ public class myvisitor extends DepthFirstAdapter
 					
 			}
 		}
+		Node parent2 = node.parent().parent(); //TODO WHY NOT NODE DOESNT WORK PARENT
+		if(parent2 instanceof AAdditionExExpression || parent2 instanceof ASubtractionExExpression || parent2 instanceof APlplExpression || parent2 instanceof AMinminExpression || parent2 instanceof ADivisionExpression || parent2 instanceof AModuloExpression || parent2 instanceof AMultiplicationExpression || parent2 instanceof APowerExpression || parent2 instanceof ALenExpExpression)
+		{
+			printError(parent2.parent(), ERRORS.NONE);
+		}
 	}
 
 	private void printError(Node node, myvisitor.ERRORS error) {
@@ -584,7 +591,7 @@ public class myvisitor extends DepthFirstAdapter
                 System.out.println("Error at Node " + node + ": Type mismatch");
                 break;
             case NONE:
-                System.out.println("No error at Node " + node);
+                System.out.println("Error at Node " + node + ": arithmetic operation with type None");
                 break;
             case MISUSED_FUNCTION:
                 System.out.println("Error at Node " + node + ": Misused function");
@@ -857,13 +864,13 @@ public class myvisitor extends DepthFirstAdapter
 	@Override
 	public void outAPrintStatementStatement(APrintStatementStatement node)
 	{
-		// System.out.println("-------------------------------KLHSH THS PRINT-------------------------");
-		// for (Map.Entry<String, VARIABLE_TYPES> entry : variableTypes.entrySet()) {
-        //     String key = entry.getKey();
-        //     VARIABLE_TYPES value = entry.getValue();
-        //     System.out.println("Key: " + key + ", Value: " + value);
-        // }
-		// System.out.println("------------------------TELOS KLHSH THS PRINT-------------------------");
+		System.out.println("-------------------------------KLHSH THS PRINT-------------------------");
+		for (Map.Entry<String, VARIABLE_TYPES> entry : variableTypes.entrySet()) {
+            String key = entry.getKey();
+            VARIABLE_TYPES value = entry.getValue();
+            System.out.println("Key: " + key + ", Value: " + value);
+        }
+		System.out.println("------------------------TELOS KLHSH THS PRINT-------------------------");
 		// System.out.println();
 		// System.out.println("-------------------------------KLHSH THS VAR_TYPES-------------------------");
 		// System.out.println(func_list.size());
@@ -874,20 +881,20 @@ public class myvisitor extends DepthFirstAdapter
 		// System.out.println(func_list.size());
 		// ll = func_list.get(1).gettVar_types();
 		// System.out.println("-------------------------------TELOS KLHSH THS VAR_TYPES-------------------------");
-		for (Function element : func_list) {
-            System.out.println("func: "+element.getName());
-			System.out.println("function's return type: "+element.getReturnType() );
-			for(String type : element.gettVar_types()){
-				System.out.println("type: "+type);
-			}
-			for(String var : element.getVars()){
-				System.out.println("variable: "+var);
-			}
-        }
-		System.out.println("list of arguments read:");
-		for(String element: function_argument_list){
-			System.out.println(element);
-		}
+		// for (Function element : func_list) {
+        //     System.out.println("func: "+element.getName());
+		// 	System.out.println("function's return type: "+element.getReturnType() );
+		// 	for(String type : element.gettVar_types()){
+		// 		System.out.println("type: "+type);
+		// 	}
+		// 	for(String var : element.getVars()){
+		// 		System.out.println("variable: "+var);
+		// 	}
+        // }
+		// System.out.println("list of arguments read:");
+		// for(String element: function_argument_list){
+		// 	System.out.println(element);
+		// }
 
 	}
 
