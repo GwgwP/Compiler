@@ -178,11 +178,6 @@ public class MyVisitor extends DepthFirstAdapter
 		{
 			if(variableTypes.containsKey(name))
 			{
-				// for (Map.Entry<String, VARIABLE_TYPES> entry : variableTypes.entrySet()) {
-				// 	String key = entry.getKey();
-				// 	VARIABLE_TYPES value = entry.getValue();
-				// 	System.out.println("Key: " + key + ", Value: " + value);
-				// }
 				String type = variableTypes.get(name).name().trim();
 				if(type.equals("NONE"))
 				{
