@@ -10,12 +10,7 @@ public class ParserTest
   {
     try
     {
-      Parser parser =
-        new Parser(
-        new Lexer(
-        new PushbackReader(
-        new FileReader(args[0].toString()), 1024)));
-
+      Parser parser = new Parser(new Lexer(new PushbackReader(new FileReader(args[0].toString()), 1024)));
       Hashtable symtable =  new Hashtable();
       Hashtable functions = new Hashtable();
       Hashtable variableTypes = new Hashtable();
@@ -31,4 +26,3 @@ public class ParserTest
     }
   }
 }
-

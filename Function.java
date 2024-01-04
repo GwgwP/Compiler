@@ -1,8 +1,6 @@
 import java.util.LinkedList;
 
 public class Function {
-
-
     private String name ;
     private int def_vars =0;
     private int total_vars =0;
