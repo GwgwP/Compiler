@@ -20,9 +20,9 @@ public class ParserTest
       Hashtable functions = new Hashtable();
       Hashtable variableTypes = new Hashtable();
       Start ast = parser.parse();
-      Myvisitor visitor1 = new Myvisitor(symtable, functions, variableTypes);
+      MyVisitor visitor1 = new MyVisitor(symtable, functions, variableTypes);
       ast.apply(visitor1);
-      Mysecondvisitor visitor2 = new Mysecondvisitor(visitor1.getFunctions(), visitor1.getFunc_list());
+      MySecondVisitor visitor2 = new MySecondVisitor(visitor1.getFunctions(), visitor1.getFunc_list());
       ast.apply(visitor2);
     }
     catch (Exception e)

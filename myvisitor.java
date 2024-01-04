@@ -1,23 +1,23 @@
 import minipython.analysis.*;
 import minipython.node.*;
 import java.util.*;
-public class Myvisitor extends DepthFirstAdapter 
+public class MyVisitor extends DepthFirstAdapter 
 {
-	private int total_errors=0;
-	private Function current_function = null;
-	private String curr_type_add_sub = "null"; //type of the arguments that will be used in an addition/subbr=traction together and so must be same type
-    private LinkedList<String> function_argument_list = new LinkedList<>();
+	public static int total_errors=0;
+	public static Function current_function = null;
+	public static String curr_type_add_sub = "null"; //type of the arguments that will be used in an addition/subbr=traction together and so must be same type
+    public static LinkedList<String> function_argument_list = new LinkedList<>();
 
 	
- 	private Hashtable<String, Node> variables;
+ 	public static Hashtable<String, Node> variables;
 	
-	private Hashtable<String, LinkedList<Node>> functions = new Hashtable<>();
+	public static Hashtable<String, LinkedList<Node>> functions = new Hashtable<>();
 
-	private Hashtable<String, VARIABLE_TYPES> variableTypes;
+	public static Hashtable<String, VARIABLE_TYPES> variableTypes;
 	
 	
 
-	private LinkedList<Function> func_list = new LinkedList<>();
+	public static LinkedList<Function> func_list = new LinkedList<>();
 	
 
 	public LinkedList<Function> getFunc_list() {
@@ -51,7 +51,7 @@ public class Myvisitor extends DepthFirstAdapter
 		UNKNOWN,
 	}
 	
-	public Myvisitor(Hashtable<String, Node> variables, Hashtable<String, LinkedList<Node>> functions, 
+	public MyVisitor(Hashtable<String, Node> variables, Hashtable<String, LinkedList<Node>> functions, 
 			Hashtable<String, VARIABLE_TYPES> variableTypes) {
 		this.variables = variables;
 		this.functions = functions;
@@ -305,8 +305,6 @@ public class Myvisitor extends DepthFirstAdapter
 		Node grandpa = node.parent().parent();
 		Node parent = node.parent();
 		String id = null;
-
-		;
 		if(grandpa instanceof AAssignStatementStatement)
 		{
 			id = ((AAssignStatementStatement)grandpa).getId().toString().trim();
@@ -390,6 +388,7 @@ public class Myvisitor extends DepthFirstAdapter
 			}
 		}
 	}
+	@Override
 	public void inANumNum(ANumNum node)
 	{
 		Node grandpa = node.parent().parent().parent();
@@ -565,8 +564,8 @@ public class Myvisitor extends DepthFirstAdapter
 		}
 	}
 
-	private void printError(Node node, Myvisitor.ERRORS error) {
-		this.total_errors++;
+	public static void printError(Node node, MyVisitor.ERRORS error) {
+		total_errors++;
 
 		switch (error) {
             case UNDECLARED_VARIABLE:
@@ -602,20 +601,16 @@ public class Myvisitor extends DepthFirstAdapter
                 System.out.println("Unknown error at Node " + node);
         }
 		if (node instanceof AGoal) {
-			this.total_errors-=1;
-			System.err.println("total errors: "+ this.total_errors);
-			//System.out.println(error_messages);
-			System.exit(-1);
+			total_errors-=1;
+			System.err.println("total errors: "+ total_errors);
+		
+			//System.exit(-1);
 		}
 		
 		
 
 	}
-	@Override 
-	public void outAGoal(AGoal node)
-	{
-		printError(node, ERRORS.NO_ERROR);
-	} 
+	
 	
 	@Override
 	public void inAFuncCallFunctionCall(AFuncCallFunctionCall node) {
@@ -624,7 +619,7 @@ public class Myvisitor extends DepthFirstAdapter
 		String id = node.getId().toString().trim();
 		if(!functions.containsKey(id))
 		{
-			printError(node, ERRORS.UNDEFINED_FUNCTION);
+			//printError(node, ERRORS.UNDEFINED_FUNCTION);
 		}
 		else
 		{	
