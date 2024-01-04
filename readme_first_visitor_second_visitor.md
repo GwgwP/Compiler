@@ -41,9 +41,11 @@ def f(x, y):
         print 1
 g(1)
 ```
-- <b>Explanation:</b> Attempting to call a function before its declaration is an error in MiniPython. We first check the error in `firstVisitor` an we double check it in second visitor.
 
 - <b>Explanation:</b> In this case, the function g  is used without first being declared.t and if its not, we output the error.
+- <b>Info:</b> Attempting to call a function before its declaration is NOT an error in MiniPython. That's why We check the error in `MySecondVisitor`.
+- <b>How it is addressed:</b> We have Data Structures when we save the `functions` and the argument list (this is not applicable here) when we are in `outAFuncCallFunctionCall` we check the data structure if it contains the id of the function call and if not, the we print the error. 
+- <i>Disclaimer: </i> the data structure is completed (contains all the defined functions) from the in's of `MyFirstVisitor` so we address the fact that we can have a function call before its function declaration.
 
 ## 3. Incorrect Function Argument Definitions
 (Incorrect number of arguments given)
@@ -79,13 +81,17 @@ print add(2,k)
 - <b>How it is addressed:</b> 
 
 ## 5. Operations Involving None
-Arithmetic operations invilving None type
-Exact code errors:
+Arithmetic operations invilving None type code errors:
 ```python 
-
+def g(e,r):
+    e = 1
+    return e+None
 ```
-- <b>Explanation: </b>
-- <b>How it is addressed:</b> 
+- <b>Explanation:</b> Be cautious when performing operations with None as operator. 
+- <b>How it is addressed:</b>  
+    1. When we are in an `inIdId` node, first we check if the 3rd parent of the node is an arithmetic operation (such as `addition`, `substraction` etc), if yes, we check if the id (name) is contained in the `variableTypes` HashTable. If yes, we check the type of the variable and if it is "None" we print the error. (meaning that we have addressed the error that an arithmetic operation utilizes None type from another variable.)
+    2. When we are in an `inANoneValueValueno` we check if the 2nd parent is an arithmetic operation (such as `addition` etc) and if yes, we print the error.
+
 
 ## 6. Incorrect Usage of Functions
 ```python 
