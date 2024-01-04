@@ -53,6 +53,7 @@ public class myvisitor extends DepthFirstAdapter
 		int line = ((TIdent) node.getIdent()).getLine();
 		String name = node.getIdent().getText().trim();
 		Node parent = node.parent();
+		Node parent3 = node.parent().parent().parent();
 		// 1) Undeclared variables
 		if (parent instanceof AIdentifierExpression || parent instanceof AIdValueno) { //x = y[2] if y is undefined
 			if (!variableTypes.containsKey(name)) 
@@ -161,6 +162,24 @@ public class myvisitor extends DepthFirstAdapter
 					}
 				}
 			}
+		}
+		// Addressing 5th error part2 (y = None -> print y+2)
+		if( parent3 instanceof AAdditionExExpression || parent3 instanceof ASubtractionExExpression || parent3 instanceof APlplExpression || parent3 instanceof AMinminExpression || parent3 instanceof ADivisionExpression || parent3 instanceof AModuloExpression || parent3 instanceof AMultiplicationExpression || parent3 instanceof APowerExpression || parent3 instanceof ALenExpExpression)
+		{
+			if(variableTypes.containsKey(name))
+			{
+				// for (Map.Entry<String, VARIABLE_TYPES> entry : variableTypes.entrySet()) {
+				// 	String key = entry.getKey();
+				// 	VARIABLE_TYPES value = entry.getValue();
+				// 	System.out.println("Key: " + key + ", Value: " + value);
+				// }
+				String type = variableTypes.get(name).name().trim();
+				if(type.equals("NONE"))
+				{
+					printError(node, ERRORS.NONE);
+				}
+			}
+
 		}
 		
 
@@ -869,11 +888,11 @@ public class myvisitor extends DepthFirstAdapter
 		// for (Function element : func_list) {
         //     System.out.println("func: "+element.getName());
 		// 	System.out.println("function's return type: "+element.getReturnType() );
-			System.out.println("functon's variable types:");
+		//	System.out.println("functon's variable types:");
 		// 	for(String type : element.gettVar_types()){
 		// 		System.out.println("type: "+type);
 		// 	}
-			System.out.println("functon's variable names:");
+		//	System.out.println("functon's variable names:");
 		// 	for(String var : element.getVars()){
 		// 		System.out.println("variable: "+var);
 		// 	}
