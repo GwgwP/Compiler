@@ -1,8 +1,11 @@
-def add(x,y,z):
-    return 1
-def add(x,y,z=1):
-    return 2
-def add2(x,y):
-    return 3
-def add2(x,y,z=1):
-    return 4
+def f(x):
+    k="string"
+    x = 7
+    return k* x
+
+def g(u):
+    return 'o'
+  
+i = f(1) *"o"
+
+

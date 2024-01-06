@@ -14,6 +14,10 @@ public class MyVisitor extends DepthFirstAdapter
 	public static Hashtable<String, LinkedList<Node>> functions = new Hashtable<>();
 
 	public static Hashtable<String, VARIABLE_TYPES> variableTypes;
+
+	//these two variables are initialized again in the "in" function of addition and multiplication respectively
+	String add_type = "null"; //what is the type of the current addition. we can only have str + str or number + number
+	String mult_type = "null"; //what is the type of the current multiplication. we can only have number * number or number * str
 	
 	
 
@@ -64,6 +68,11 @@ public class MyVisitor extends DepthFirstAdapter
 		String name = node.getIdent().getText().trim();
 		Node parent = node.parent();
 		Node parent3 = node.parent().parent().parent();
+		
+		// System.out.println(node.getClass());
+		// System.out.println(node.parent().getClass());
+		// System.out.println(node.parent().parent().getClass());
+		// System.out.println(node.parent().parent().parent().getClass());
 		// 1) Undeclared variables
 		if (parent instanceof AIdentifierExpression || parent instanceof AIdValueno) { //x = y[2] if y is undefined
 			if (!variableTypes.containsKey(name)) 
@@ -101,9 +110,12 @@ public class MyVisitor extends DepthFirstAdapter
 			AIdId id1 = (AIdId) forLoop.getLid();
 			AIdId id2 = (AIdId) forLoop.getRid();
 			// for x in y: and y=[1,2,3] x should be integer, if y =[1.2, 1.3] y should be double etc
-			VARIABLE_TYPES variableType = variableTypes.get(id2.getIdent().getText().trim());
-			variableTypes.put(name, variableType);
-			variables.put(id1.toString().trim(), node);
+			if (node == forLoop.getLid() && variableTypes.containsKey(id2.getIdent().getText().trim())) 
+			{
+				VARIABLE_TYPES variableType = variableTypes.get(id2.getIdent().getText().trim());
+				variableTypes.put(name, variableType);
+				variables.put(id1.toString().trim(), node);
+			}
 		}
 		if(node.parent().parent().parent().parent() instanceof AReturnStatementStatement){ 
 			if (!variableTypes.containsKey(name)) 
@@ -113,11 +125,11 @@ public class MyVisitor extends DepthFirstAdapter
 			}
 			else 
 			{
-				if( node.parent().parent().parent() instanceof ADivisionExpression||node.parent().parent().parent() instanceof AMultiplicationExpression|| node.parent().parent().parent() instanceof  APowerExpression)
+				if(node.parent().parent().parent() instanceof ASubtractionExExpression || node.parent().parent().parent() instanceof ADivisionExpression|| node.parent().parent().parent() instanceof  APowerExpression)
 				{
-					//we check if we are in the return statement of a function and if there is a addition, substraction, division, multiplication or power
+					//we check if we are in the return statement of a function and if there is a  division or power
 					//this method finds the index of the id in the linked list of this function so we can check the type of the variable
-					//if it is unknown we will make it to be number because you cant have division multiplication or power with any other type of variable
+					//if it is unknown we will make it to be number because you cant have division or power with any other type of variable
 					//this way we will be able to control if the variable is called correctly since it will no longer be unknown
 					int index = findIndex(current_function.getVars(), name);
 					if(current_function.gettVar_types().get(index).equals("UNKNOWN"))
@@ -126,7 +138,7 @@ public class MyVisitor extends DepthFirstAdapter
 					} 
 					current_function.setReturnType("NUMBER");
 				}
-				else if(node.parent().parent().parent() instanceof AAdditionExExpression|| node.parent().parent().parent() instanceof ASubtractionExExpression ){
+				else if(node.parent().parent().parent() instanceof AAdditionExExpression ){
 					int indexOfSameType = findIndex(current_function.getVars(), name);
 					Integer indexOfSameTypeInteger = Integer.valueOf(indexOfSameType);
 					current_function.addVarOfSameType(indexOfSameTypeInteger);
@@ -182,6 +194,57 @@ public class MyVisitor extends DepthFirstAdapter
 				if(type.equals("NONE"))
 				{
 					printError(node, ERRORS.NONE);
+				}
+				if(node.parent().parent().parent() instanceof AAdditionExExpression)
+				{
+					AAdditionExExpression greatGrandpa = (AAdditionExExpression) node.parent().parent().parent();
+					if(node.parent().parent() == greatGrandpa.getL())
+					{
+						add_type = variableTypes.get(name).name().trim();
+					}
+					else if(node.parent().parent() == greatGrandpa.getR())
+					{
+						if(!add_type.equals("UNKNOWN")&&!add_type.equals("null"))
+						{
+							if(!(variableTypes.get(name).name().trim()).equals(add_type))
+							{
+								printError(node, ERRORS.MISUSED_FUNCTION);
+							}
+						}
+					}
+				}
+				if(node.parent().parent().parent() instanceof AMultiplicationExpression)
+				{
+					//we check the variable types to make sure we only have str*number or number*number
+					//We also check if we are in a return statement. If we are then we set the function's return type to:
+					//string: if either of the multiplication variables is string
+					//number: if neither of the multiplication variables is string
+					AMultiplicationExpression greatGrandpa = (AMultiplicationExpression) node.parent().parent().parent();
+					if(node.parent().parent() == greatGrandpa.getL())
+					{
+						mult_type = variableTypes.get(name).name().trim();
+					}
+					else if(node.parent().parent() == greatGrandpa.getR())
+					{
+						if(!mult_type.equals("UNKNOWN")&&!mult_type.equals("null"))
+						{
+							if((variableTypes.get(name).name().trim()).equals("STRING")&&mult_type.equals("STRING"))
+							{
+								printError(node, ERRORS.MISUSED_FUNCTION);
+							}
+							if(node.parent().parent().parent().parent() instanceof AReturnStatementStatement)
+							{
+								if((variableTypes.get(name).name().trim()).equals("STRING")||mult_type.equals("STRING"))
+								{
+									current_function.setReturnType("STRING");
+								}
+								else
+								{
+									current_function.setReturnType("NUMBER");
+								}
+							}
+						}
+					}
 				}
 			}
 
@@ -242,7 +305,7 @@ public class MyVisitor extends DepthFirstAdapter
 			variableTypes.put(id, VARIABLE_TYPES.STRING);
 		}	
 		//Checking error 4
-		if(grandpa instanceof AAdditionExExpression || grandpa instanceof ASubtractionExExpression || grandpa instanceof AMultiplicationExpression || grandpa instanceof APowerExpression || grandpa instanceof APlplExpression || grandpa instanceof AMinminExpression || grandpa instanceof ADivisionExpression || grandpa instanceof AModuloExpression  )	
+		if(grandpa instanceof ASubtractionExExpression || grandpa instanceof APowerExpression || grandpa instanceof APlplExpression || grandpa instanceof AMinminExpression || grandpa instanceof ADivisionExpression || grandpa instanceof AModuloExpression  )	
 		{
 			printError(node, ERRORS.TYPE_MISSMATCH);
 		}
@@ -282,6 +345,44 @@ public class MyVisitor extends DepthFirstAdapter
 				}
 			}
 		}
+		if(node.parent().parent() instanceof AAdditionExExpression )
+		{
+			
+			AAdditionExExpression greatGrandpa = (AAdditionExExpression) node.parent().parent();
+			if(node.parent() == greatGrandpa.getR())
+			{
+				if(!add_type.equals("UNKNOWN")&&!add_type.equals("null"))
+				{
+					if(!add_type.equals("STRING"))
+					{
+						printError(node, ERRORS.MISUSED_FUNCTION);
+					}
+				}
+			}
+			if(node.parent() == greatGrandpa.getL())
+			{
+				add_type = "STRING";
+			}
+		}
+		if(node.parent().parent() instanceof AMultiplicationExpression )
+		{
+			AMultiplicationExpression greatGrandpa = (AMultiplicationExpression) node.parent().parent();
+			if(node.parent() == greatGrandpa.getR())
+			{
+				if(!mult_type.equals("UNKNOWN")&&!mult_type.equals("null"))
+				{
+					//if we have a string then we expect the other part of the + to be a number, we cannot have str*str
+					if(!mult_type.equals("NUMBER"))
+					{
+						printError(node, ERRORS.MISUSED_FUNCTION);
+					}
+				}
+			}
+			if(node.parent() == greatGrandpa.getL())
+			{
+				mult_type = "STRING";
+			}
+		}
 	}
 	@Override
     public void inAAssignStatementStatement(AAssignStatementStatement node) // in every assign statement we put the variable as unknown and if it has a value like string, number etc it will be replaced in the other outASingleQuotesValueno etc
@@ -299,6 +400,12 @@ public class MyVisitor extends DepthFirstAdapter
 	{
 		Node grandpa = node.parent().parent();
 		Node parent = node.parent();
+		
+		// System.out.println(node.getClass());
+		// System.out.println(node.parent().getClass());
+		// System.out.println(node.parent().parent().getClass());
+		// System.out.println(node.parent().parent().parent().getClass());
+
 		String id = null;
 		if(grandpa instanceof AAssignStatementStatement)
 		{
@@ -334,6 +441,10 @@ public class MyVisitor extends DepthFirstAdapter
 					func_list.get(i).addVar(id);
 				}
 			}
+		}
+		if(grandpa instanceof ASubtractionExExpression || grandpa instanceof APowerExpression || grandpa instanceof APlplExpression || grandpa instanceof AMinminExpression || grandpa instanceof ADivisionExpression || grandpa instanceof AModuloExpression  )	
+		{
+			printError(node, ERRORS.TYPE_MISSMATCH);
 		}
 		if(id!=null)
 		{
@@ -382,12 +493,55 @@ public class MyVisitor extends DepthFirstAdapter
 				}
 			}
 		}
+		if(node.parent().parent() instanceof AAdditionExExpression )
+		{
+			
+			AAdditionExExpression greatGrandpa = (AAdditionExExpression) node.parent().parent();
+			if(node.parent() == greatGrandpa.getR())
+			{
+				if(!add_type.equals("UNKNOWN")&&!add_type.equals("null"))
+				{
+					if(!add_type.equals("STRING"))
+					{
+						printError(node, ERRORS.MISUSED_FUNCTION);
+					}
+				}
+			}
+			if(node.parent() == greatGrandpa.getL())
+			{
+				add_type = "STRING";
+			}
+		}
+		if(node.parent().parent() instanceof AMultiplicationExpression )
+		{
+			
+			AMultiplicationExpression greatGrandpa = (AMultiplicationExpression) node.parent().parent();
+			if(node.parent() == greatGrandpa.getR())
+			{
+				if(!mult_type.equals("UNKNOWN")&&!mult_type.equals("null"))
+				{
+					//if we have a string then we expect the other part of the + to be a number, we cannot have str*str
+					if(!mult_type.equals("NUMBER"))
+					{
+						printError(node, ERRORS.MISUSED_FUNCTION);
+					}
+				}
+			}
+			if(node.parent() == greatGrandpa.getL())
+			{
+				mult_type = "STRING";
+			}
+		}
 	}
 	@Override
 	public void inANumNum(ANumNum node)
 	{
 		Node grandpa = node.parent().parent().parent();
 		Node parent = node.parent().parent();
+		
+
+		
+		
 		String id = null;
 
 		if(grandpa instanceof AAssignStatementStatement)
@@ -467,6 +621,45 @@ public class MyVisitor extends DepthFirstAdapter
 							}
 						}
 
+					}
+				}
+			}
+		}
+		if(node.parent().parent().parent() instanceof AAdditionExExpression)
+		{
+			System.out.println(add_type);
+			AAdditionExExpression greatGrandpa = (AAdditionExExpression) node.parent().parent().parent();
+			if(node.parent().parent() == greatGrandpa.getL())
+			{
+				add_type = "NUMBER";
+			}
+			else if(node.parent().parent() == greatGrandpa.getR())
+			{
+				if(!add_type.equals("UNKNOWN")&&!add_type.equals("null"))
+				{
+					if(!add_type.equals("NUMBER"))
+					{
+						printError(node, ERRORS.MISUSED_FUNCTION);
+					}
+				}
+			}
+		}
+		if(node.parent().parent().parent() instanceof AMultiplicationExpression)
+		{
+			System.out.println(mult_type);
+			AMultiplicationExpression greatGrandpa = (AMultiplicationExpression) node.parent().parent().parent();
+			if(node.parent().parent() == greatGrandpa.getL())
+			{
+				mult_type = "NUMBER";
+			}
+			else if(node.parent().parent() == greatGrandpa.getR())
+			{
+				if(!mult_type.equals("UNKNOWN")&&!mult_type.equals("null"))
+				{
+					//we can only have num*num or str*num 
+					if(!mult_type.equals("NUMBER")&&!mult_type.equals("STRING"))
+					{
+						printError(node, ERRORS.MISUSED_FUNCTION);
 					}
 				}
 			}
@@ -612,6 +805,9 @@ public class MyVisitor extends DepthFirstAdapter
 		int x = 0;
 		curr_type_add_sub="null";
 		String id = node.getId().toString().trim();
+		// System.out.println(node.getClass());
+		// System.out.println(node.parent().getClass());
+		// System.out.println(node.parent().parent().getClass());
 		if(!functions.containsKey(id))
 		{
 			//printError(node, ERRORS.UNDEFINED_FUNCTION);
@@ -654,6 +850,91 @@ public class MyVisitor extends DepthFirstAdapter
 			if(counter>0)
 			{
 				printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
+			}
+			else
+			{
+				int index = -1;
+				Function f = null;
+				for(int i =0; i< func_list.size();i++)
+				{
+					if(func_list.get(i).getName().equals(id))
+					{
+						//if x (number of arguments given here) is bigger or equal to the number of parameters 
+						//that have got to be given for the function call and less than the total variables
+						//we can make that comparison here because we've already checked for wrong function call above
+						if((func_list.get(i).getTotal_vars() - func_list.get(i).getDef_vars() <= x && x <= func_list.get(i).getTotal_vars()))
+						{
+							index = i;
+						}
+					}
+				}
+				if(index>=0)
+				{
+					f = func_list.get(index);
+					Node grandpa = node.parent().parent();
+					if(grandpa instanceof ASubtractionExExpression || grandpa instanceof APlplExpression||grandpa instanceof AMinminExpression||grandpa instanceof ADivisionExpression||grandpa instanceof AModuloExpression||grandpa instanceof APowerExpression)
+					{
+						if((f.getReturnType().equals("STRING") || f.getReturnType().equals("NONE")))
+						{
+							printError(node, ERRORS.MISUSED_FUNCTION);
+						}
+					}
+					if(grandpa instanceof AAdditionExExpression)
+					{
+						//we can only have str + str or number + number
+						if(f.getReturnType().equals("NONE"))
+						{
+							//we can't have a none in an addition
+							printError(node, ERRORS.MISUSED_FUNCTION);
+						}
+						//if we are in the left part of the + of an addition we want to set the
+						//type of the addition to the return type of our function
+						AAdditionExExpression gp = (AAdditionExExpression) grandpa;
+						if(node.parent() == gp.getL())
+						{
+							add_type = f.getReturnType();
+						}
+						else if(node.parent() == gp.getR())
+						{
+							if(!add_type.equals("UNKNOWN") && !add_type.equals("null"))
+							{
+								if(!add_type.equals( f.getReturnType()))
+								{
+									//we can't have addition of different types
+									printError(node, ERRORS.MISUSED_FUNCTION);
+								}
+							}
+						}
+					}
+					if(grandpa instanceof AMultiplicationExpression)
+					{
+						//we can only have str * number or number * number
+						if(f.getReturnType().equals("NONE"))
+						{
+							//we can't have a none in an addition
+							printError(node, ERRORS.MISUSED_FUNCTION);
+						}
+						//if we are in the left part of the * of an multiplication we want to inform the
+						//type of the multiplication to the return type of our function by updating the mult_type variable
+						AMultiplicationExpression gp = (AMultiplicationExpression) grandpa;
+						if(node.parent() == gp.getL())
+						{
+							mult_type = f.getReturnType();
+						}
+						else if(node.parent() == gp.getR())
+						{
+							if(!mult_type.equals("UNKNOWN") && !mult_type.equals("null"))
+							{
+								if(mult_type.equals("STRING")&&f.getReturnType().equals("STRING"))
+								{
+									//we can't have addition of different types
+									printError(node, ERRORS.MISUSED_FUNCTION);
+								}
+							}
+						}
+					}
+				}
+
 			}
 
 		}
@@ -847,6 +1128,7 @@ public class MyVisitor extends DepthFirstAdapter
 
 	@Override
 	public void inAAdditionExExpression(AAdditionExExpression node){
+		add_type = "null";
 		if(node.parent() instanceof AReturnStatementStatement){ 
 			current_function.setReturnType("NUMBER");
 		}
@@ -890,6 +1172,7 @@ public class MyVisitor extends DepthFirstAdapter
 	
 	@Override
 	public void inAMultiplicationExpression(AMultiplicationExpression node){
+		mult_type = "null";
 		if(node.parent() instanceof AReturnStatementStatement){
 			current_function.setReturnType("NUMBER");
 		}
