@@ -69,10 +69,6 @@ public class MyVisitor extends DepthFirstAdapter
 		Node parent = node.parent();
 		Node parent3 = node.parent().parent().parent();
 		
-		// System.out.println(node.getClass());
-		// System.out.println(node.parent().getClass());
-		// System.out.println(node.parent().parent().getClass());
-		// System.out.println(node.parent().parent().parent().getClass());
 		// 1) Undeclared variables
 		if (parent instanceof AIdentifierExpression || parent instanceof AIdValueno) { //x = y[2] if y is undefined
 			if (!variableTypes.containsKey(name)) 
@@ -401,10 +397,6 @@ public class MyVisitor extends DepthFirstAdapter
 		Node grandpa = node.parent().parent();
 		Node parent = node.parent();
 		
-		// System.out.println(node.getClass());
-		// System.out.println(node.parent().getClass());
-		// System.out.println(node.parent().parent().getClass());
-		// System.out.println(node.parent().parent().parent().getClass());
 
 		String id = null;
 		if(grandpa instanceof AAssignStatementStatement)
@@ -627,7 +619,6 @@ public class MyVisitor extends DepthFirstAdapter
 		}
 		if(node.parent().parent().parent() instanceof AAdditionExExpression)
 		{
-			System.out.println(add_type);
 			AAdditionExExpression greatGrandpa = (AAdditionExExpression) node.parent().parent().parent();
 			if(node.parent().parent() == greatGrandpa.getL())
 			{
@@ -646,7 +637,6 @@ public class MyVisitor extends DepthFirstAdapter
 		}
 		if(node.parent().parent().parent() instanceof AMultiplicationExpression)
 		{
-			System.out.println(mult_type);
 			AMultiplicationExpression greatGrandpa = (AMultiplicationExpression) node.parent().parent().parent();
 			if(node.parent().parent() == greatGrandpa.getL())
 			{
@@ -805,9 +795,6 @@ public class MyVisitor extends DepthFirstAdapter
 		int x = 0;
 		curr_type_add_sub="null";
 		String id = node.getId().toString().trim();
-		// System.out.println(node.getClass());
-		// System.out.println(node.parent().getClass());
-		// System.out.println(node.parent().parent().getClass());
 		if(!functions.containsKey(id))
 		{
 			//printError(node, ERRORS.UNDEFINED_FUNCTION);
