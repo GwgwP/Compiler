@@ -8,6 +8,7 @@ public class Function {
     private LinkedList<String> var_types ;
     private LinkedList<String> vars ;
     private String returnType;
+    String variableOfReturn = "null";
     
     public LinkedList<String> gettVar_types() {
         return var_types;
@@ -59,6 +60,25 @@ public class Function {
    
     public String getName() {
         return name;
+    }
+
+        // public void setVarTypeByIndex(int index, String newType) {
+    //     if (index >= 0 && index < var_types.size()) {
+    //         // If the index is valid, update the type at the specified index
+    //         var_types.set(index, newType);
+    //     } else {
+    //         // Handle the case where the index is out of bounds (optional)
+    //         System.out.println("Invalid index: " + index);
+    //     }
+    // }
+
+
+    public String getVariableOfReturn() {
+        return variableOfReturn;
+    }
+
+    public void setVariableOfReturn(String variableOfReturn) {
+        this.variableOfReturn = variableOfReturn;
     }
    
     Function(int dv, int tv, String name)

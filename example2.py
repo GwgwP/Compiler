@@ -1,11 +1,4 @@
-def f(x):
-    k="string"
-    x = 7
-    return k* x
-
-def g(u):
-    return 'o'
-  
-i = f(1) *"o"
-
-
+def add(x,y):
+   return x+9
+k="5"
+print add("7",'o')
