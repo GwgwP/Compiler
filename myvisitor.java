@@ -44,9 +44,6 @@ public class MyVisitor extends DepthFirstAdapter
 		REDIFINED_VARIABLE,
 		NO_ERROR //DEBUG
 	}
-	/**
-	* 
-	*/
 	public static enum VARIABLE_TYPES {
 		NUMBER,
 		STRING,
@@ -72,7 +69,6 @@ public class MyVisitor extends DepthFirstAdapter
 		if (parent instanceof AIdentifierExpression || parent instanceof AIdValueno) { //x = y[2] if y is undefined
 			if (!variableTypes.containsKey(name)) 
 			{
-				System.out.println("75");
 				// Print error message
 				printError(node, ERRORS.UNDECLARED_VARIABLE);
 			}
@@ -93,7 +89,6 @@ public class MyVisitor extends DepthFirstAdapter
 				}
 				else if(!variableTypes.containsKey(id2s)) //right id is not defined
 				{
-					System.out.println("96");
 					printError(id2, ERRORS.UNDECLARED_VARIABLE);
 				}
 
@@ -117,16 +112,14 @@ public class MyVisitor extends DepthFirstAdapter
 				}
 			}
 		}
-
+		
 		//if return is the "4th parent" we have an id inside of an other expression in the return
 		//the return type of the function will depend on the type of this expression.
 		if(node.parent().parent().parent().parent() instanceof AReturnStatementStatement)
 		{ 
+
 			if (!variableTypes.containsKey(name)) 
 			{
-				// System.out.println("124");
-				// // Print error message
-				// printError(node, ERRORS.UNDECLARED_VARIABLE);
 			}
 			else 
 			{
@@ -156,7 +149,9 @@ public class MyVisitor extends DepthFirstAdapter
 					current_function.addVarOfSameType(indexOfSameTypeInteger);
 					if(node.parent().parent() == greatGrandpa.getL())
 					{
+						System.out.println("151");
 						add_type = variableTypes.get(name).name().trim();
+						System.out.println("154");
 					}
 					else if(node.parent().parent() == greatGrandpa.getR())
 					{
@@ -201,9 +196,6 @@ public class MyVisitor extends DepthFirstAdapter
 		{ 
 			if (!variableTypes.containsKey(name)) 
 			{
-				// System.out.println("201");
-				// // Print error message
-				// printError(node, ERRORS.UNDECLARED_VARIABLE);
 			}
 			else
 			{
@@ -218,12 +210,9 @@ public class MyVisitor extends DepthFirstAdapter
 	
 		if(node.parent().parent().parent() instanceof AArglistArglist){
 			Function thisF = null;
-			System.out.println("222");
-			System.out.println("name: "+name);
 			if(variableTypes.containsKey(name))
 			{
 				function_argument_list.add(variableTypes.get(name).toString());
-				System.out.println("224");
 				for (Function f: func_list)
 				{
 					if(f.getName().equals(function_argument_list.get(0)))
@@ -268,7 +257,6 @@ public class MyVisitor extends DepthFirstAdapter
 								{
 									if(curr_type_add_sub.equals("null"))
 									{
-										System.out.println("268");
 										if(!variableTypes.get(name).toString().equals("UNKNOWN"))
 										{
 											curr_type_add_sub = variableTypes.get(name).toString();
@@ -276,7 +264,6 @@ public class MyVisitor extends DepthFirstAdapter
 									}
 									else
 									{
-										System.out.println("276");
 										if(!curr_type_add_sub.equals(variableTypes.get(name).toString()))
 										{
 											printError(node, ERRORS.TYPE_MISSMATCH);
@@ -314,17 +301,14 @@ public class MyVisitor extends DepthFirstAdapter
 						AAdditionExExpression greatGrandpa = (AAdditionExExpression) node.parent().parent().parent();
 						if(node.parent().parent() == greatGrandpa.getL())
 						{
-							System.out.println("311");
 							add_type = variableTypes.get(name).name().trim();
 						}
 						else if(node.parent().parent() == greatGrandpa.getR())
 						{
 							if(!add_type.equals("UNKNOWN")&&!add_type.equals("null"))
 							{
-								System.out.println("318");
 								if(!(variableTypes.get(name).name().trim()).equals(add_type))
 								{
-									System.out.println("321");
 									printError(node, ERRORS.TYPE_MISSMATCH);
 								}
 							}
@@ -333,8 +317,6 @@ public class MyVisitor extends DepthFirstAdapter
 				}
 			}
 		}
-		
-	
 	} 
 	
 	public void inADoubleQuotesValueno(ADoubleQuotesValueno node)
@@ -433,7 +415,6 @@ public class MyVisitor extends DepthFirstAdapter
 										printError(node, ERRORS.TYPE_MISSMATCH);
 									}
 									f.setReturnType(curr_type_add_sub);
-									a = f.getReturnType();
 								}
 							}
 						}
@@ -669,7 +650,7 @@ public class MyVisitor extends DepthFirstAdapter
 		
 		if(id!=null)
 		{
-			if(variableTypes.containsKey(id)) //TODO: CHECK
+			if(variableTypes.containsKey(id)) 
 			{
 				variableTypes.remove(id);
 				
@@ -798,7 +779,7 @@ public class MyVisitor extends DepthFirstAdapter
 		}
 		if(id!=null)
 		{
-			if(variableTypes.containsKey(id)) //TODO: CHECK
+			if(variableTypes.containsKey(id)) 
 			{
 				variableTypes.remove(id);
 				
@@ -845,7 +826,7 @@ public class MyVisitor extends DepthFirstAdapter
 					
 			}
 		}
-		Node parent2 = node.parent().parent(); //TODO WHY NOT NODE DOESNT WORK PARENT
+		Node parent2 = node.parent().parent(); 
 		if(parent2 instanceof AAdditionExExpression || parent2 instanceof ASubtractionExExpression || parent2 instanceof APlplExpression || parent2 instanceof AMinminExpression || parent2 instanceof ADivisionExpression || parent2 instanceof AModuloExpression || parent2 instanceof AMultiplicationExpression || parent2 instanceof APowerExpression || parent2 instanceof ALenExpExpression)
 		{
 			printError(parent2.parent(), ERRORS.NONE);
@@ -891,12 +872,8 @@ public class MyVisitor extends DepthFirstAdapter
 		if (node instanceof AGoal) {
 			total_errors-=1;
 			System.err.println("total errors: "+ total_errors);
-		
-			//System.exit(-1);
+			System.exit(-1);
 		}
-		
-		
-
 	}
 	
 	
@@ -905,12 +882,8 @@ public class MyVisitor extends DepthFirstAdapter
 		int x = 0;
 		curr_type_add_sub ="null";
 		String id = node.getId().toString().trim();
-		if(!functions.containsKey(id))
-		{
-			System.out.println("irtha892");
-			//printError(node, ERRORS.UNDEFINED_FUNCTION);
-		}
-		else
+		
+		if(functions.containsKey(id))
 		{	
 			//counting how many arguments are given and compare it with the ones saved.
 			if(node.getArglist().size()!= 0)
@@ -947,15 +920,12 @@ public class MyVisitor extends DepthFirstAdapter
 			}
 			if(counter>0)
 			{
-				System.out.println("931");
 				printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
 			}
 			else
 			{
-				// System.out.println("--------------------");
 				int num_of_args = CountItemsInString(node.getArglist().toString().trim());
-				// System.out.println(num_of_args);
-				// System.out.println("--------------------");
+			
 				if(num_of_args== 0)
 				{
 					int index = -1;
@@ -1166,45 +1136,7 @@ public class MyVisitor extends DepthFirstAdapter
 
 		}
 	}
-	@Override
-	public void outAPrintStatementStatement(APrintStatementStatement node)
-	{
-		System.out.println("-------------------------------KLHSH THS PRINT-------------------------");
-		for (Map.Entry<String, VARIABLE_TYPES> entry : variableTypes.entrySet()) {
-            String key = entry.getKey();
-            VARIABLE_TYPES value = entry.getValue();
-            System.out.println("Key: " + key + ", Value: " + value);
-        }
-		System.out.println("------------------------TELOS KLHSH THS PRINT-------------------------");
-		// System.out.println();
-		// System.out.println("-------------------------------KLHSH THS VAR_TYPES-------------------------");
-		// System.out.println(func_list.size());
-		// LinkedList ll = func_list.get(0).gettVar_types();
-		// System.out.println("-------------------------------TELOS KLHSH THS VAR_TYPES-------------------------");
 	
-		// System.out.println("-------------------------------KLHSH THS VAR_TYPES-------------------------");
-		// System.out.println(func_list.size());
-		// ll = func_list.get(1).gettVar_types();
-		// System.out.println("-------------------------------TELOS KLHSH THS VAR_TYPES-------------------------");
-		for (Function element : func_list) {
-            System.out.println("func: "+element.getName());
-			System.out.println("function's return type: "+element.getReturnType() );
-		}
-		//	System.out.println("functon's variable types:");
-		// 	for(String type : element.gettVar_types()){
-		// 		System.out.println("type: "+type);
-		// 	}
-		//	System.out.println("functon's variable names:");
-		// 	for(String var : element.getVars()){
-		// 		System.out.println("variable: "+var);
-		// 	}
-        // }
-		// System.out.println("list of arguments read:");
-		// for(String element: function_argument_list){
-		// 	System.out.println(element);
-		// }
-
-	}
 
 	@Override
 	public void inAAdditionExExpression(AAdditionExExpression node){
@@ -1217,20 +1149,6 @@ public class MyVisitor extends DepthFirstAdapter
 			current_function.setReturnType("NUMBER");
 		}
 	}
-
-	// @Override
-	// public void inAPlplExpression(APlplExpression node){
-	// 	if(node.parent() instanceof AReturnStatementStatement){
-	// 		current_function.setReturnType("NUMBER");
-	// 	}
-	// }
-
-	// @Override
-	// public void inAMinminExpression(AMinminExpression node){
-	// 	if(node.parent() instanceof AReturnStatementStatement){
-	// 		current_function.setReturnType("NUMBER");
-	// 	}
-	// }
 
 	
 	@Override
@@ -1297,29 +1215,6 @@ public class MyVisitor extends DepthFirstAdapter
 			x = 0;
 		}
 
-		// int counter = 0;
-		// for(int i =0; i< func_list.size();i++)
-		// {
-		// 	if(func_list.get(i).getName().equals(id))
-		// 	{
-		// 		if(!(func_list.get(i).getTotal_vars() - func_list.get(i).getDef_vars() <= x && x <= func_list.get(i).getTotal_vars()))
-		// 		{
-		// 			counter++;
-		// 		}
-		// 		else
-		// 		{
-		// 			counter--;
-		// 		}
-		// 	}
-		// }
-		// if(counter>0)
-		// {
-		// 					System.out.println("1298");
-
-		// 	printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
-		// }
-		//else
-		//{
 		int index = -1;
 		Function f = null;
 		for(int i =0; i< func_list.size();i++)
@@ -1348,20 +1243,6 @@ public class MyVisitor extends DepthFirstAdapter
 			}
 			if(grandpa instanceof AAdditionExExpression)
 			{
-				//apelpismenos tropos ypologismou twn variables mias prostheshs pou ara prepei na xoun idio typo afou prosthesh:
-				// int counter_of_types = 0;
-				// String type = "null";
-				// for(int j:f.getVarOfSameType())
-				// {	
-				// 	if(counter_of_types==0)
-				// 	{
-				// 		type = f.gettVar_types().get(j);
-				// 	}
-				// 	if(!((f.gettVar_types().get(j)).equals(type)))
-				// 	{
-				// 		printError(node, ERRORS.TYPE_MISSMATCH);
-				// 	}
-				// }
 				//we can only have str + str or number + number
 				if(f.getReturnType().equals("NONE"))
 				{

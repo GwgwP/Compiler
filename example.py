@@ -19,6 +19,6 @@ x=y--
 s = (1)
 d =[12,3,4,len(t)]
 x= x.x(4)
-v[3] = none
+v[3] = None
 x = max(2) + min(2,3) -5
 addd(a,b+3+2-2**3%4/2)
