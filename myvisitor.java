@@ -37,11 +37,11 @@ public class MyVisitor extends DepthFirstAdapter
 		UNDECLARED_VARIABLE, // #1st Error
 		UNDEFINED_FUNCTION,  // #2nd error
 		WRONG_FUNCTION_PARAMETERS,     // #3rd error 
-		TYPE_MISSMATCH,      // #4th error
+		TYPE_MISMATCH,      // #4th error
 		NONE,                // #5th error
 		MISUSED_FUNCTION,    // #6th error
 		REDEFINED_FUNCTION,  // #7th error
-		REDIFINED_VARIABLE,
+		REDEFINED_VARIABLE,
 		NO_ERROR //DEBUG
 	}
 	public static enum VARIABLE_TYPES {
@@ -77,15 +77,15 @@ public class MyVisitor extends DepthFirstAdapter
 		{
 			AForStatementStatement forLoop = (AForStatementStatement) parent;
 			AIdId id1 = (AIdId) forLoop.getLid(); 
-			AIdId id2 = (AIdId) forLoop.getRid(); // for x in x is ilegal because x is global var
+			AIdId id2 = (AIdId) forLoop.getRid(); // for x in x is illegal because x is global var
 			String id2s = id2.toString().trim();
-			// Check that the second identifer is an existing variable
+			// Check that the second identifier is an existing variable
 			if(node == forLoop.getLid() )
 			{
 
 				if (name.equals(id2s) ) 
 				{ 
-					printError(node, ERRORS.REDIFINED_VARIABLE);
+					printError(node, ERRORS.REDEFINED_VARIABLE);
 				}
 				else if(!variableTypes.containsKey(id2s)) //right id is not defined
 				{
@@ -113,27 +113,24 @@ public class MyVisitor extends DepthFirstAdapter
 			}
 		}
 		
-		//if return is the "4th parent" we have an id inside of an other expression in the return
-		//the return type of the function will depend on the type of this expression.
+		//if return is the "4th parent" we have an id inside another expression in the return
+		// type of the function will depend on the type of this expression.
 		if(node.parent().parent().parent().parent() instanceof AReturnStatementStatement)
 		{ 
 
-			if (!variableTypes.containsKey(name)) 
-			{
-			}
-			else 
+			if (variableTypes.containsKey(name))
 			{
 				
 				if( parent3 instanceof AMultiplicationExpression||parent3 instanceof ASubtractionExExpression || parent3 instanceof APlplExpression || parent3 instanceof AMinminExpression || parent3 instanceof ADivisionExpression || parent3 instanceof AModuloExpression || parent3 instanceof APowerExpression)
 				{
 					//we check if we are in the return statement of a function and if there is a  division or power
-					//this method finds the index of the id in the linked list of this function so we can check the type of the variable
+					//this method finds the index of the id in the linked list of this function, so we can check the type of the variable
 					//if it is unknown we will make it to be number because you cant have division or power with any other type of variable
 					//this way we will be able to control if the variable is called correctly since it will no longer be unknown
 					int index = findIndex(current_function.getVars(), name);
 					if((variableTypes.get(name).toString()).equals("STRING") || (variableTypes.get(name).toString()).equals("NONE"))
 					{
-						printError(node, ERRORS.TYPE_MISSMATCH);
+						printError(node, ERRORS.TYPE_MISMATCH);
 					}
 					if(current_function.gettVar_types().get(index).equals("UNKNOWN"))
 					{
@@ -161,7 +158,7 @@ public class MyVisitor extends DepthFirstAdapter
 							{
 								if(!add_type.equals(variableTypes.get(name).name().trim()))
 								{
-									printError(node, ERRORS.TYPE_MISSMATCH);
+									printError(node, ERRORS.TYPE_MISMATCH);
 								}
 							}
 							current_function.setReturnType(variableTypes.get(name).name().trim());
@@ -221,7 +218,7 @@ public class MyVisitor extends DepthFirstAdapter
 						{
 							if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
 							{
-								printError(node, ERRORS.TYPE_MISSMATCH);
+								printError(node, ERRORS.TYPE_MISMATCH);
 							}
 							//if the variable was declared as unknown inside the function, now a type is given to it by the arguments
 							if((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN"))
@@ -266,7 +263,7 @@ public class MyVisitor extends DepthFirstAdapter
 									{
 										if(!curr_type_add_sub.equals(variableTypes.get(name).toString()))
 										{
-											printError(node, ERRORS.TYPE_MISSMATCH);
+											printError(node, ERRORS.TYPE_MISMATCH);
 										}
 										f.setReturnType(curr_type_add_sub);
 									}
@@ -309,7 +306,7 @@ public class MyVisitor extends DepthFirstAdapter
 							{
 								if(!(variableTypes.get(name).name().trim()).equals(add_type))
 								{
-									printError(node, ERRORS.TYPE_MISSMATCH);
+									printError(node, ERRORS.TYPE_MISMATCH);
 								}
 							}
 						}
@@ -331,48 +328,19 @@ public class MyVisitor extends DepthFirstAdapter
 			id = ((AAssignStatementStatement)grandpa).getId().toString().trim();
 			
 		}
-		else if(grandpa instanceof ACommaIdCiav)
-		{
-
-			id = ((ACommaIdCiav)grandpa).getId().toString().trim();
-
-			AArgArgument g = (AArgArgument)grandpa.parent();
-
-			ADefFuncFunction gp = (ADefFuncFunction) g.parent();
-				
-			String func_name = gp.getId().toString().trim();
-			
-			current_function.addVar_type("STRING");
-			current_function.addVar(id);
-		
-		}
-		else if(grandpa instanceof AArgArgument)
-		{
-			id = ((AArgArgument)grandpa).getId().toString().trim();
-			ADefFuncFunction gp = (ADefFuncFunction)grandpa.parent();
-
-			String func_name = gp.getId().toString().trim();
-			for(int i =0; i< func_list.size();i++)
-			{
-				if(func_list.get(i).getName().toString().trim().equals(func_name))
-				{
-					func_list.get(i).addVar_type("STRING");
-					func_list.get(i).addVar(id);
-				}
-			}
-		}
+		else id = getString(grandpa, id);
 		if(id!=null)
 		{
 			if(variableTypes.containsKey(id))
 			{
-				variableTypes.remove(id);	
+				variableTypes.remove(id);
 			}
 			variableTypes.put(id, VARIABLE_TYPES.STRING);
 		}	
 		//Checking error 4
 		if(grandpa instanceof AMultiplicationExpression||grandpa instanceof ASubtractionExExpression || grandpa instanceof APowerExpression || grandpa instanceof APlplExpression || grandpa instanceof AMinminExpression || grandpa instanceof ADivisionExpression || grandpa instanceof AModuloExpression  )	
 		{
-			printError(node, ERRORS.TYPE_MISSMATCH);
+			printError(node, ERRORS.TYPE_MISMATCH);
 		}
 		if(grandpa instanceof AReturnStatementStatement){ 
 			//if it is a return "something" save that the function returns type STRING
@@ -388,7 +356,7 @@ public class MyVisitor extends DepthFirstAdapter
 					{
 						if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
 						{					
-							printError(node, ERRORS.TYPE_MISSMATCH);
+							printError(node, ERRORS.TYPE_MISMATCH);
 						}
 						//if the variable was declared as unknown inside the function, now a type is given to it by the arguments
 						if((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN"))
@@ -412,7 +380,7 @@ public class MyVisitor extends DepthFirstAdapter
 								{
 									if(!curr_type_add_sub.equals("STRING"))
 									{
-										printError(node, ERRORS.TYPE_MISSMATCH);
+										printError(node, ERRORS.TYPE_MISMATCH);
 									}
 									f.setReturnType(curr_type_add_sub);
 								}
@@ -437,7 +405,7 @@ public class MyVisitor extends DepthFirstAdapter
 				{
 					if(!add_type.equals("STRING"))
 					{
-						printError(node, ERRORS.TYPE_MISSMATCH);
+						printError(node, ERRORS.TYPE_MISMATCH);
 					}
 				}
 			}
@@ -481,39 +449,10 @@ public class MyVisitor extends DepthFirstAdapter
 			id = ((AAssignStatementStatement)grandpa).getId().toString().trim();
 			
 		}
-		if(grandpa instanceof ACommaIdCiav)
-		{
-			id = ((ACommaIdCiav)grandpa).getId().toString().trim();
-
-
-			AArgArgument g = (AArgArgument)grandpa.parent();
-
-			ADefFuncFunction gp = (ADefFuncFunction) g.parent();
-
-			String func_name = gp.getId().toString().trim();
-			
-			current_function.addVar_type("STRING");
-			current_function.addVar(id);
-			
-		}
-		else if(grandpa instanceof AArgArgument)
-		{
-			id = ((AArgArgument)grandpa).getId().toString().trim();
-			ADefFuncFunction gp = (ADefFuncFunction)grandpa.parent();
-
-			String func_name = gp.getId().toString().trim();
-			for(int i =0; i< func_list.size();i++)
-			{
-				if(func_list.get(i).getName().toString().trim().equals(func_name))
-				{
-					func_list.get(i).addVar_type("STRING");
-					func_list.get(i).addVar(id);
-				}
-			}
-		}
+		id = getString(grandpa, id);
 		if(node.parent().parent() instanceof AMultiplicationExpression||grandpa instanceof ASubtractionExExpression || grandpa instanceof APowerExpression || grandpa instanceof APlplExpression || grandpa instanceof AMinminExpression || grandpa instanceof ADivisionExpression || grandpa instanceof AModuloExpression  )	
 		{
-			printError(node, ERRORS.TYPE_MISSMATCH);
+			printError(node, ERRORS.TYPE_MISMATCH);
 		}
 		if(id!=null)
 		{
@@ -538,7 +477,7 @@ public class MyVisitor extends DepthFirstAdapter
 						if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
 						{
 
-							printError(node, ERRORS.TYPE_MISSMATCH);
+							printError(node, ERRORS.TYPE_MISMATCH);
 						}
 						//if the variable was declared as unknown inside the function, now a type is given to it by the arguments
 						if((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN"))
@@ -562,7 +501,7 @@ public class MyVisitor extends DepthFirstAdapter
 								{
 									if(!curr_type_add_sub.equals("STRING"))
 									{
-										printError(node, ERRORS.TYPE_MISSMATCH);
+										printError(node, ERRORS.TYPE_MISMATCH);
 									}
 									f.setReturnType(curr_type_add_sub);
 								}
@@ -586,7 +525,7 @@ public class MyVisitor extends DepthFirstAdapter
 				{
 					if(!add_type.equals("STRING"))
 					{
-						printError(node, ERRORS.TYPE_MISSMATCH);
+						printError(node, ERRORS.TYPE_MISMATCH);
 					}
 				}
 			}
@@ -605,6 +544,39 @@ public class MyVisitor extends DepthFirstAdapter
 			}
 		}
 	}
+
+	private String getString(Node grandpa, String id) {
+		if(grandpa instanceof ACommaIdCiav)
+		{
+			id = ((ACommaIdCiav)grandpa).getId().toString().trim();
+
+
+			AArgArgument g = (AArgArgument)grandpa.parent();
+
+			ADefFuncFunction gp = (ADefFuncFunction) g.parent();
+
+			String func_name = gp.getId().toString().trim();
+
+			current_function.addVar_type("STRING");
+			current_function.addVar(id);
+
+		}
+		else if(grandpa instanceof AArgArgument)
+		{
+			id = ((AArgArgument)grandpa).getId().toString().trim();
+			ADefFuncFunction gp = (ADefFuncFunction)grandpa.parent();
+
+			String func_name = gp.getId().toString().trim();
+            for (Function function : func_list) {
+                if (function.getName().toString().trim().equals(func_name)) {
+                    function.addVar_type("STRING");
+                    function.addVar(id);
+                }
+            }
+		}
+		return id;
+	}
+
 	@Override
 	public void inANumNum(ANumNum node)
 	{
@@ -638,14 +610,12 @@ public class MyVisitor extends DepthFirstAdapter
 			id = ((AArgArgument)grandpa).getId().toString().trim();
 			ADefFuncFunction gp = (ADefFuncFunction)grandpa.parent();
 			String func_name = gp.getId().toString().trim();
-			for(int i =0; i< func_list.size();i++)
-			{
-				if(func_list.get(i).getName().toString().trim().equals(func_name))
-				{
-					func_list.get(i).addVar_type("NUMBER");
-					func_list.get(i).addVar(id);
-				}
-			}
+            for (Function function : func_list) {
+                if (function.getName().toString().trim().equals(func_name)) {
+                    function.addVar_type("NUMBER");
+                    function.addVar(id);
+                }
+            }
 		}
 		
 		if(id!=null)
@@ -671,7 +641,7 @@ public class MyVisitor extends DepthFirstAdapter
 					{
 						if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
 						{
-							printError(node, ERRORS.TYPE_MISSMATCH);
+							printError(node, ERRORS.TYPE_MISMATCH);
 						}
 						//if the variable was declared as unknown inside the function, now a type is given to it by the arguments
 						if((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN"))
@@ -695,7 +665,7 @@ public class MyVisitor extends DepthFirstAdapter
 								{
 									if(!curr_type_add_sub.equals("NUMBER"))
 									{
-										printError(node, ERRORS.TYPE_MISSMATCH);
+										printError(node, ERRORS.TYPE_MISMATCH);
 									}
 									f.setReturnType(curr_type_add_sub);
 								}
@@ -724,7 +694,7 @@ public class MyVisitor extends DepthFirstAdapter
 				{
 					if(!add_type.equals("NUMBER"))
 					{
-						printError(node, ERRORS.TYPE_MISSMATCH);
+						printError(node, ERRORS.TYPE_MISMATCH);
 					}
 				}
 			}
@@ -768,14 +738,12 @@ public class MyVisitor extends DepthFirstAdapter
 			ADefFuncFunction gp = (ADefFuncFunction)grandpa.parent();
 
 			String func_name = gp.getId().toString().trim();
-			for(int i =0; i< func_list.size();i++)
-			{
-				if(func_list.get(i).getName().toString().trim().equals(func_name))
-				{
-					func_list.get(i).addVar_type("NONE");
-					func_list.get(i).addVar(id);
-				}
-			}
+            for (Function function : func_list) {
+                if (function.getName().toString().trim().equals(func_name)) {
+                    function.addVar_type("NONE");
+                    function.addVar(id);
+                }
+            }
 		}
 		if(id!=null)
 		{
@@ -801,7 +769,7 @@ public class MyVisitor extends DepthFirstAdapter
 					{
 						if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
 						{
-							printError(node, ERRORS.TYPE_MISSMATCH);
+							printError(node, ERRORS.TYPE_MISMATCH);
 						}
 						//if the variable was declared as unknown inside the function, now a type is given to it by the arguments
 						if((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN"))
@@ -817,8 +785,8 @@ public class MyVisitor extends DepthFirstAdapter
 						{
 							if(j==function_argument_list.size()-2)
 							{
-								//We can't have addition/substraction with none
-								printError(node, ERRORS.TYPE_MISSMATCH);
+								//We can't have addition/subtraction with none
+								printError(node, ERRORS.TYPE_MISMATCH);
 							}
 						}
 					}
@@ -846,7 +814,7 @@ public class MyVisitor extends DepthFirstAdapter
             case WRONG_FUNCTION_PARAMETERS:
                 System.out.println("Error at Node " + node + ": Wrong function parameters");
                 break;
-            case TYPE_MISSMATCH:
+            case TYPE_MISMATCH:
                 System.out.println("Error at Node " + node + ": Type mismatch");
                 break;
             case NONE:
@@ -858,8 +826,8 @@ public class MyVisitor extends DepthFirstAdapter
             case REDEFINED_FUNCTION:
                 System.out.println("Error at Node " + node + ": Redefined function");
                 break;
-			case REDIFINED_VARIABLE:
-				System.out.println("Error at Node " + node + ": Redifined variable");
+			case REDEFINED_VARIABLE:
+				System.out.println("Error at Node " + node + ": Redefined variable");
                 break;
 
             // Add cases for other error types as needed
@@ -886,16 +854,9 @@ public class MyVisitor extends DepthFirstAdapter
 		if(functions.containsKey(id))
 		{	
 			//counting how many arguments are given and compare it with the ones saved.
-			if(node.getArglist().size()!= 0)
+			if(!node.getArglist().isEmpty())
 			{
-				AArglistArglist args =  (AArglistArglist)node.getArglist().get(0);
-				x++;
-				LinkedList<PExpression> more = (LinkedList<PExpression> )args.getR();
-
-				for(int i =0 ; i< more.size();i++)
-				{
-					x++;
-				}
+				x = getX(node, x);
 
 			}
 			else
@@ -990,6 +951,18 @@ public class MyVisitor extends DepthFirstAdapter
 		function_argument_list.add(id);
 	}
 
+	private int getX(AFuncCallFunctionCall node, int x) {
+		AArglistArglist args =  (AArglistArglist)node.getArglist().get(0);
+		x++;
+		LinkedList<PExpression> more = (LinkedList<PExpression> )args.getR();
+
+		for(int i =0 ; i< more.size();i++)
+		{
+			x++;
+		}
+		return x;
+	}
+
 
 	@Override
 	public void inADefFuncFunction(ADefFuncFunction node)
@@ -1013,7 +986,7 @@ public class MyVisitor extends DepthFirstAdapter
 
 				ADefFuncFunction func_more = (ADefFuncFunction) n;
 			
-				// calculation of same name function's arguments and assignements
+				// calculation of same name function's arguments and assignments
 				int count_total_vars = 0;
 				int count_default_vars = 0;
 				LinkedList<Integer> cont1 = countVars(func_more);
@@ -1056,18 +1029,18 @@ public class MyVisitor extends DepthFirstAdapter
 		int count_default_vars =0;
 		LinkedList<Integer> vars = new LinkedList<>();
 		
-		if(node.getArgument().size()!=0) //there are arguments f(x1,x2,...)
+		if(!node.getArgument().isEmpty()) //there are arguments f(x1,x2,...)
 		{
 			AArgArgument argument = ((AArgArgument) (node.getArgument().get(0)));
 			
 			count_total_vars++;
-			if(argument.getAssignValue().size()!=0)
+			if(!argument.getAssignValue().isEmpty())
 			{
 				
 				count_default_vars++;
 			}	
 			LinkedList ciav = argument.getCiav();
-			if (ciav.size()!=0)
+			if (!ciav.isEmpty())
 			{
 				ACommaIdCiav l = (ACommaIdCiav) ciav.get(0);
 			}
@@ -1075,7 +1048,7 @@ public class MyVisitor extends DepthFirstAdapter
 			{
 				ACommaIdCiav c = (ACommaIdCiav) ciav.get(k);
 				
-				if (c.getAssignValue().size()== 0) 
+				if (c.getAssignValue().isEmpty())
 				{
 					count_total_vars++;
 
@@ -1099,7 +1072,7 @@ public class MyVisitor extends DepthFirstAdapter
 		String func_name = parent.getId().toString().trim();
 		
 		String id = node.getId().toString().trim();
-		if (node.getAssignValue().size()==0)
+		if (node.getAssignValue().isEmpty())
 		{
 			if(variableTypes.containsKey(id))
 			{
@@ -1123,7 +1096,7 @@ public class MyVisitor extends DepthFirstAdapter
 		
 		String func_name = parentp.getId().toString().trim();
 
-		if (node.getAssignValue().size()==0)
+		if (node.getAssignValue().isEmpty())
 		{
 			if(variableTypes.containsKey(id))
 			{
@@ -1198,16 +1171,9 @@ public class MyVisitor extends DepthFirstAdapter
 		int x = 0;
 		String id = node.getId().toString().trim();
 		//counting how many arguments are given and compare it with the ones saved.
-		if(node.getArglist().size()!= 0)
+		if(!node.getArglist().isEmpty())
 		{
-			AArglistArglist args =  (AArglistArglist)node.getArglist().get(0);
-			x++;
-			LinkedList<PExpression> more = (LinkedList<PExpression> )args.getR();
-
-			for(int i =0 ; i< more.size();i++)
-			{
-				x++;
-			}
+			x = getX(node, x);
 
 		}
 		else
