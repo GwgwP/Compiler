@@ -15,7 +15,10 @@ Helpers
 	sp = 32;
 	all = [0..127]; 
 	eol = lf | cr | cr lf ;
+	dquote = 34;
+	squote = 39;
 	not_eol = [all - [cr + lf]]; 
+	str = [not_eol- [dquote + squote]] ;
 
 Tokens
 	tab = 9;
@@ -68,8 +71,9 @@ Tokens
 	number = digit+;
 	dot = '.';
 	ident = letter (letter | digit)*;
-	string_double_quotes = '"'not_eol* '"';
-	string_single_quotes = '''not_eol* ''';
+	string_double_quotes = '"' str* '"';
+	string_single_quotes = ''' str* ''';
+	
 	everything_else = all;
 
 Ignored Tokens

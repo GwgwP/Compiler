@@ -17,3 +17,13 @@ kapoia
 - out : TOPIKOUS PINAKES OTAN VGAINW APO TON ENTOLI
 
 - case:
+
+
+string_double_quotes = (dquote (sp | letter | digit)* dquote) ;
+	string_single_quotes = (squote (sp | letter | digit)* squote)
+
+
+
+def add(x,y):
+   k = None
+   return x + k

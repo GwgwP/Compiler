@@ -72,6 +72,7 @@ public class MyVisitor extends DepthFirstAdapter
 		if (parent instanceof AIdentifierExpression || parent instanceof AIdValueno) { //x = y[2] if y is undefined
 			if (!variableTypes.containsKey(name)) 
 			{
+				System.out.println("75");
 				// Print error message
 				printError(node, ERRORS.UNDECLARED_VARIABLE);
 			}
@@ -92,6 +93,7 @@ public class MyVisitor extends DepthFirstAdapter
 				}
 				else if(!variableTypes.containsKey(id2s)) //right id is not defined
 				{
+					System.out.println("96");
 					printError(id2, ERRORS.UNDECLARED_VARIABLE);
 				}
 
@@ -107,9 +109,12 @@ public class MyVisitor extends DepthFirstAdapter
 			// for x in y: and y=[1,2,3] x should be integer, if y =[1.2, 1.3] y should be double etc
 			if (node == forLoop.getLid() && variableTypes.containsKey(id2.getIdent().getText().trim())) 
 			{
-				VARIABLE_TYPES variableType = variableTypes.get(id2.getIdent().getText().trim());
-				variableTypes.put(name, variableType);
-				variables.put(id1.toString().trim(), node);
+				if(variableTypes.containsKey(id2.getIdent().getText().trim()))
+				{
+					VARIABLE_TYPES variableType = variableTypes.get(id2.getIdent().getText().trim());
+					variableTypes.put(name, variableType);
+					variables.put(id1.toString().trim(), node);
+				}
 			}
 		}
 
@@ -119,8 +124,9 @@ public class MyVisitor extends DepthFirstAdapter
 		{ 
 			if (!variableTypes.containsKey(name)) 
 			{
-				// Print error message
-				printError(node, ERRORS.UNDECLARED_VARIABLE);
+				// System.out.println("124");
+				// // Print error message
+				// printError(node, ERRORS.UNDECLARED_VARIABLE);
 			}
 			else 
 			{
@@ -195,8 +201,9 @@ public class MyVisitor extends DepthFirstAdapter
 		{ 
 			if (!variableTypes.containsKey(name)) 
 			{
-				// Print error message
-				printError(node, ERRORS.UNDECLARED_VARIABLE);
+				// System.out.println("201");
+				// // Print error message
+				// printError(node, ERRORS.UNDECLARED_VARIABLE);
 			}
 			else
 			{
@@ -211,69 +218,79 @@ public class MyVisitor extends DepthFirstAdapter
 	
 		if(node.parent().parent().parent() instanceof AArglistArglist){
 			Function thisF = null;
-			function_argument_list.add(variableTypes.get(name).toString());
-			for (Function f: func_list){
-				if(f.getName().equals(function_argument_list.get(0)))
+			System.out.println("222");
+			System.out.println("name: "+name);
+			if(variableTypes.containsKey(name))
+			{
+				function_argument_list.add(variableTypes.get(name).toString());
+				System.out.println("224");
+				for (Function f: func_list)
 				{
-					if((function_argument_list.size()-f.gettVar_types().size())<2)
+					if(f.getName().equals(function_argument_list.get(0)))
 					{
-						if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
+						if((function_argument_list.size()-f.gettVar_types().size())<2)
 						{
-							printError(node, ERRORS.TYPE_MISSMATCH);
-						}
-						//if the variable was declared as unknown inside the function, now a type is given to it by the arguments
-						if((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN"))
-						{
-							f.gettVar_types().set((function_argument_list.size()-2),(variableTypes.get(name).toString()));
-							variableTypes.put(f.getVars().get(function_argument_list.size()-2), variableTypes.get(name));
-							if((f.getVars().get(function_argument_list.size()-2)).equals(f.getVariableOfReturn()))
+							if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
 							{
-								f.setReturnType(variableTypes.get(name).toString());
+								printError(node, ERRORS.TYPE_MISSMATCH);
 							}
-						}
-						//if the variable was declared as unknown inside the function, now a type is given to it by the arguments
-						if((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN"))
-						{
-							//f.setVarTypeByIndex((function_argument_list.size()-2),variableTypes.get(name).toString());
-							f.gettVar_types().set((function_argument_list.size()-2), variableTypes.get(name).toString());
-							if(variableTypes.get(name).toString().equals("STRING"))
+							//if the variable was declared as unknown inside the function, now a type is given to it by the arguments
+							if((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN"))
 							{
-								variableTypes.put(f.getVars().get(function_argument_list.size()-2), VARIABLE_TYPES.STRING);
-							}
-							else if(variableTypes.get(name).toString().equals("NUMBER"))
-							{
-								variableTypes.put(f.getVars().get(function_argument_list.size()-2), VARIABLE_TYPES.NUMBER);
-							}
-							else if(variableTypes.get(name).toString().equals("NONE"))
-							{
-								variableTypes.put(f.getVars().get(function_argument_list.size()-2), VARIABLE_TYPES.NONE);
-							}
-						}
-						for(int j:f.getVarOfSameType())
-						{
-							if(j==function_argument_list.size()-2)
-							{
-								if(curr_type_add_sub.equals("null"))
+								f.gettVar_types().set((function_argument_list.size()-2),(variableTypes.get(name).toString()));
+								variableTypes.put(f.getVars().get(function_argument_list.size()-2), variableTypes.get(name));
+								if((f.getVars().get(function_argument_list.size()-2)).equals(f.getVariableOfReturn()))
 								{
-									if(!variableTypes.get(name).toString().equals("UNKNOWN"))
-									{
-										curr_type_add_sub = variableTypes.get(name).toString();
-									}
-								}
-								else
-								{
-									if(!curr_type_add_sub.equals(variableTypes.get(name).toString()))
-									{
-										printError(node, ERRORS.TYPE_MISSMATCH);
-									}
-									f.setReturnType(curr_type_add_sub);
+									f.setReturnType(variableTypes.get(name).toString());
 								}
 							}
+							//if the variable was declared as unknown inside the function, now a type is given to it by the arguments
+							if((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN"))
+							{
+								//f.setVarTypeByIndex((function_argument_list.size()-2),variableTypes.get(name).toString());
+								f.gettVar_types().set((function_argument_list.size()-2), variableTypes.get(name).toString());
+								if(variableTypes.get(name).toString().equals("STRING"))
+								{
+									variableTypes.put(f.getVars().get(function_argument_list.size()-2), VARIABLE_TYPES.STRING);
+								}
+								else if(variableTypes.get(name).toString().equals("NUMBER"))
+								{
+									variableTypes.put(f.getVars().get(function_argument_list.size()-2), VARIABLE_TYPES.NUMBER);
+								}
+								else if(variableTypes.get(name).toString().equals("NONE"))
+								{
+									variableTypes.put(f.getVars().get(function_argument_list.size()-2), VARIABLE_TYPES.NONE);
+								}
+							}
+							for(int j:f.getVarOfSameType())
+							{
+								if(j==function_argument_list.size()-2)
+								{
+									if(curr_type_add_sub.equals("null"))
+									{
+										System.out.println("268");
+										if(!variableTypes.get(name).toString().equals("UNKNOWN"))
+										{
+											curr_type_add_sub = variableTypes.get(name).toString();
+										}
+									}
+									else
+									{
+										System.out.println("276");
+										if(!curr_type_add_sub.equals(variableTypes.get(name).toString()))
+										{
+											printError(node, ERRORS.TYPE_MISSMATCH);
+										}
+										f.setReturnType(curr_type_add_sub);
+									}
+								}
+							}
+							thisF = f;
 						}
-						thisF = f;
 					}
 				}
-			}
+			}	
+			
 			AFuncCallFunctionCall fCall = (AFuncCallFunctionCall) node.parent().parent().parent().parent();
 			if((function_argument_list.size()-1)==CountItemsInString(fCall.getArglist().toString().trim()))
 			{
@@ -285,31 +302,36 @@ public class MyVisitor extends DepthFirstAdapter
 		{
 			if(variableTypes.containsKey(name))
 			{
-				String type = variableTypes.get(name).name().trim();
-				if(type.equals("NONE"))
+				if(variableTypes.containsKey(name))
 				{
-					printError(node, ERRORS.NONE);
-				}
-				if(node.parent().parent().parent() instanceof AAdditionExExpression  && !(node.parent().parent().parent() instanceof AReturnStatementStatement))
-				{
-					AAdditionExExpression greatGrandpa = (AAdditionExExpression) node.parent().parent().parent();
-					if(node.parent().parent() == greatGrandpa.getL())
+					String type = variableTypes.get(name).name().trim();
+					if(type.equals("NONE"))
 					{
-						add_type = variableTypes.get(name).name().trim();
+						printError(node, ERRORS.NONE);
 					}
-					else if(node.parent().parent() == greatGrandpa.getR())
+					if(node.parent().parent().parent() instanceof AAdditionExExpression  && !(node.parent().parent().parent() instanceof AReturnStatementStatement))
 					{
-						if(!add_type.equals("UNKNOWN")&&!add_type.equals("null"))
+						AAdditionExExpression greatGrandpa = (AAdditionExExpression) node.parent().parent().parent();
+						if(node.parent().parent() == greatGrandpa.getL())
 						{
-							if(!(variableTypes.get(name).name().trim()).equals(add_type))
+							System.out.println("311");
+							add_type = variableTypes.get(name).name().trim();
+						}
+						else if(node.parent().parent() == greatGrandpa.getR())
+						{
+							if(!add_type.equals("UNKNOWN")&&!add_type.equals("null"))
 							{
-								printError(node, ERRORS.TYPE_MISSMATCH);
+								System.out.println("318");
+								if(!(variableTypes.get(name).name().trim()).equals(add_type))
+								{
+									System.out.println("321");
+									printError(node, ERRORS.TYPE_MISSMATCH);
+								}
 							}
 						}
 					}
 				}
 			}
-
 		}
 		
 	
@@ -375,7 +397,7 @@ public class MyVisitor extends DepthFirstAdapter
 			current_function.setReturnType("STRING");
 		}
 		if(grandpa instanceof AArglistArglist){
-			String a ="o";
+
 			function_argument_list.add("STRING");
 			for (Function f: func_list){
 				if(f.getName().equals(function_argument_list.get(0)))
@@ -881,10 +903,11 @@ public class MyVisitor extends DepthFirstAdapter
 	@Override
 	public void inAFuncCallFunctionCall(AFuncCallFunctionCall node) {
 		int x = 0;
-		curr_type_add_sub="null";
+		curr_type_add_sub ="null";
 		String id = node.getId().toString().trim();
 		if(!functions.containsKey(id))
 		{
+			System.out.println("irtha892");
 			//printError(node, ERRORS.UNDEFINED_FUNCTION);
 		}
 		else
@@ -924,6 +947,7 @@ public class MyVisitor extends DepthFirstAdapter
 			}
 			if(counter>0)
 			{
+				System.out.println("931");
 				printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
 			}
 			else
@@ -1273,96 +1297,98 @@ public class MyVisitor extends DepthFirstAdapter
 			x = 0;
 		}
 
-		int counter = 0;
+		// int counter = 0;
+		// for(int i =0; i< func_list.size();i++)
+		// {
+		// 	if(func_list.get(i).getName().equals(id))
+		// 	{
+		// 		if(!(func_list.get(i).getTotal_vars() - func_list.get(i).getDef_vars() <= x && x <= func_list.get(i).getTotal_vars()))
+		// 		{
+		// 			counter++;
+		// 		}
+		// 		else
+		// 		{
+		// 			counter--;
+		// 		}
+		// 	}
+		// }
+		// if(counter>0)
+		// {
+		// 					System.out.println("1298");
+
+		// 	printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
+		// }
+		//else
+		//{
+		int index = -1;
+		Function f = null;
 		for(int i =0; i< func_list.size();i++)
 		{
 			if(func_list.get(i).getName().equals(id))
 			{
-				if(!(func_list.get(i).getTotal_vars() - func_list.get(i).getDef_vars() <= x && x <= func_list.get(i).getTotal_vars()))
+				//if x (number of arguments given here) is bigger or equal to the number of parameters 
+				//that have got to be given for the function call and less than the total variables
+				//we can make that comparison here because we've already checked for wrong function call above
+				if((func_list.get(i).getTotal_vars() - func_list.get(i).getDef_vars() <= x && x <= func_list.get(i).getTotal_vars()))
 				{
-					counter++;
-				}
-				else
-				{
-					counter--;
+					index = i;
 				}
 			}
 		}
-		if(counter>0)
+		if(index>=0)
 		{
-			printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
-		}
-		else
-		{
-			int index = -1;
-			Function f = null;
-			for(int i =0; i< func_list.size();i++)
+			f = func_list.get(index);
+			Node grandpa = node.parent().parent();
+			if(grandpa instanceof AMultiplicationExpression || grandpa instanceof ASubtractionExExpression || grandpa instanceof APlplExpression||grandpa instanceof AMinminExpression||grandpa instanceof ADivisionExpression||grandpa instanceof AModuloExpression||grandpa instanceof APowerExpression)
 			{
-				if(func_list.get(i).getName().equals(id))
+				if((f.getReturnType().equals("STRING") || f.getReturnType().equals("NONE")))
 				{
-					//if x (number of arguments given here) is bigger or equal to the number of parameters 
-					//that have got to be given for the function call and less than the total variables
-					//we can make that comparison here because we've already checked for wrong function call above
-					if((func_list.get(i).getTotal_vars() - func_list.get(i).getDef_vars() <= x && x <= func_list.get(i).getTotal_vars()))
-					{
-						index = i;
-					}
+					printError(node, ERRORS.MISUSED_FUNCTION);
 				}
 			}
-			if(index>=0)
+			if(grandpa instanceof AAdditionExExpression)
 			{
-				f = func_list.get(index);
-				Node grandpa = node.parent().parent();
-				if(grandpa instanceof AMultiplicationExpression || grandpa instanceof ASubtractionExExpression || grandpa instanceof APlplExpression||grandpa instanceof AMinminExpression||grandpa instanceof ADivisionExpression||grandpa instanceof AModuloExpression||grandpa instanceof APowerExpression)
+				//apelpismenos tropos ypologismou twn variables mias prostheshs pou ara prepei na xoun idio typo afou prosthesh:
+				// int counter_of_types = 0;
+				// String type = "null";
+				// for(int j:f.getVarOfSameType())
+				// {	
+				// 	if(counter_of_types==0)
+				// 	{
+				// 		type = f.gettVar_types().get(j);
+				// 	}
+				// 	if(!((f.gettVar_types().get(j)).equals(type)))
+				// 	{
+				// 		printError(node, ERRORS.TYPE_MISSMATCH);
+				// 	}
+				// }
+				//we can only have str + str or number + number
+				if(f.getReturnType().equals("NONE"))
 				{
-					if((f.getReturnType().equals("STRING") || f.getReturnType().equals("NONE")))
-					{
-						printError(node, ERRORS.MISUSED_FUNCTION);
-					}
+					//we can't have a none in an addition
+					printError(node, ERRORS.MISUSED_FUNCTION);
 				}
-				if(grandpa instanceof AAdditionExExpression)
+				//if we are in the left part of the + of an addition we want to set the
+				//type of the addition to the return type of our function
+				AAdditionExExpression gp = (AAdditionExExpression) grandpa;
+				if(node.parent() == gp.getL())
 				{
-					//apelpismenos tropos ypologismou twn variables mias prostheshs pou ara prepei na xoun idio typo afou prosthesh:
-					// int counter_of_types = 0;
-					// String type = "null";
-					// for(int j:f.getVarOfSameType())
-					// {	
-					// 	if(counter_of_types==0)
-					// 	{
-					// 		type = f.gettVar_types().get(j);
-					// 	}
-					// 	if(!((f.gettVar_types().get(j)).equals(type)))
-					// 	{
-					// 		printError(node, ERRORS.TYPE_MISSMATCH);
-					// 	}
-					// }
-					//we can only have str + str or number + number
-					if(f.getReturnType().equals("NONE"))
+					add_type = f.getReturnType();
+				}
+				else if(node.parent() == gp.getR())
+				{
+					if(!add_type.equals("UNKNOWN") && !add_type.equals("null"))
 					{
-						//we can't have a none in an addition
-						printError(node, ERRORS.MISUSED_FUNCTION);
-					}
-					//if we are in the left part of the + of an addition we want to set the
-					//type of the addition to the return type of our function
-					AAdditionExExpression gp = (AAdditionExExpression) grandpa;
-					if(node.parent() == gp.getL())
-					{
-						add_type = f.getReturnType();
-					}
-					else if(node.parent() == gp.getR())
-					{
-						if(!add_type.equals("UNKNOWN") && !add_type.equals("null"))
+						if(!add_type.equals( f.getReturnType()))
 						{
-							if(!add_type.equals( f.getReturnType()))
-							{
-								//we can't have addition of different types
-								printError(node, ERRORS.MISUSED_FUNCTION);
-							}
+							//we can't have addition of different types
+							printError(node, ERRORS.MISUSED_FUNCTION);
 						}
 					}
 				}
 			}
 		}
+		//}
 	}
 
 	public int CountItemsInString(String inputString) {
