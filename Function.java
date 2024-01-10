@@ -9,6 +9,9 @@ public class Function {
     private LinkedList<String> vars ;
     private String returnType;
     String variableOfReturn = "null";
+    //this variable will describe if the function's return type is not fixed. 
+    //if the type is not fixed then after every function call the return type will be set to unknown again.
+    private Boolean isReturnUnknown; 
     
     public LinkedList<String> gettVar_types() {
         return var_types;
@@ -20,6 +23,30 @@ public class Function {
 
     public LinkedList<String> getVars() {
         return vars;
+    }
+
+    public Boolean getIsReturnUnknown()
+    {
+        return this.isReturnUnknown;
+    }
+
+    public void decideIfIsReturnUnknown()
+    {
+        //This function will be called at the end of the definition of a function to decide if it is of not fixed return type.
+        //If at the end of the definition of the function the return type is still unknown then the function's type is not fixed.
+        if(this.returnType.equals("UNKNOWN"))
+        {
+            this.isReturnUnknown = true;
+        }
+        else
+        {
+            this.isReturnUnknown = false;
+        }
+    }
+
+    public void makeReturnTypeUnknown()
+    {
+        this.returnType = "UNKNOWN";
     }
 
     public void addVar_type(String var_type) {
@@ -90,6 +117,7 @@ public class Function {
         this.vars = new LinkedList<String>();
         this.var_of_same_type = new LinkedList<Integer>();
         this.returnType = "UNKNOWN";
+        this.isReturnUnknown = false;
     }
     
 }

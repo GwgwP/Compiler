@@ -1,3 +1,5 @@
-def add(x,y):
-   return x-9
-add("asa", 1)
+def add(c):
+   return None
+
+i = add(1)
+print 1

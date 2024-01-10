@@ -5,7 +5,7 @@ public class MyVisitor extends DepthFirstAdapter
 {
 	public static int total_errors=0;
 	public static Function current_function = null;
-	public static String curr_type_add_sub = "null"; //type of the arguments that will be used in an addition/subbr=traction together and so must be same type
+	public static String curr_type_add = "null"; //type of the arguments that will be used in an addition together and so must be same type
     public static LinkedList<String> function_argument_list = new LinkedList<>();
 
 	
@@ -64,12 +64,14 @@ public class MyVisitor extends DepthFirstAdapter
 		String name = node.getIdent().getText().trim();
 		Node parent = node.parent();
 		Node parent3 = node.parent().parent().parent();
-		
+		Boolean foundError = false;
+
 		// 1) Undeclared variables
 		if (parent instanceof AIdentifierExpression || parent instanceof AIdValueno) { //x = y[2] if y is undefined
 			if (!variableTypes.containsKey(name)) 
 			{
 				// Print error message
+				foundError = true;
 				printError(node, ERRORS.UNDECLARED_VARIABLE);
 			}
 		}
@@ -77,18 +79,20 @@ public class MyVisitor extends DepthFirstAdapter
 		{
 			AForStatementStatement forLoop = (AForStatementStatement) parent;
 			AIdId id1 = (AIdId) forLoop.getLid(); 
-			AIdId id2 = (AIdId) forLoop.getRid(); // for x in x is illegal because x is global var
+			AIdId id2 = (AIdId) forLoop.getRid(); // for x in x is ilegal because x is global var
 			String id2s = id2.toString().trim();
-			// Check that the second identifier is an existing variable
+			// Check that the second identifer is an existing variable
 			if(node == forLoop.getLid() )
 			{
 
 				if (name.equals(id2s) ) 
 				{ 
+					foundError = true;
 					printError(node, ERRORS.REDEFINED_VARIABLE);
 				}
 				else if(!variableTypes.containsKey(id2s)) //right id is not defined
 				{
+					foundError = true;
 					printError(id2, ERRORS.UNDECLARED_VARIABLE);
 				}
 
@@ -104,32 +108,52 @@ public class MyVisitor extends DepthFirstAdapter
 			// for x in y: and y=[1,2,3] x should be integer, if y =[1.2, 1.3] y should be double etc
 			if (node == forLoop.getLid() && variableTypes.containsKey(id2.getIdent().getText().trim())) 
 			{
-				if(variableTypes.containsKey(id2.getIdent().getText().trim()))
-				{
-					VARIABLE_TYPES variableType = variableTypes.get(id2.getIdent().getText().trim());
-					variableTypes.put(name, variableType);
-					variables.put(id1.toString().trim(), node);
-				}
+				VARIABLE_TYPES variableType = variableTypes.get(id2.getIdent().getText().trim());
+				variableTypes.put(name, variableType);
+				variables.put(id1.toString().trim(), node);
 			}
 		}
+
 		
-		//if return is the "4th parent" we have an id inside another expression in the return
-		// type of the function will depend on the type of this expression.
+		if(node.parent().parent().parent() instanceof AAdditionExExpression )
+		{
+			boolean thisIdIsFunction = false;
+			for(Function f:func_list)
+			{
+				if(f.getName().equals(name))
+				{
+					thisIdIsFunction = true;
+				}
+			}
+			if(!thisIdIsFunction)
+			{
+				calculateTypeOfAdditionId(node,variableTypes.get(name),name);
+			}
+		}
+
+		//if return is the "4th parent" we have an id inside of an other expression in the return
+		//the return type of the function will depend on the type of this expression.
 		if(node.parent().parent().parent().parent() instanceof AReturnStatementStatement)
 		{ 
-
-			if (variableTypes.containsKey(name))
+			if (!variableTypes.containsKey(name)) 
+			{
+				// Print error message
+				foundError = true;
+				printError(node, ERRORS.UNDECLARED_VARIABLE);
+			}
+			else 
 			{
 				
 				if( parent3 instanceof AMultiplicationExpression||parent3 instanceof ASubtractionExExpression || parent3 instanceof APlplExpression || parent3 instanceof AMinminExpression || parent3 instanceof ADivisionExpression || parent3 instanceof AModuloExpression || parent3 instanceof APowerExpression)
 				{
 					//we check if we are in the return statement of a function and if there is a  division or power
-					//this method finds the index of the id in the linked list of this function, so we can check the type of the variable
+					//this method finds the index of the id in the linked list of this function so we can check the type of the variable
 					//if it is unknown we will make it to be number because you cant have division or power with any other type of variable
 					//this way we will be able to control if the variable is called correctly since it will no longer be unknown
 					int index = findIndex(current_function.getVars(), name);
 					if((variableTypes.get(name).toString()).equals("STRING") || (variableTypes.get(name).toString()).equals("NONE"))
 					{
+						foundError = true;
 						printError(node, ERRORS.TYPE_MISMATCH);
 					}
 					if(current_function.gettVar_types().get(index).equals("UNKNOWN"))
@@ -137,53 +161,6 @@ public class MyVisitor extends DepthFirstAdapter
 						current_function.gettVar_types().set(index,"NUMBER");
 					} 
 					current_function.setReturnType("NUMBER");
-				}
-				else if(node.parent().parent().parent() instanceof AAdditionExExpression )
-				{
-					AAdditionExExpression greatGrandpa = (AAdditionExExpression) node.parent().parent().parent();
-					int indexOfSameType = findIndex(current_function.getVars(), name);
-					Integer indexOfSameTypeInteger = Integer.valueOf(indexOfSameType);
-					current_function.addVarOfSameType(indexOfSameTypeInteger);
-					if(node.parent().parent() == greatGrandpa.getL())
-					{
-						System.out.println("151");
-						add_type = variableTypes.get(name).name().trim();
-						System.out.println("154");
-					}
-					else if(node.parent().parent() == greatGrandpa.getR())
-					{
-						if(!(variableTypes.get(name).name().trim()).equals("UNKNOWN"))
-						{
-							if(!add_type.equals("UNKNOWN")&&!add_type.equals("null"))
-							{
-								if(!add_type.equals(variableTypes.get(name).name().trim()))
-								{
-									printError(node, ERRORS.TYPE_MISMATCH);
-								}
-							}
-							current_function.setReturnType(variableTypes.get(name).name().trim());
-							for(int j:current_function.getVarOfSameType())
-							{
-								current_function.gettVar_types().set(j,variableTypes.get(name).name().trim());
-							}
-							
-						}
-						else
-						{
-							if(add_type.equals("STRING"))
-							{
-								variableTypes.put(name, VARIABLE_TYPES.STRING);
-							}
-							else if(add_type.equals("NUMBER"))
-							{
-								variableTypes.put(name, VARIABLE_TYPES.NUMBER);
-							}
-							for(int j:current_function.getVarOfSameType())
-							{
-								current_function.gettVar_types().set(j,add_type);
-							}
-						}
-					}
 				}
 			}
 		}
@@ -193,6 +170,9 @@ public class MyVisitor extends DepthFirstAdapter
 		{ 
 			if (!variableTypes.containsKey(name)) 
 			{
+				// Print error message
+				foundError = true;
+				printError(node, ERRORS.UNDECLARED_VARIABLE);
 			}
 			else
 			{
@@ -204,20 +184,18 @@ public class MyVisitor extends DepthFirstAdapter
 			}
 		}
 
-	
 		if(node.parent().parent().parent() instanceof AArglistArglist){
-			Function thisF = null;
 			if(variableTypes.containsKey(name))
 			{
 				function_argument_list.add(variableTypes.get(name).toString());
-				for (Function f: func_list)
-				{
+				for (Function f: func_list){
 					if(f.getName().equals(function_argument_list.get(0)))
 					{
 						if((function_argument_list.size()-f.gettVar_types().size())<2)
 						{
 							if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
 							{
+								foundError = true;
 								printError(node, ERRORS.TYPE_MISMATCH);
 							}
 							//if the variable was declared as unknown inside the function, now a type is given to it by the arguments
@@ -252,94 +230,100 @@ public class MyVisitor extends DepthFirstAdapter
 							{
 								if(j==function_argument_list.size()-2)
 								{
-									if(curr_type_add_sub.equals("null"))
+									if(curr_type_add.equals("null"))
 									{
 										if(!variableTypes.get(name).toString().equals("UNKNOWN"))
 										{
-											curr_type_add_sub = variableTypes.get(name).toString();
+											curr_type_add = variableTypes.get(name).toString();
 										}
 									}
 									else
 									{
-										if(!curr_type_add_sub.equals(variableTypes.get(name).toString()))
+										if(!curr_type_add.equals(variableTypes.get(name).toString()))
 										{
+											foundError = true;
 											printError(node, ERRORS.TYPE_MISMATCH);
 										}
-										f.setReturnType(curr_type_add_sub);
+										f.setReturnType(curr_type_add);
 									}
 								}
 							}
-							thisF = f;
 						}
 					}
 				}
-			}	
-			
-			AFuncCallFunctionCall fCall = (AFuncCallFunctionCall) node.parent().parent().parent().parent();
-			if((function_argument_list.size()-1)==CountItemsInString(fCall.getArglist().toString().trim()))
-			{
-				funcAfterHandlingArguments(fCall);
+				AFuncCallFunctionCall fCall = (AFuncCallFunctionCall) node.parent().parent().parent().parent();
+				if((function_argument_list.size()-1)==CountItemsInString(fCall.getArglist().toString().trim()))
+				{
+					funcAfterHandlingArguments(fCall);
+				}
 			}
+			
 		}
 		// Addressing 5th error part2 (y = None -> print y+2)
 		if(parent3 instanceof AMultiplicationExpression|| parent3 instanceof AAdditionExExpression || parent3 instanceof ASubtractionExExpression || parent3 instanceof APlplExpression || parent3 instanceof AMinminExpression || parent3 instanceof ADivisionExpression || parent3 instanceof AModuloExpression || parent3 instanceof AMultiplicationExpression || parent3 instanceof APowerExpression || parent3 instanceof ALenExpExpression)
 		{
 			if(variableTypes.containsKey(name))
 			{
-				if(variableTypes.containsKey(name))
+				String type = variableTypes.get(name).name().trim();
+				if(type.equals("NONE"))
 				{
-					String type = variableTypes.get(name).name().trim();
-					if(type.equals("NONE"))
+					foundError = true;
+					printError(node, ERRORS.NONE);
+				}
+				if(node.parent().parent().parent() instanceof AAdditionExExpression  && !(node.parent().parent().parent() instanceof AReturnStatementStatement))
+				{
+					AAdditionExExpression greatGrandpa = (AAdditionExExpression) node.parent().parent().parent();
+					if(node.parent().parent() == greatGrandpa.getL())
 					{
-						printError(node, ERRORS.NONE);
+						add_type = variableTypes.get(name).name().trim();
 					}
-					if(node.parent().parent().parent() instanceof AAdditionExExpression  && !(node.parent().parent().parent() instanceof AReturnStatementStatement))
+					else if(node.parent().parent() == greatGrandpa.getR())
 					{
-						AAdditionExExpression greatGrandpa = (AAdditionExExpression) node.parent().parent().parent();
-						if(node.parent().parent() == greatGrandpa.getL())
+						if(!add_type.equals("UNKNOWN")&&!add_type.equals("null"))
 						{
-							add_type = variableTypes.get(name).name().trim();
-						}
-						else if(node.parent().parent() == greatGrandpa.getR())
-						{
-							if(!add_type.equals("UNKNOWN")&&!add_type.equals("null"))
+							if(!(variableTypes.get(name).name().trim()).equals(add_type))
 							{
-								if(!(variableTypes.get(name).name().trim()).equals(add_type))
-								{
-									printError(node, ERRORS.TYPE_MISMATCH);
-								}
+								foundError = true;
+								printError(node, ERRORS.TYPE_MISMATCH);
 							}
 						}
 					}
 				}
 			}
+
 		}
-	} 
+		
+		//if there wasn't an error and also we're not in an addition we call the functions that checks for assignment and handes it
+		//if we were in an addition the function is already called from within the calculateTypeOfAddition function
+		if(!foundError)
+		{
+			if(variableTypes.containsKey(name))
+			{
+				if(!(node.parent().parent() instanceof AAdditionExExpression) && !variableTypes.get(name).toString().equals("UNKNOWN") && !variableTypes.get(name).toString().equals("NONE"))
+				{
+					calculateTypeOfAssign(parent, variableTypes.get(name));
+				}
+			}
+			
+		}
+		
 	
+	} 
+
 	public void inADoubleQuotesValueno(ADoubleQuotesValueno node)
 	{
 		
 		Node grandpa = node.parent().parent();
 		Node parent = node.parent();
 		String id = null;
+		Boolean foundError = false;
 
-		if(grandpa instanceof AAssignStatementStatement)
-		{
-			id = ((AAssignStatementStatement)grandpa).getId().toString().trim();
+		id = getString(grandpa, id);
 			
-		}
-		else id = getString(grandpa, id);
-		if(id!=null)
-		{
-			if(variableTypes.containsKey(id))
-			{
-				variableTypes.remove(id);
-			}
-			variableTypes.put(id, VARIABLE_TYPES.STRING);
-		}	
 		//Checking error 4
 		if(grandpa instanceof AMultiplicationExpression||grandpa instanceof ASubtractionExExpression || grandpa instanceof APowerExpression || grandpa instanceof APlplExpression || grandpa instanceof AMinminExpression || grandpa instanceof ADivisionExpression || grandpa instanceof AModuloExpression  )	
 		{
+			foundError = true;
 			printError(node, ERRORS.TYPE_MISMATCH);
 		}
 		if(grandpa instanceof AReturnStatementStatement){ 
@@ -355,7 +339,8 @@ public class MyVisitor extends DepthFirstAdapter
 					if((function_argument_list.size()-f.gettVar_types().size())<2)
 					{
 						if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
-						{					
+						{	
+			                foundError = true;				
 							printError(node, ERRORS.TYPE_MISMATCH);
 						}
 						//if the variable was declared as unknown inside the function, now a type is given to it by the arguments
@@ -372,17 +357,18 @@ public class MyVisitor extends DepthFirstAdapter
 						{
 							if(j==function_argument_list.size()-2)
 							{
-								if(curr_type_add_sub.equals("null"))
+								if(curr_type_add.equals("null"))
 								{
-									curr_type_add_sub = "STRING";
+									curr_type_add = "STRING";
 								}
 								else
 								{
-									if(!curr_type_add_sub.equals("STRING"))
+									if(!curr_type_add.equals("STRING"))
 									{
+										foundError = true;
 										printError(node, ERRORS.TYPE_MISMATCH);
 									}
-									f.setReturnType(curr_type_add_sub);
+									f.setReturnType(curr_type_add);
 								}
 							}
 						}
@@ -397,38 +383,31 @@ public class MyVisitor extends DepthFirstAdapter
 		}
 		if(node.parent().parent() instanceof AAdditionExExpression )
 		{
-			
-			AAdditionExExpression greatGrandpa = (AAdditionExExpression) node.parent().parent();
-			if(node.parent() == greatGrandpa.getR())
+			calculateTypeOfAddition(node.parent(), VARIABLE_TYPES.STRING);
+		}
+		if(id!=null)
+		{
+			if(variableTypes.containsKey(id))
 			{
-				if(!add_type.equals("UNKNOWN")&&!add_type.equals("null"))
-				{
-					if(!add_type.equals("STRING"))
-					{
-						printError(node, ERRORS.TYPE_MISMATCH);
-					}
-				}
+				variableTypes.remove(id);
 			}
-			if(node.parent() == greatGrandpa.getL())
+			variableTypes.put(id, VARIABLE_TYPES.STRING);
+		}
+		//if there wasn't an error and also we're not in an addition we call the functions that checks for assignment and handes it
+		//if we were in an addition the function is already called from within the calculateTypeOfAddition function
+		if(!foundError)
+		{
+			if(!(node.parent().parent() instanceof AAdditionExExpression))
 			{
-				add_type = "STRING";
-			}
-			//if we are in an addition of a return statement and one of the variables is str then the function's return type should be str
-			
-			//if we are in an addition of a return statement and one of the variables is str then the function's return type should be str
-			if(greatGrandpa.parent() instanceof AReturnStatementStatement)
-			{
-				current_function.setReturnType("STRING");
-				if(node.parent().parent().parent() instanceof AReturnStatementStatement)
-				{
-					current_function.gettVar_types().set(current_function.getVarOfSameType().getLast(),"STRING");
-				}
+				calculateTypeOfAssign(parent, VARIABLE_TYPES.STRING);
 			}
 		}
 	}
+	
 	@Override
     public void inAAssignStatementStatement(AAssignStatementStatement node) // in every assign statement we put the variable as unknown and if it has a value like string, number etc it will be replaced in the other outASingleQuotesValueno etc
     {
+		add_type = "null";
         String id = node.getId().toString().trim();
         if (variableTypes.containsKey(id))
         {	
@@ -437,31 +416,20 @@ public class MyVisitor extends DepthFirstAdapter
         variableTypes.put(id, VARIABLE_TYPES.UNKNOWN);
 
     }
+
 	@Override
 	public void inASingleQuotesValueno(ASingleQuotesValueno node)
 	{
 		Node grandpa = node.parent().parent();
 		Node parent = node.parent();
+		Boolean foundError = false;
 
 		String id = null;
-		if(grandpa instanceof AAssignStatementStatement)
-		{
-			id = ((AAssignStatementStatement)grandpa).getId().toString().trim();
-			
-		}
 		id = getString(grandpa, id);
 		if(node.parent().parent() instanceof AMultiplicationExpression||grandpa instanceof ASubtractionExExpression || grandpa instanceof APowerExpression || grandpa instanceof APlplExpression || grandpa instanceof AMinminExpression || grandpa instanceof ADivisionExpression || grandpa instanceof AModuloExpression  )	
 		{
+			foundError = true;
 			printError(node, ERRORS.TYPE_MISMATCH);
-		}
-		if(id!=null)
-		{
-			if(variableTypes.containsKey(id))
-			{
-				variableTypes.remove(id);
-				
-			}
-			variableTypes.put(id, VARIABLE_TYPES.STRING);
 		}
 		if(grandpa instanceof AReturnStatementStatement){
 			//if it is a return 'something' save that the function returns type STRING
@@ -476,7 +444,7 @@ public class MyVisitor extends DepthFirstAdapter
 					{
 						if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
 						{
-
+							foundError = true;
 							printError(node, ERRORS.TYPE_MISMATCH);
 						}
 						//if the variable was declared as unknown inside the function, now a type is given to it by the arguments
@@ -493,17 +461,18 @@ public class MyVisitor extends DepthFirstAdapter
 						{
 							if(j==function_argument_list.size()-2)
 							{
-								if(curr_type_add_sub.equals("null"))
+								if(curr_type_add.equals("null"))
 								{
-									curr_type_add_sub = "STRING";
+									curr_type_add = "STRING";
 								}
 								else
 								{
-									if(!curr_type_add_sub.equals("STRING"))
+									if(!curr_type_add.equals("STRING"))
 									{
+										foundError = true;
 										printError(node, ERRORS.TYPE_MISMATCH);
 									}
-									f.setReturnType(curr_type_add_sub);
+									f.setReturnType(curr_type_add);
 								}
 							}
 						}
@@ -518,86 +487,48 @@ public class MyVisitor extends DepthFirstAdapter
 		}
 		if(node.parent().parent() instanceof AAdditionExExpression )
 		{
-			AAdditionExExpression greatGrandpa = (AAdditionExExpression) node.parent().parent();
-			if(node.parent() == greatGrandpa.getR())
+			calculateTypeOfAddition(node.parent(), VARIABLE_TYPES.STRING);
+		}
+		if(id!=null)
+		{
+			if(variableTypes.containsKey(id)) 
 			{
-				if(!add_type.equals("UNKNOWN")&&!add_type.equals("null"))
-				{
-					if(!add_type.equals("STRING"))
-					{
-						printError(node, ERRORS.TYPE_MISMATCH);
-					}
-				}
+				variableTypes.remove(id);
+				
 			}
-			if(node.parent() == greatGrandpa.getL())
+			variableTypes.put(id, VARIABLE_TYPES.NUMBER);
+		}
+		//if there wasn't an error and also we're not in an addition we call the functions that checks for assignment and handes it
+		//if we were in an addition the function is already called from within the calculateTypeOfAddition function
+		if(!foundError)
+		{
+			if(!(node.parent().parent() instanceof AAdditionExExpression))
 			{
-				add_type = "STRING";
-			}
-			//if we are in an addition of a return statement and one of the variables is str then the function's return type should be str
-			if(greatGrandpa.parent() instanceof AReturnStatementStatement)
-			{
-				current_function.setReturnType("STRING");
-				if(node.parent().parent().parent() instanceof AReturnStatementStatement)
-				{
-					current_function.gettVar_types().set(current_function.getVarOfSameType().getLast(),"STRING");
-				}
+				calculateTypeOfAssign(parent, VARIABLE_TYPES.STRING);
 			}
 		}
 	}
 
-	private String getString(Node grandpa, String id) {
-		if(grandpa instanceof ACommaIdCiav)
-		{
-			id = ((ACommaIdCiav)grandpa).getId().toString().trim();
-
-
-			AArgArgument g = (AArgArgument)grandpa.parent();
-
-			ADefFuncFunction gp = (ADefFuncFunction) g.parent();
-
-			String func_name = gp.getId().toString().trim();
-
-			current_function.addVar_type("STRING");
-			current_function.addVar(id);
-
-		}
-		else if(grandpa instanceof AArgArgument)
-		{
-			id = ((AArgArgument)grandpa).getId().toString().trim();
-			ADefFuncFunction gp = (ADefFuncFunction)grandpa.parent();
-
-			String func_name = gp.getId().toString().trim();
-            for (Function function : func_list) {
-                if (function.getName().toString().trim().equals(func_name)) {
-                    function.addVar_type("STRING");
-                    function.addVar(id);
-                }
-            }
-		}
-		return id;
-	}
+	
 
 	@Override
 	public void inANumNum(ANumNum node)
 	{
 		Node grandpa = node.parent().parent().parent();
 		Node parent = node.parent().parent();
-
-		
+		Boolean foundError = false;
 		
 		String id = null;
 
-		if(grandpa instanceof AAssignStatementStatement)
-		{
-			id = ((AAssignStatementStatement)grandpa).getId().toString().trim();
+		// if(grandpa.parent() instanceof AAssignStatementStatement && !(node.parent().parent().parent() instanceof AAdditionExExpression))
+		// {
+		// 	//id = ((AAssignStatementStatement)grandpa).getId().toString().trim();
+		// 	calculateTypeOfAssign(parent, VARIABLE_TYPES.NUMBER);
 			
-		}
+		// }
 		if(grandpa instanceof ACommaIdCiav)
 		{
 			id = ((ACommaIdCiav)grandpa).getId().toString().trim();
-			AArgArgument g = (AArgArgument)grandpa.parent();
-			ADefFuncFunction gp = (ADefFuncFunction) g.parent();
-			String func_name = gp.getId().toString().trim();
 
 
 			current_function.addVar_type("NUMBER");
@@ -618,21 +549,14 @@ public class MyVisitor extends DepthFirstAdapter
             }
 		}
 		
-		if(id!=null)
-		{
-			if(variableTypes.containsKey(id)) 
-			{
-				variableTypes.remove(id);
-				
-			}
-			variableTypes.put(id, VARIABLE_TYPES.NUMBER);
-		}	
+			
 		if(grandpa instanceof AReturnStatementStatement){
 			//if it is a return number save that the function returns type STRING
 			current_function.setReturnType("NUMBER");
 		}
 		
-		if(grandpa instanceof AArglistArglist){
+		if(grandpa instanceof AArglistArglist)
+		{
 			function_argument_list.add("NUMBER");
 			for (Function f: func_list){
 				if(f.getName().equals(function_argument_list.get(0)))
@@ -641,6 +565,7 @@ public class MyVisitor extends DepthFirstAdapter
 					{
 						if(!(f.gettVar_types().get(function_argument_list.size()-2)).equals(function_argument_list.get(function_argument_list.size()-1))&&!((f.gettVar_types().get(function_argument_list.size()-2)).equals("UNKNOWN")))
 						{
+							foundError = true;
 							printError(node, ERRORS.TYPE_MISMATCH);
 						}
 						//if the variable was declared as unknown inside the function, now a type is given to it by the arguments
@@ -657,17 +582,18 @@ public class MyVisitor extends DepthFirstAdapter
 						{
 							if(j==function_argument_list.size()-2)
 							{
-								if(curr_type_add_sub.equals("null"))
+								if(curr_type_add.equals("null"))
 								{
-									curr_type_add_sub = "NUMBER";
+									curr_type_add = "NUMBER";
 								}
 								else
 								{
-									if(!curr_type_add_sub.equals("NUMBER"))
+									if(!curr_type_add.equals("NUMBER"))
 									{
+										foundError = true;
 										printError(node, ERRORS.TYPE_MISMATCH);
 									}
-									f.setReturnType(curr_type_add_sub);
+									f.setReturnType(curr_type_add);
 								}
 							}
 						}
@@ -683,34 +609,31 @@ public class MyVisitor extends DepthFirstAdapter
 		}
 		if(node.parent().parent().parent() instanceof AAdditionExExpression)
 		{
-			AAdditionExExpression greatGrandpa = (AAdditionExExpression) node.parent().parent().parent();
-			if(node.parent().parent() == greatGrandpa.getL())
+			calculateTypeOfAddition(parent, VARIABLE_TYPES.NUMBER);
+		}
+		if(id!=null)
+		{
+			if(variableTypes.containsKey(id)) 
 			{
-				add_type = "NUMBER";
+				variableTypes.remove(id);
+				
 			}
-			else if(node.parent().parent() == greatGrandpa.getR())
+			variableTypes.put(id, VARIABLE_TYPES.NUMBER);
+		}
+		//if there wasn't an error and also we're not in an addition we call the functions that checks for assignment and handes it
+		//if we were in an addition the function is already called from within the calculateTypeOfAddition function
+		if(!foundError)
+		{
+			if(!(node.parent().parent().parent() instanceof AAdditionExExpression))
 			{
-				if(!add_type.equals("UNKNOWN")&&!add_type.equals("null"))
-				{
-					if(!add_type.equals("NUMBER"))
-					{
-						printError(node, ERRORS.TYPE_MISMATCH);
-					}
-				}
-			}
-			if(node.parent().parent().parent().parent() instanceof AReturnStatementStatement)
-			{
-				current_function.setReturnType("NUMBER");
-				current_function.gettVar_types().set(current_function.getVarOfSameType().getLast(),"NUMBER");
+				calculateTypeOfAssign(parent, VARIABLE_TYPES.NUMBER);
 			}
 		}
-
 	}
 	@Override
 	public void inANoneValueno(ANoneValueno node)
 	{
 		Node grandpa = node.parent().parent();
-		Node parent = node.parent();
 		String id = null;
 
 		if(grandpa instanceof AAssignStatementStatement)
@@ -721,11 +644,6 @@ public class MyVisitor extends DepthFirstAdapter
 		if(grandpa instanceof ACommaIdCiav)
 		{
 			id = ((ACommaIdCiav)grandpa).getId().toString().trim();
-
-			AArgArgument g = (AArgArgument)grandpa.parent();
-
-			ADefFuncFunction gp = (ADefFuncFunction) g.parent();
-			String func_name = gp.getId().toString().trim();
 			
 			current_function.addVar_type("NONE");
 			current_function.addVar(id);
@@ -844,112 +762,6 @@ public class MyVisitor extends DepthFirstAdapter
 		}
 	}
 	
-	
-	@Override
-	public void inAFuncCallFunctionCall(AFuncCallFunctionCall node) {
-		int x = 0;
-		curr_type_add_sub ="null";
-		String id = node.getId().toString().trim();
-		
-		if(functions.containsKey(id))
-		{	
-			//counting how many arguments are given and compare it with the ones saved.
-			if(!node.getArglist().isEmpty())
-			{
-				x = getX(node, x);
-
-			}
-			else
-			{
-				x = 0;
-			}
-
-			int counter = 0;
-			for(int i =0; i< func_list.size();i++)
-			{
-				if(func_list.get(i).getName().equals(id))
-				{
-					if(!(func_list.get(i).getTotal_vars() - func_list.get(i).getDef_vars() <= x && x <= func_list.get(i).getTotal_vars()))
-					{
-						counter++;
-					}
-					else
-					{
-						counter--;
-					}
-				}
-			}
-			if(counter>0)
-			{
-				printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
-			}
-			else
-			{
-				int num_of_args = CountItemsInString(node.getArglist().toString().trim());
-			
-				if(num_of_args== 0)
-				{
-					int index = -1;
-					Function f = null;
-					for(int i =0; i< func_list.size();i++)
-					{
-						if(func_list.get(i).getName().equals(id))
-						{
-							//if x (number of arguments given here) is bigger or equal to the number of parameters 
-							//that have got to be given for the function call and less than the total variables
-							//we can make that comparison here because we've already checked for wrong function call above
-							if((func_list.get(i).getTotal_vars() - func_list.get(i).getDef_vars() <= x && x <= func_list.get(i).getTotal_vars()))
-							{
-								index = i;
-							}
-						}
-					}
-					if(index>=0)
-					{
-						f = func_list.get(index);
-						Node grandpa = node.parent().parent();
-						if(grandpa instanceof AMultiplicationExpression || grandpa instanceof ASubtractionExExpression || grandpa instanceof APlplExpression||grandpa instanceof AMinminExpression||grandpa instanceof ADivisionExpression||grandpa instanceof AModuloExpression||grandpa instanceof APowerExpression)
-						{
-							if((f.getReturnType().equals("STRING") || f.getReturnType().equals("NONE")))
-							{
-								printError(node, ERRORS.MISUSED_FUNCTION);
-							}
-						}
-						if(grandpa instanceof AAdditionExExpression)
-						{
-							//we can only have str + str or number + number
-							if(f.getReturnType().equals("NONE"))
-							{
-								//we can't have a none in an addition
-								printError(node, ERRORS.MISUSED_FUNCTION);
-							}
-							//if we are in the left part of the + of an addition we want to set the
-							//type of the addition to the return type of our function
-							AAdditionExExpression gp = (AAdditionExExpression) grandpa;
-							if(node.parent() == gp.getL())
-							{
-								add_type = f.getReturnType();
-							}
-							else if(node.parent() == gp.getR())
-							{
-								if(!add_type.equals("UNKNOWN") && !add_type.equals("null"))
-								{
-									if(!add_type.equals( f.getReturnType()))
-									{
-										//we can't have addition of different types
-										printError(node, ERRORS.MISUSED_FUNCTION);
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-
-		}
-		function_argument_list = new LinkedList<String>();
-		function_argument_list.add(id);
-	}
 
 	private int getX(AFuncCallFunctionCall node, int x) {
 		AArglistArglist args =  (AArglistArglist)node.getArglist().get(0);
@@ -969,6 +781,7 @@ public class MyVisitor extends DepthFirstAdapter
 	{ 
 
 		String fName = node.getId().toString().trim();
+		add_type = "null";
 
 
 		if (functions.containsKey(fName)) //if function exists check that number of parameters is different
@@ -1067,9 +880,6 @@ public class MyVisitor extends DepthFirstAdapter
 
 	@Override
 	public void inAArgArgument(AArgArgument node) {
-		ADefFuncFunction parent = (ADefFuncFunction) node.parent();
-		
-		String func_name = parent.getId().toString().trim();
 		
 		String id = node.getId().toString().trim();
 		if (node.getAssignValue().isEmpty())
@@ -1089,12 +899,8 @@ public class MyVisitor extends DepthFirstAdapter
 	}
 	@Override
 	public void inACommaIdCiav(ACommaIdCiav node) {
-		AArgArgument parent = (AArgArgument) node.parent();
-		ADefFuncFunction parentp = (ADefFuncFunction) parent.parent();
 
 		String id = node.getId().toString().trim();
-		
-		String func_name = parentp.getId().toString().trim();
 
 		if (node.getAssignValue().isEmpty())
 		{
@@ -1111,10 +917,9 @@ public class MyVisitor extends DepthFirstAdapter
 	}
 	
 
-	@Override
-	public void inAAdditionExExpression(AAdditionExExpression node){
-		add_type = "null";
-	}
+	// @Override
+	// public void inAAdditionExExpression(AAdditionExExpression node){
+	// }
 
 	@Override
 	public void inASubtractionExExpression(ASubtractionExExpression node){
@@ -1167,6 +972,123 @@ public class MyVisitor extends DepthFirstAdapter
 			return -1; // Element not found
 	}
 
+	@Override
+	public void inAFuncCallFunctionCall(AFuncCallFunctionCall node) {
+		int x = 0;
+		curr_type_add ="null";
+		String id = node.getId().toString().trim();
+		
+		if(functions.containsKey(id))
+		{	
+			//counting how many arguments are given and compare it with the ones saved.
+			if(!node.getArglist().isEmpty())
+			{
+				x = getX(node, x);
+
+			}
+			else
+			{
+				x = 0;
+			}
+
+			int counter = 0;
+			for(int i =0; i< func_list.size();i++)
+			{
+				if(func_list.get(i).getName().equals(id))
+				{
+					if(!(func_list.get(i).getTotal_vars() - func_list.get(i).getDef_vars() <= x && x <= func_list.get(i).getTotal_vars()))
+					{
+						counter++;
+					}
+					else
+					{
+						counter--;
+					}
+				}
+			}
+			if(counter>0)
+			{
+				printError(node, ERRORS.WRONG_FUNCTION_PARAMETERS);
+			}
+			else
+			{
+				int num_of_args = CountItemsInString(node.getArglist().toString().trim());
+				int index = -1;
+				Function f = null;
+				for(int i =0; i< func_list.size();i++)
+				{
+					if(func_list.get(i).getName().equals(id))
+					{
+						//if x (number of arguments given here) is bigger or equal to the number of parameters 
+						//that have got to be given for the function call and less than the total variables
+						//we can make that comparison here because we've already checked for wrong function call above
+						if((func_list.get(i).getTotal_vars() - func_list.get(i).getDef_vars() <= x && x <= func_list.get(i).getTotal_vars()))
+						{
+							index = i;
+						}
+					}
+				}
+				f = func_list.get(index);
+				f.decideIfIsReturnUnknown();
+				if(num_of_args== 0)
+				{
+					if(index>=0)
+					{
+						f = func_list.get(index);
+			            Boolean foundError = false;
+						Node grandpa = node.parent().parent();
+						if(grandpa instanceof AMultiplicationExpression || grandpa instanceof ASubtractionExExpression || grandpa instanceof APlplExpression||grandpa instanceof AMinminExpression||grandpa instanceof ADivisionExpression||grandpa instanceof AModuloExpression||grandpa instanceof APowerExpression)
+						{
+							if((f.getReturnType().equals("STRING") || f.getReturnType().equals("NONE")))
+							{
+								foundError=true;
+								printError(node, ERRORS.MISUSED_FUNCTION);
+							}
+						}
+						if(grandpa instanceof AAdditionExExpression)
+						{
+							//we can only have str + str or number + number
+							if(f.getReturnType().equals("NONE"))
+							{
+								//we can't have a none in an addition
+								foundError=true;
+								printError(node, ERRORS.MISUSED_FUNCTION);
+							}
+							
+							if(f.getReturnType().equals("STRING"))
+							{
+								calculateTypeOfAddition(node, VARIABLE_TYPES.STRING);
+							}
+							else if(f.getReturnType().equals("NUMBER"))
+							{
+								calculateTypeOfAddition(node, VARIABLE_TYPES.NUMBER);
+							}
+							
+						}
+						if(!foundError)
+						{
+							if(f.getReturnType().equals("STRING"))
+							{
+								calculateTypeOfAssignFunc(node, VARIABLE_TYPES.STRING);
+							}
+							else if(f.getReturnType().equals("NUMBER"))
+							{
+								calculateTypeOfAssignFunc(node, VARIABLE_TYPES.NUMBER);
+							}
+							else if (f.getReturnType().equals("NONE"))
+							{
+								calculateTypeOfAssignFunc(node, VARIABLE_TYPES.NONE);
+							}
+						}
+					}
+				}
+			}
+
+		}
+		function_argument_list = new LinkedList<String>();
+		function_argument_list.add(id);
+	}
+
 	public void funcAfterHandlingArguments(AFuncCallFunctionCall node) {
 		int x = 0;
 		String id = node.getId().toString().trim();
@@ -1200,42 +1122,50 @@ public class MyVisitor extends DepthFirstAdapter
 		{
 			f = func_list.get(index);
 			Node grandpa = node.parent().parent();
+			Boolean foundError = false;
 			if(grandpa instanceof AMultiplicationExpression || grandpa instanceof ASubtractionExExpression || grandpa instanceof APlplExpression||grandpa instanceof AMinminExpression||grandpa instanceof ADivisionExpression||grandpa instanceof AModuloExpression||grandpa instanceof APowerExpression)
 			{
 				if((f.getReturnType().equals("STRING") || f.getReturnType().equals("NONE")))
 				{
 					printError(node, ERRORS.MISUSED_FUNCTION);
+					foundError = true;
 				}
 			}
 			if(grandpa instanceof AAdditionExExpression)
 			{
-				//we can only have str + str or number + number
-				if(f.getReturnType().equals("NONE"))
+				if(f.getReturnType().equals("STRING"))
 				{
-					//we can't have a none in an addition
+					calculateTypeOfAddition(node, VARIABLE_TYPES.STRING);
+				}
+				else if(f.getReturnType().equals("NUMBER"))
+				{
+					calculateTypeOfAddition(node, VARIABLE_TYPES.NUMBER);
+				}
+				else if (f.getReturnType().equals("NONE"))
+				{
+					foundError=true;
 					printError(node, ERRORS.MISUSED_FUNCTION);
 				}
-				//if we are in the left part of the + of an addition we want to set the
-				//type of the addition to the return type of our function
-				AAdditionExExpression gp = (AAdditionExExpression) grandpa;
-				if(node.parent() == gp.getL())
+			}
+			if(!foundError)
+			{
+				if(f.getReturnType().equals("STRING"))
 				{
-					add_type = f.getReturnType();
+					calculateTypeOfAssignFunc(node, VARIABLE_TYPES.STRING);
 				}
-				else if(node.parent() == gp.getR())
+				else if(f.getReturnType().equals("NUMBER"))
 				{
-					if(!add_type.equals("UNKNOWN") && !add_type.equals("null"))
-					{
-						if(!add_type.equals( f.getReturnType()))
-						{
-							//we can't have addition of different types
-							printError(node, ERRORS.MISUSED_FUNCTION);
-						}
-					}
+					calculateTypeOfAssignFunc(node, VARIABLE_TYPES.NUMBER);
+				}
+				else if (f.getReturnType().equals("NONE"))
+				{
+					calculateTypeOfAssignFunc(node, VARIABLE_TYPES.NONE);
 				}
 			}
+			
 		}
 		//}
+		
 	}
 
 	public int CountItemsInString(String inputString) {
@@ -1245,7 +1175,346 @@ public class MyVisitor extends DepthFirstAdapter
     
         // Count the number of items in the array
         int itemCount = items.length;
+		if(inputString.equals("[]"))
+		{
+			itemCount = 0;
+		}
     
         return itemCount ;
     }
+
+	
+	//this method will find if we are in an addition. if yes then the type of the addition should be either A or B:
+	//A.initialized: if this is the first not-unknown member of the addition then we realise what type the addition should be
+	//B.compared: if the type of the addition is known we compare the type of node to see if we have a type missmatch
+	public void calculateTypeOfAddition(Node node, VARIABLE_TYPES var_type)
+	{
+		String type = var_type.toString();
+		Boolean missmatch_found = false;
+		Node parent = node;
+		while(true)
+		{
+			//We will go through all the addition parents. 
+			//This is because we could have additions inside additions: in this case the type could be determined on a higher level
+			parent = parent.parent();
+			if(parent instanceof AAdditionExExpression)
+			{
+				if(add_type.equals("null")||add_type.equals("UNKNOWN")) //Case A
+				{
+					add_type = type;
+				}
+				else if(!add_type.equals(type)) //Case B
+				{
+					printError(node, ERRORS.TYPE_MISMATCH);
+					missmatch_found=true;
+					break;
+				}
+			}
+			else if(parent instanceof AGoal)
+			{
+				break;
+			}
+		}
+		//if there wasn't a missmatch we will check if this addition happens in a return statement.
+		//this could also go one of two ways:
+		//If the type is number: 
+		//no matter what the parent of the addition is, the function's return type is number
+		//for example: min(addition), max(addition), (addition)++
+		//If the type is string:
+		//if the parent of the addition is just return then the return type is string
+		//but the parent of the addition is len or max, the return type is a number (for example: len("compiler")=8)
+		if(!missmatch_found)
+		{
+			parent= node;
+			if(type.equals("NUMBER"))
+			{
+				
+				while (true) {
+					parent = parent.parent();
+					if(parent instanceof AReturnStatementStatement)
+					{
+						current_function.setReturnType(type);
+						break;
+					}
+					else if(parent instanceof AGoal)
+					{
+						break;
+					}
+				}
+			}
+			else if(type.equals("STRING"))
+			{
+				
+				while (true) {
+					parent = parent.parent();
+					if(parent instanceof AReturnStatementStatement)
+					{
+						current_function.setReturnType(type);
+						break;
+					}
+					else if(parent instanceof ALenExpExpression || parent instanceof AMaxExprExpression||parent instanceof AMinExprExpression)
+					{
+						type = "NUMBER";
+					}
+					else if(parent instanceof AGoal)
+					{
+						break;
+					}
+				}
+			}
+			//check if we also are in an assignment
+			parent= node;
+			calculateTypeOfAssign(parent, var_type);
+		}
+	}
+
+	public void calculateTypeOfAdditionId(Node node, VARIABLE_TYPES var_type, String name)
+	{
+		String type = var_type.toString();
+		Boolean missmatch_found = false;
+		Node parent = node;
+		int indexOfSameType = findIndex(current_function.getVars(), name);
+		Integer indexOfSameTypeInteger = Integer.valueOf(indexOfSameType);
+		if(indexOfSameType!=-1)
+		{
+			current_function.addVarOfSameType(indexOfSameTypeInteger);
+		}
+		while(true)
+		{
+			//We will go through all the addition parents. 
+			//This is because we could have additions inside additions: in this case the type could be determined on a higher level
+			parent = parent.parent();
+			if(parent instanceof AAdditionExExpression)
+			{
+				if(!(variableTypes.get(name).name().trim()).equals("UNKNOWN"))
+				{
+					if(add_type.equals("null")) //Case A
+					{
+						add_type = type;
+					}
+					else if(!add_type.equals(type)) //Case B
+					{
+						printError(node, ERRORS.TYPE_MISMATCH);
+						missmatch_found=true;
+						break;
+					}
+					if(indexOfSameType!=-1)
+					{
+						current_function.setReturnType(variableTypes.get(name).name().trim());
+						for(int j:current_function.getVarOfSameType())
+						{
+							current_function.gettVar_types().set(j,variableTypes.get(name).name().trim());
+						}
+					}
+				}
+				else
+				{
+					variableTypes.put(name, var_type);
+					if(indexOfSameType!=-1)
+					{
+						for(int j:current_function.getVarOfSameType())
+						{
+							current_function.gettVar_types().set(j,add_type);
+						}
+					}
+				}
+				
+			}
+			else if(parent instanceof AGoal)
+			{
+				break;
+			}
+		}
+		//if there wasn't a missmatch we will check if this addition happens in a return statement.
+		//this could also go one of two ways:
+		//If the type is number: 
+		//no matter what the parent of the addition is, the function's return type is number
+		//for example: min(addition), max(addition), (addition)++
+		//If the type is string:
+		//if the parent of the addition is just return then the return type is string
+		//but the parent of the addition is len or max, the return type is a number (for example: len("compiler")=8)
+		if(!missmatch_found)
+		{
+			parent= node;
+			if(type.equals("NUMBER"))
+			{
+				
+				while (true) {
+					parent = parent.parent();
+					if(parent instanceof AReturnStatementStatement)
+					{
+						current_function.setReturnType(type);
+						break;
+					}
+					if(parent instanceof AGoal)
+					{
+						break;
+					}
+				}
+			}
+			else if(type.equals("STRING"))
+			{
+				
+				while (true) {
+					parent = parent.parent();
+					if(parent instanceof AReturnStatementStatement)
+					{
+						current_function.setReturnType(type);
+						break;
+					}
+					if(parent instanceof ALenExpExpression || parent instanceof AMaxExprExpression||parent instanceof AMinExprExpression)
+					{
+						type = "NUMBER";
+					}
+					if(parent instanceof AGoal)
+					{
+						break;
+					}
+				}
+			}
+		}
+	}
+
+
+	private String getString(Node grandpa, String id) {
+		if(grandpa instanceof ACommaIdCiav)
+		{
+			id = ((ACommaIdCiav)grandpa).getId().toString().trim();
+
+
+
+			current_function.addVar_type("STRING");
+			current_function.addVar(id);
+
+		}
+		else if(grandpa instanceof AArgArgument)
+		{
+			id = ((AArgArgument)grandpa).getId().toString().trim();
+			ADefFuncFunction gp = (ADefFuncFunction)grandpa.parent();
+
+			String func_name = gp.getId().toString().trim();
+            for (Function function : func_list) {
+                if (function.getName().toString().trim().equals(func_name)) {
+                    function.addVar_type("STRING");
+                    function.addVar(id);
+                }
+            }
+		}
+		return id;
+	}
+
+	public void calculateTypeOfAssign(Node node, VARIABLE_TYPES var_type)
+	{
+		String type = var_type.toString();
+		Node parent = node;
+		String id = null;
+
+		while(true)
+		{
+			//We will go through all the parents to find whether a parent is an Assign statement. 
+			//We will break the loop if we find anything that is a function. That is because we don't want the type of our the assignment to be changed and a function can do that.
+			//Although the loop will change when finding a function (since we could not calculate the type) that does not include len, max or min (because we know it will return number)
+			//If the type is STRING through we will check for  len, max or min to change the type to NUMBER.
+			parent = parent.parent();
+			if((!(node instanceof AFuncCallFunctionCall)) && (parent instanceof AFuncCallFunctionCall || parent instanceof AFuncCallExprExpression)) 
+			{
+				break;
+			}
+			if(parent instanceof ALenExpExpression || parent instanceof AMaxExprExpression||parent instanceof AMinExprExpression) 
+			{
+				if(type.equals("STRING"))
+				{
+					type = "NUMBER";
+				}
+			}
+			if(parent instanceof AAssignStatementStatement)
+			{
+				id = ((AAssignStatementStatement)parent).getId().toString().trim();
+				if(id!=null)
+				{
+					if(variableTypes.containsKey(id)) 
+					{
+						variableTypes.remove(id);
+						
+					}
+					variableTypes.put(id, var_type);
+				}
+				break;
+			}
+			else if(parent instanceof AGoal)
+			{
+				break;
+			}
+		}
+		if(node instanceof AFuncCallFunctionCall)
+		{
+			for(Function f:func_list)
+			{
+				if(f.getIsReturnUnknown())
+				{
+					f.setReturnType("UNKNOWN");
+				}
+			}
+		}
+	}
+
+	public void calculateTypeOfAssignFunc(Node node, VARIABLE_TYPES var_type)
+	{
+		String type = var_type.toString();
+		Node parent = node;
+		String id = null;
+
+		while(true)
+		{
+			//We will go through all the parents to find whether a parent is an Assign statement. 
+			//We will break the loop if we find anything that is a function. That is because we don't want the type of our the assignment to be changed and a function can do that.
+			//Although the loop will change when finding a function (since we could not calculate the type) that does not include len, max or min (because we know it will return number)
+			//If the type is STRING through we will check for  len, max or min to change the type to NUMBER.
+			parent = parent.parent();
+			if((!(node instanceof AFuncCallFunctionCall)) && (parent instanceof AFuncCallFunctionCall || parent instanceof AFuncCallExprExpression)) 
+			{
+				break;
+			}
+			if(parent instanceof ALenExpExpression || parent instanceof AMaxExprExpression||parent instanceof AMinExprExpression || parent instanceof AMultiplicationExpression || parent instanceof ASubtractionExExpression || parent instanceof APlplExpression||parent instanceof AMinminExpression||parent instanceof ADivisionExpression||parent instanceof AModuloExpression||parent instanceof APowerExpression) 
+			{
+				if(type.equals("STRING"))
+				{
+					type = "NUMBER";
+				}
+				else if(type.equals("NONE"))
+				{
+					printError(node, ERRORS.MISUSED_FUNCTION);
+					break;
+				}
+			}
+			if(parent instanceof AAssignStatementStatement)
+			{
+				id = ((AAssignStatementStatement)parent).getId().toString().trim();
+				if(id!=null)
+				{
+					if(variableTypes.containsKey(id)) 
+					{
+						variableTypes.remove(id);
+						
+					}
+					variableTypes.put(id, var_type);
+				}
+				break;
+			}
+			else if(parent instanceof AGoal)
+			{
+				break;
+			}
+		}
+		if(node instanceof AFuncCallFunctionCall)
+		{
+			for(Function f:func_list)
+			{
+				if(f.getIsReturnUnknown())
+				{
+					f.setReturnType("UNKNOWN");
+				}
+			}
+		}
+	}
 }
