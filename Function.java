@@ -6,6 +6,7 @@ public class Function {
     private int total_vars =0;
     private LinkedList<Integer> var_of_same_type ; //variables that are in the addition or substraction of a return statement and need to be of the same type
     private LinkedList<String> var_types ;
+    private LinkedList<String> original_var_types ;
     private LinkedList<String> vars ;
     private String returnType;
     String variableOfReturn = "null";
@@ -44,6 +45,17 @@ public class Function {
         }
     }
 
+    public void makeUnknownVarsUnknownAgain()
+    {
+        for(int i=0; i<var_types.size();i++)
+        {
+            if(!this.var_types.get(i).equals(this.original_var_types.get(i)))
+            {
+                this.var_types.set(i,this.original_var_types.get(i));
+            }
+        }
+    }
+
     public void makeReturnTypeUnknown()
     {
         this.returnType = "UNKNOWN";
@@ -51,6 +63,9 @@ public class Function {
 
     public void addVar_type(String var_type) {
         var_types.add(var_type);
+    }
+    public void addOriginalVar_type(String var_type) {
+        original_var_types.add(var_type);
     }
 
     public void addVar(String var) {
@@ -89,16 +104,6 @@ public class Function {
         return name;
     }
 
-        // public void setVarTypeByIndex(int index, String newType) {
-    //     if (index >= 0 && index < var_types.size()) {
-    //         // If the index is valid, update the type at the specified index
-    //         var_types.set(index, newType);
-    //     } else {
-    //         // Handle the case where the index is out of bounds (optional)
-    //         System.out.println("Invalid index: " + index);
-    //     }
-    // }
-
 
     public String getVariableOfReturn() {
         return variableOfReturn;
@@ -114,6 +119,7 @@ public class Function {
         this.total_vars=tv;
         this.name = name;
         this.var_types = new LinkedList<String>();
+        this.original_var_types = new LinkedList<String>();
         this.vars = new LinkedList<String>();
         this.var_of_same_type = new LinkedList<Integer>();
         this.returnType = "UNKNOWN";

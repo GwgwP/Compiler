@@ -150,17 +150,20 @@ public class MyVisitor extends DepthFirstAdapter
 					//this method finds the index of the id in the linked list of this function so we can check the type of the variable
 					//if it is unknown we will make it to be number because you cant have division or power with any other type of variable
 					//this way we will be able to control if the variable is called correctly since it will no longer be unknown
-					int index = findIndex(current_function.getVars(), name);
 					if((variableTypes.get(name).toString()).equals("STRING") || (variableTypes.get(name).toString()).equals("NONE"))
 					{
 						foundError = true;
 						printError(node, ERRORS.TYPE_MISMATCH);
 					}
-					if(current_function.gettVar_types().get(index).equals("UNKNOWN"))
+					if(current_function!=null)
 					{
-						current_function.gettVar_types().set(index,"NUMBER");
-					} 
-					current_function.setReturnType("NUMBER");
+						int index = findIndex(current_function.getVars(), name);
+						if(current_function.gettVar_types().get(index).equals("UNKNOWN"))
+						{
+							current_function.gettVar_types().set(index,"NUMBER");
+						} 
+						current_function.setReturnType("NUMBER");
+					}
 				}
 			}
 		}
@@ -176,10 +179,13 @@ public class MyVisitor extends DepthFirstAdapter
 			}
 			else
 			{
-				current_function.setReturnType(variableTypes.get(name).toString());
-				if((variableTypes.get(name).toString()).equals("UNKNOWN"))
+				if(current_function!=null)
 				{
-					current_function.setVariableOfReturn(name);
+					current_function.setReturnType(variableTypes.get(name).toString());
+					if((variableTypes.get(name).toString()).equals("UNKNOWN"))
+					{
+						current_function.setVariableOfReturn(name);
+					}
 				}
 			}
 		}
@@ -328,7 +334,10 @@ public class MyVisitor extends DepthFirstAdapter
 		}
 		if(grandpa instanceof AReturnStatementStatement){ 
 			//if it is a return "something" save that the function returns type STRING
-			current_function.setReturnType("STRING");
+			if(current_function!=null)
+			{
+				current_function.setReturnType("STRING");
+			}
 		}
 		if(grandpa instanceof AArglistArglist){
 
@@ -433,7 +442,10 @@ public class MyVisitor extends DepthFirstAdapter
 		}
 		if(grandpa instanceof AReturnStatementStatement){
 			//if it is a return 'something' save that the function returns type STRING
-			current_function.setReturnType("STRING");
+			if(current_function!=null)
+			{
+				current_function.setReturnType("STRING");
+			}
 		}	
 		if(grandpa instanceof AArglistArglist){
 			function_argument_list.add("STRING");
@@ -530,10 +542,12 @@ public class MyVisitor extends DepthFirstAdapter
 		{
 			id = ((ACommaIdCiav)grandpa).getId().toString().trim();
 
-
-			current_function.addVar_type("NUMBER");
-			current_function.addVar(id);
-		
+			if(current_function!=null)
+			{
+				current_function.addVar_type("NUMBER");
+                current_function.addOriginalVar_type("NUMBER");
+				current_function.addVar(id);
+			}
 
 		}
 		else if(grandpa instanceof AArgArgument)
@@ -544,6 +558,7 @@ public class MyVisitor extends DepthFirstAdapter
             for (Function function : func_list) {
                 if (function.getName().toString().trim().equals(func_name)) {
                     function.addVar_type("NUMBER");
+                    function.addOriginalVar_type("NUMBER");
                     function.addVar(id);
                 }
             }
@@ -552,7 +567,10 @@ public class MyVisitor extends DepthFirstAdapter
 			
 		if(grandpa instanceof AReturnStatementStatement){
 			//if it is a return number save that the function returns type STRING
-			current_function.setReturnType("NUMBER");
+			if(current_function!=null)
+			{
+				current_function.setReturnType("NUMBER");
+			}
 		}
 		
 		if(grandpa instanceof AArglistArglist)
@@ -644,9 +662,12 @@ public class MyVisitor extends DepthFirstAdapter
 		if(grandpa instanceof ACommaIdCiav)
 		{
 			id = ((ACommaIdCiav)grandpa).getId().toString().trim();
-			
-			current_function.addVar_type("NONE");
-			current_function.addVar(id);
+			if(current_function!=null)
+			{
+				current_function.addVar_type("NONE");
+                current_function.addOriginalVar_type("NONE");
+				current_function.addVar(id);
+			}
 		
 
 		}
@@ -659,6 +680,7 @@ public class MyVisitor extends DepthFirstAdapter
             for (Function function : func_list) {
                 if (function.getName().toString().trim().equals(func_name)) {
                     function.addVar_type("NONE");
+                    function.addOriginalVar_type("NONE");
                     function.addVar(id);
                 }
             }
@@ -676,7 +698,10 @@ public class MyVisitor extends DepthFirstAdapter
 		}	
 		if(grandpa instanceof AReturnStatementStatement){ 
 			//if it is a return "something" save that the function returns type STRING
-			current_function.setReturnType("NONE");
+			if(current_function!=null)
+			{
+				current_function.setReturnType("NONE");
+			}
 		}
 		if(grandpa instanceof AArglistArglist){
 			function_argument_list.add("NONE");
@@ -889,10 +914,13 @@ public class MyVisitor extends DepthFirstAdapter
 				variableTypes.remove(id);
 			}
 
-			variableTypes.put(id, VARIABLE_TYPES.UNKNOWN);
-			current_function.addVar_type("UNKNOWN");
-			current_function.addVar(id);
-		
+			variableTypes.put(id, VARIABLE_TYPES.UNKNOWN);			
+			if(current_function!=null)
+			{
+				current_function.addVar_type("UNKNOWN");
+                current_function.addOriginalVar_type("UNKNOWN");
+				current_function.addVar(id);
+			}
 		}
 
 		
@@ -909,10 +937,12 @@ public class MyVisitor extends DepthFirstAdapter
 				variableTypes.remove(id);
 			}
 			variableTypes.put(id, VARIABLE_TYPES.UNKNOWN);
-
-			current_function.addVar_type("UNKNOWN");
-			current_function.addVar(id);
-
+			if(current_function!=null)
+			{
+				current_function.addVar_type("UNKNOWN");
+                current_function.addOriginalVar_type("UNKNOWN");
+				current_function.addVar(id);
+			}
 		}
 	}
 	
@@ -923,8 +953,11 @@ public class MyVisitor extends DepthFirstAdapter
 
 	@Override
 	public void inASubtractionExExpression(ASubtractionExExpression node){
-		if(node.parent() instanceof AReturnStatementStatement){
-			current_function.setReturnType("NUMBER");
+		if(node.parent() instanceof AReturnStatementStatement){			
+			if(current_function!=null)
+			{
+				current_function.setReturnType("NUMBER");
+			}
 		}
 	}
 
@@ -932,28 +965,40 @@ public class MyVisitor extends DepthFirstAdapter
 	@Override
 	public void inADivisionExpression(ADivisionExpression node){
 		if(node.parent() instanceof AReturnStatementStatement){
-			current_function.setReturnType("NUMBER");
+			if(current_function!=null)
+			{
+				current_function.setReturnType("NUMBER");
+			}
 		}
 	}
 
 	@Override
 	public void inAModuloExpression(AModuloExpression node){
 		if(node.parent() instanceof AReturnStatementStatement){
-			current_function.setReturnType("NUMBER");
+			if(current_function!=null)
+			{
+				current_function.setReturnType("NUMBER");
+			}
 		}
 	}
 	
 	@Override
 	public void inAMultiplicationExpression(AMultiplicationExpression node){
 		if(node.parent() instanceof AReturnStatementStatement){
-			current_function.setReturnType("NUMBER");
+			if(current_function!=null)
+			{
+				current_function.setReturnType("NUMBER");
+			}
 		}
 	}
 
 	@Override
 	public void inAPowerExpression(APowerExpression node){
 		if(node.parent() instanceof AReturnStatementStatement){
-			current_function.setReturnType("NUMBER");
+			if(current_function!=null)
+			{
+				current_function.setReturnType("NUMBER");
+			}
 		}
 	}
 
@@ -974,6 +1019,7 @@ public class MyVisitor extends DepthFirstAdapter
 
 	@Override
 	public void inAFuncCallFunctionCall(AFuncCallFunctionCall node) {
+		
 		int x = 0;
 		curr_type_add ="null";
 		String id = node.getId().toString().trim();
@@ -1030,6 +1076,7 @@ public class MyVisitor extends DepthFirstAdapter
 				}
 				f = func_list.get(index);
 				f.decideIfIsReturnUnknown();
+				f.makeUnknownVarsUnknownAgain();
 				if(num_of_args== 0)
 				{
 					if(index>=0)
@@ -1232,8 +1279,11 @@ public class MyVisitor extends DepthFirstAdapter
 				while (true) {
 					parent = parent.parent();
 					if(parent instanceof AReturnStatementStatement)
-					{
-						current_function.setReturnType(type);
+					{			
+						if(current_function!=null)
+						{
+							current_function.setReturnType(type);
+						}
 						break;
 					}
 					else if(parent instanceof AGoal)
@@ -1249,7 +1299,10 @@ public class MyVisitor extends DepthFirstAdapter
 					parent = parent.parent();
 					if(parent instanceof AReturnStatementStatement)
 					{
-						current_function.setReturnType(type);
+						if(current_function!=null)
+						{
+							current_function.setReturnType(type);
+						}
 						break;
 					}
 					else if(parent instanceof ALenExpExpression || parent instanceof AMaxExprExpression||parent instanceof AMinExprExpression)
@@ -1273,11 +1326,15 @@ public class MyVisitor extends DepthFirstAdapter
 		String type = var_type.toString();
 		Boolean missmatch_found = false;
 		Node parent = node;
-		int indexOfSameType = findIndex(current_function.getVars(), name);
-		Integer indexOfSameTypeInteger = Integer.valueOf(indexOfSameType);
-		if(indexOfSameType!=-1)
+		int indexOfSameType =-1;
+		if(current_function!=null)
 		{
-			current_function.addVarOfSameType(indexOfSameTypeInteger);
+			indexOfSameType = findIndex(current_function.getVars(), name);
+			Integer indexOfSameTypeInteger = Integer.valueOf(indexOfSameType);
+			if(indexOfSameType!=-1)
+			{
+				current_function.addVarOfSameType(indexOfSameTypeInteger);
+			}
 		}
 		while(true)
 		{
@@ -1288,7 +1345,7 @@ public class MyVisitor extends DepthFirstAdapter
 			{
 				if(!(variableTypes.get(name).name().trim()).equals("UNKNOWN"))
 				{
-					if(add_type.equals("null")) //Case A
+					if(add_type.equals("null")||add_type.equals("UNKNOWN")) //Case A
 					{
 						add_type = type;
 					}
@@ -1300,10 +1357,13 @@ public class MyVisitor extends DepthFirstAdapter
 					}
 					if(indexOfSameType!=-1)
 					{
-						current_function.setReturnType(variableTypes.get(name).name().trim());
-						for(int j:current_function.getVarOfSameType())
+						if(current_function!=null)
 						{
-							current_function.gettVar_types().set(j,variableTypes.get(name).name().trim());
+							current_function.setReturnType(variableTypes.get(name).name().trim());
+							for(int j:current_function.getVarOfSameType())
+							{
+								current_function.gettVar_types().set(j,variableTypes.get(name).name().trim());
+							}
 						}
 					}
 				}
@@ -1312,9 +1372,12 @@ public class MyVisitor extends DepthFirstAdapter
 					variableTypes.put(name, var_type);
 					if(indexOfSameType!=-1)
 					{
-						for(int j:current_function.getVarOfSameType())
+						if(current_function!=null)
 						{
-							current_function.gettVar_types().set(j,add_type);
+							for(int j:current_function.getVarOfSameType())
+							{
+								current_function.gettVar_types().set(j,add_type);
+							}
 						}
 					}
 				}
@@ -1343,8 +1406,11 @@ public class MyVisitor extends DepthFirstAdapter
 					parent = parent.parent();
 					if(parent instanceof AReturnStatementStatement)
 					{
-						current_function.setReturnType(type);
-						break;
+						if(current_function!=null)
+						{
+							current_function.setReturnType(type);
+							break;
+						}
 					}
 					if(parent instanceof AGoal)
 					{
@@ -1359,8 +1425,11 @@ public class MyVisitor extends DepthFirstAdapter
 					parent = parent.parent();
 					if(parent instanceof AReturnStatementStatement)
 					{
-						current_function.setReturnType(type);
-						break;
+						if(current_function!=null)
+						{
+							current_function.setReturnType(type);
+							break;
+						}
 					}
 					if(parent instanceof ALenExpExpression || parent instanceof AMaxExprExpression||parent instanceof AMinExprExpression)
 					{
@@ -1383,8 +1452,12 @@ public class MyVisitor extends DepthFirstAdapter
 
 
 
-			current_function.addVar_type("STRING");
-			current_function.addVar(id);
+			if(current_function!=null)
+			{
+				current_function.addVar_type("STRING");
+                current_function.addOriginalVar_type("UNKNOWN");
+				current_function.addVar(id);
+			}
 
 		}
 		else if(grandpa instanceof AArgArgument)
@@ -1396,6 +1469,7 @@ public class MyVisitor extends DepthFirstAdapter
             for (Function function : func_list) {
                 if (function.getName().toString().trim().equals(func_name)) {
                     function.addVar_type("STRING");
+					function.addOriginalVar_type("STRING");
                     function.addVar(id);
                 }
             }
