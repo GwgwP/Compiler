@@ -207,7 +207,7 @@ k="hello world"
 print add(2,k)
 ```
 - <b>Explanation:</b> Ensure that values that should be of integer type, according to either how they're used or initialized, are indeed of integer type.
-- <b>How it is addressed:</b> when we are in an `inIdId` node, we check two cases: `a)` if the id is used as an argument on a function call, is the type of the id corresponding to the type that is expected from the initialization of the function? and `b)` if the id is used in an operation of an assignment does it match the other ids/expressions/values of the operation?
+- <b>How it is addressed:</b> In an `inIdId` node, we check two cases: `a)` if the id is used as an argument on a function call, is the type of the id corresponding to the type that is expected from the initialization of the function? and `b)` if the id is used in an operation of an assignment does it match the other ids/expressions/values of the operation?
 
 ### 5. Operations Involving None
 Arithmetic operations invilving None type code errors:
@@ -228,8 +228,8 @@ def add(x,y):
    return "hello world"
 print add(2,1)+2
 ```
-- <b>Explanation: Ensure that the case of any function call should be in accordance to the return type of the called function. For example if the function's return type is String we shouldn't be able to add it with an Integer value in an Assignment. </b>
-- <b>How it is addressed: When we are in an `inAFuncCallFunctionCall` node we check the return type of the function. The return type could also emerge from the node `AIdId that is a "descendant" node of an `AArglistArglist` node, since there are functions with a return type completely dependent to the arguments passed on the function call. Then we check the instance in which the function is called from the node's "ancestor" nodes (for ex: is it in a Multiplication? is it in an Addition?). If the return type does not match the type of the operation then we print an error. The type of the operation is classified before the function call, if not then the function call defines the type of the operation and we check the following values to match that of the function.</b> 
+- <b>Explanation:</b>  Ensure that the case of any function call should be in accordance to the return type of the called function. For example if the function's return type is String we shouldn't be able to add it with an Integer value in an Assignment. 
+- <b>How it is addressed:</b> In an `inAFuncCallFunctionCall` node we check the return type of the function. The return type could also emerge from the node `AIdId` that is a "descendant" node of an `AArglistArglist` node, since there are functions with a return type completely dependent to the arguments passed on the function call. Then we check the instance in which the function is called from the node's "ancestor" nodes (for ex: is it in a Multiplication? is it in an Addition?). If the return type does not match the type of the operation then we print an error. The type of the operation is either classified before the function call, or the function call defines the type of the operation and then we check the following values to match that of the function.
 
 ### 7. Repetition of Function Declarations with the Same Number of Arguments
 ```python 
