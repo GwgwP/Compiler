@@ -207,7 +207,7 @@ k="hello world"
 print add(2,k)
 ```
 - <b>Explanation:</b> Ensure that values that should be of integer type, according to either how they're used or initialized, are indeed of integer type.
-- <b>How it is addressed:</b> In an `inIdId` node, we check two cases: `a)` if the id is used as an argument on a function call, is the type of the id corresponding to the type that is expected from the initialization of the function? and `b)` if the id is used in an operation of an assignment does it match the other ids/expressions/values of the operation?
+- <b>How it is addressed:</b> In an `inIdId` node, we check two cases: `a)` if the id is used as an argument on a function call, is the type of the id corresponding to the type that is expected from the initialization of the function and `b)` if the id is used in an operation of an assignment does it match the other ids/expressions/values of the operation?
 
 ### 5. Operations Involving None
 Arithmetic operations invilving None type code errors:
