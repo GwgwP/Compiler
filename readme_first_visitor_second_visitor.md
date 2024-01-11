@@ -1,4 +1,21 @@
 # Documentation
+## Developers
+- **Lydia-Christina Wallace**
+  - *a.m:* 3200125
+  - *email:* p3200125@aueb.gr
+
+- **Georgia Petsa**
+  - *a.m:* 3200155
+  - *email:* p3200155@aueb.gr
+
+- **Dimitrios Rousalis**
+  - *a.m:* 3200166
+  - *email:* p3200166@aueb.gr
+
+- **Miltiadis Tsolkas**
+- *a.m:* 3200213
+- *email:* p3200213@aueb.gr
+
 ## MiniPython Compiler Extension Abstract Syntax Tree (with SableCC)
 The purpose of constructing an abstract syntax tree is to discard elements and nodes that are unnecessary for the subsequent stages of compilation. Up to the syntactic analysis, specific tokens were needed to distinguish which rule to apply, or various levels of rules were necessary to declare priorities and resolve potential conflicts. Once all these decisions have been made by the syntactic analyzer, it is no longer beneficial to retain a large volume of information.
 
