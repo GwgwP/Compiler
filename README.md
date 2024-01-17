@@ -137,7 +137,7 @@ The result should be the printing of all tokens separated by spaces.
 <details>
 <summary> 2. Syntax analysis of the miniPython language.<summary>
 
-# Exercise: Building a Parser for miniPython using SableCC
+## Exercise: Building a Parser for miniPython using SableCC
 ## Purpose of the Exercise
 The purpose of this exercise is to construct a parser for miniPython using the SableCC tool. Essentially, this is an extension of the previous exercise on the lexer.
 ## Necessary Files
