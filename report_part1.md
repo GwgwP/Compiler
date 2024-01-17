@@ -97,6 +97,7 @@
 
 
 # Syntax Analysis Explanation
+![syntax_img](https://www.thoughtco.com/thmb/p4WCQrn6A3HViacck-nZlijsocQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-477382142-6de0cd8922364ef0a4cea60f06956d91.jpg)
 
 ## Ignored Tokens
 - `blank`: Represents spaces, line feed, or carriage return.
