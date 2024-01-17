@@ -17,15 +17,12 @@
 - *email:* p3200213@aueb.gr
 
 ## MiniPython Compiler Extension Abstract Syntax Tree (with SableCC)
-The purpose of constructing an abstract syntax tree is to discard elements and nodes that are unnecessary for the subsequent stages of compilation. Up to the syntactic analysis, specific tokens were needed to distinguish which rule to apply, or various levels of rules were necessary to declare priorities and resolve potential conflicts. Once all these decisions have been made by the syntactic analyzer, it is no longer beneficial to retain a large volume of information.
+*The purpose of constructing an abstract syntax tree is to discard elements and nodes that are unnecessary for the subsequent stages of compilation. Up to the syntactic analysis, specific tokens were needed to distinguish which rule to apply, or various levels of rules were necessary to declare priorities and resolve potential conflicts. Once all these decisions have been made by the syntactic analyzer, it is no longer beneficial to retain a large volume of information.*
 
-markdown
-Copy code
-# MiniPython Compiler Code Explanation
 
-## Abstract Syntax Tree (AST)
-
-The Abstract Syntax Tree (AST) is a hierarchical representation of the syntactic structure of a MiniPython program. It is constructed during the parsing phase and serves as an intermediate representation that simplifies subsequent stages of the compiler, such as semantic analysis and code generation.
+# Abstract Syntax Tree (AST)
+![ast](https://previews.123rf.com/images/fonafona/fonafona1903/fonafona190300039/123509001-tree-soul-face-of-tree-spirit-of-nature-birds-return-to-the-alive-tree-tree-woman-black-and-white.jpg)
+*The Abstract Syntax Tree (AST) is a hierarchical representation of the syntactic structure of a MiniPython program. It is constructed during the parsing phase and serves as an intermediate representation that simplifies subsequent stages of the compiler, such as semantic analysis and code generation.*
 
 ### Goal
 
@@ -126,23 +123,8 @@ Similar to functions, when parsing different types of statements (e.g., if state
 
 The `-> New` syntax is essentially instructing the parser to construct and instantiate the appropriate AST node classes with the provided information from the parsed code. This approach helps in organizing and representing the structure of the MiniPython code in a hierarchical manner, making it easier for subsequent compiler stages to process and transform the code.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Semantic Analysis - Symbol Table
+![error_img](https://www.expert.ai/wp-content/uploads/2020/06/Intro-to-Semantics-and-Semantic-Technology.jpg)
 
 ## Error Handling in MiniPython Compiler : 
 ### Table of Contents
